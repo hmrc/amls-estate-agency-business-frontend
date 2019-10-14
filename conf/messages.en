@@ -42,3 +42,39 @@ site.textarea.char_limit = (Limit is {0} characters)
 
 unauthorised.title = You can’t access this service with this account
 unauthorised.heading = You can’t access this service with this account
+
+eabServicesProvided.title = Which services does your business provide?
+eabServicesProvided.heading = Which services does your business provide?
+eabServicesProvided.assetManagement = Asset management
+eabServicesProvided.auctioneering = Auctioneering
+eabServicesProvided.checkYourAnswersLabel = Which services does your business provide?
+eabServicesProvided.error.required = Select eabServicesProvided
+
+penalisedEstateAgentsAct.title = penalisedEstateAgentsAct
+penalisedEstateAgentsAct.heading = penalisedEstateAgentsAct
+penalisedEstateAgentsAct.checkYourAnswersLabel = penalisedEstateAgentsAct
+penalisedEstateAgentsAct.error.required = Select yes if penalisedEstateAgentsAct
+
+penalisedEstateAgentsActDetail.title = penalisedEstateAgentsActDetail
+penalisedEstateAgentsActDetail.heading = penalisedEstateAgentsActDetail
+penalisedEstateAgentsActDetail.checkYourAnswersLabel = penalisedEstateAgentsActDetail
+penalisedEstateAgentsActDetail.error.required = Enter penalisedEstateAgentsActDetail
+penalisedEstateAgentsActDetail.error.length = PenalisedEstateAgentsActDetail must be 255 characters or less
+
+penalisedProfessionalBody.title = penalisedProfessionalBody
+penalisedProfessionalBody.heading = penalisedProfessionalBody
+penalisedProfessionalBody.checkYourAnswersLabel = penalisedProfessionalBody
+penalisedProfessionalBody.error.required = Select yes if penalisedProfessionalBody
+
+penalisedProfessionalBodyDetail.title = penalisedProfessionalBodyDetail
+penalisedProfessionalBodyDetail.heading = penalisedProfessionalBodyDetail
+penalisedProfessionalBodyDetail.checkYourAnswersLabel = penalisedProfessionalBodyDetail
+penalisedProfessionalBodyDetail.error.required = Enter penalisedProfessionalBodyDetail
+penalisedProfessionalBodyDetail.error.length = PenalisedProfessionalBodyDetail must be 255 characters or less
+
+redressScheme.title = Which redress scheme is your business registered with?
+redressScheme.heading = Which redress scheme is your business registered with?
+redressScheme.notRegistered = Business is not registered with a redress scheme
+redressScheme.ombudsmanServices = Ombudsman Services
+redressScheme.checkYourAnswersLabel = Which redress scheme is your business registered with?
+redressScheme.error.required = Select redressScheme

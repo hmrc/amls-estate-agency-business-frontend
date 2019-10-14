@@ -11,3 +11,33 @@ GET        /this-service-has-been-reset                 controllers.SessionExpir
 GET        /check-your-answers                          controllers.CheckYourAnswersController.onPageLoad
 
 GET        /unauthorised                                controllers.UnauthorisedController.onPageLoad
+
+GET        /eabServicesProvided                        controllers.EabServicesProvidedController.onPageLoad(mode: Mode = NormalMode)
+POST       /eabServicesProvided                        controllers.EabServicesProvidedController.onSubmit(mode: Mode = NormalMode)
+GET        /changeEabServicesProvided                  controllers.EabServicesProvidedController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeEabServicesProvided                  controllers.EabServicesProvidedController.onSubmit(mode: Mode = CheckMode)
+
+GET        /penalisedEstateAgentsAct                        controllers.PenalisedEstateAgentsActController.onPageLoad(mode: Mode = NormalMode)
+POST       /penalisedEstateAgentsAct                        controllers.PenalisedEstateAgentsActController.onSubmit(mode: Mode = NormalMode)
+GET        /changePenalisedEstateAgentsAct                  controllers.PenalisedEstateAgentsActController.onPageLoad(mode: Mode = CheckMode)
+POST       /changePenalisedEstateAgentsAct                  controllers.PenalisedEstateAgentsActController.onSubmit(mode: Mode = CheckMode)
+
+GET        /penalisedEstateAgentsActDetail                        controllers.PenalisedEstateAgentsActDetailController.onPageLoad(mode: Mode = NormalMode)
+POST       /penalisedEstateAgentsActDetail                        controllers.PenalisedEstateAgentsActDetailController.onSubmit(mode: Mode = NormalMode)
+GET        /changePenalisedEstateAgentsActDetail                  controllers.PenalisedEstateAgentsActDetailController.onPageLoad(mode: Mode = CheckMode)
+POST       /changePenalisedEstateAgentsActDetail                  controllers.PenalisedEstateAgentsActDetailController.onSubmit(mode: Mode = CheckMode)
+
+GET        /penalisedProfessionalBody                        controllers.PenalisedProfessionalBodyController.onPageLoad(mode: Mode = NormalMode)
+POST       /penalisedProfessionalBody                        controllers.PenalisedProfessionalBodyController.onSubmit(mode: Mode = NormalMode)
+GET        /changePenalisedProfessionalBody                  controllers.PenalisedProfessionalBodyController.onPageLoad(mode: Mode = CheckMode)
+POST       /changePenalisedProfessionalBody                  controllers.PenalisedProfessionalBodyController.onSubmit(mode: Mode = CheckMode)
+
+GET        /penalisedProfessionalBodyDetail                        controllers.PenalisedProfessionalBodyDetailController.onPageLoad(mode: Mode = NormalMode)
+POST       /penalisedProfessionalBodyDetail                        controllers.PenalisedProfessionalBodyDetailController.onSubmit(mode: Mode = NormalMode)
+GET        /changePenalisedProfessionalBodyDetail                  controllers.PenalisedProfessionalBodyDetailController.onPageLoad(mode: Mode = CheckMode)
+POST       /changePenalisedProfessionalBodyDetail                  controllers.PenalisedProfessionalBodyDetailController.onSubmit(mode: Mode = CheckMode)
+
+GET        /redressScheme                        controllers.RedressSchemeController.onPageLoad(mode: Mode = NormalMode)
+POST       /redressScheme                        controllers.RedressSchemeController.onSubmit(mode: Mode = NormalMode)
+GET        /changeRedressScheme                  controllers.RedressSchemeController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeRedressScheme                  controllers.RedressSchemeController.onSubmit(mode: Mode = CheckMode)
