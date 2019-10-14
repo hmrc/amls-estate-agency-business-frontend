@@ -41,3 +41,5 @@ GET        /redressScheme                        controllers.RedressSchemeContro
 POST       /redressScheme                        controllers.RedressSchemeController.onSubmit(mode: Mode = NormalMode)
 GET        /changeRedressScheme                  controllers.RedressSchemeController.onPageLoad(mode: Mode = CheckMode)
 POST       /changeRedressScheme                  controllers.RedressSchemeController.onSubmit(mode: Mode = CheckMode)
+
+GET        /what-you-need                           controllers.WhatYouNeedController.onPageLoad()

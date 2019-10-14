@@ -1,0 +1,48 @@
+@*
+ * Copyright 2019 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import config.FrontendAppConfig
+
+@this(
+    main_template: MainTemplate,
+    appConfig: FrontendAppConfig
+)
+
+@()(implicit request: Request[_], messages: Messages)
+
+@main_template(
+    title = s"${messages("whatYouNeed.title")} - Estate Agency Business - Manage your anti-money laundering supervision - GOV.UK"
+    ) {
+
+    @components.back_link()
+
+    @components.page_heading("eab.heading")
+
+    @components.heading("whatYouNeed.heading")
+
+    <p>@Messages("whatYouNeed.heading2")</p>
+
+    <ul class="list list-bullet">
+        <li>@Messages("whatYouNeed.line_1")</li>
+        <li>@Messages("whatYouNeed.line_2")</li>
+        <li>@Messages("whatYouNeed.line_3")</li>
+        <li>@Messages("whatYouNeed.line_4")</li>
+    </ul>
+
+    @components.button_link_with_id("whatYouNeed.continue", "type", "eabwhatyouneed-button")
+
+    @components.anchor(appConfig = appConfig)
+}

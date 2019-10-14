@@ -1,4 +1,4 @@
-/*
+@*
  * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,23 +12,20 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package generators
+@import config.FrontendAppConfig
 
-import models._
-import org.scalacheck.Arbitrary.arbitrary
-import org.scalacheck.{Arbitrary, Gen}
+@(
+    appConfig: FrontendAppConfig,
+    returnLocation: Option[String] = None
+)(implicit m: Messages)
 
-trait ModelGenerators {
-
-  implicit lazy val arbitraryRedressScheme: Arbitrary[RedressScheme] =
-    Arbitrary {
-      Gen.oneOf(RedressScheme.values.toSeq)
-    }
-
-  implicit lazy val arbitraryEabServicesProvided: Arbitrary[EabServicesProvided] =
-    Arbitrary {
-      Gen.oneOf(EabServicesProvided.values.toSeq)
-    }
+<p class="return-link">
+@if(returnLocation == Some("renewal")) {
+    <a href="@{appConfig.renewalProgressUrl}">@Messages("link.return.renewal.progress")</a>
+} else {
+    <a href="@{appConfig.registrationProgressUrl}">@Messages("link.return.registration.progress")</a>
 }
+</p>
+

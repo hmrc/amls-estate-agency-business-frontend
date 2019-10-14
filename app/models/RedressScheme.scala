@@ -16,18 +16,20 @@
 
 package models
 
-import play.api.libs.json._
 import viewmodels.RadioOption
 
 sealed trait RedressScheme
 
 object RedressScheme extends Enumerable.Implicits {
 
-  case object Notregistered extends WithName("notRegistered") with RedressScheme
-  case object Ombudsmanservices extends WithName("ombudsmanServices") with RedressScheme
+  case object NotRegistered extends WithName("notRegistered") with RedressScheme
+  case object OmbudsmanServices extends WithName("ombudsmanServices") with RedressScheme
+  case object PropertyRedressScheme extends WithName("propertyRedressScheme") with RedressScheme
+  case object PropertyOmbudsmanLimited extends WithName("propertyOmbudsmanLimited") with RedressScheme
+  case object Other extends WithName("other") with RedressScheme
 
   val values: Seq[RedressScheme] = Seq(
-    Notregistered, Ombudsmanservices
+    NotRegistered, OmbudsmanServices
   )
 
   val options: Seq[RadioOption] = values.map {

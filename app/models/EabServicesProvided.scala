@@ -22,12 +22,26 @@ sealed trait EabServicesProvided
 
 object EabServicesProvided extends Enumerable.Implicits {
 
-  case object Assetmanagement extends WithName("assetManagement") with EabServicesProvided
+  case object AssetManagement extends WithName("assetManagement") with EabServicesProvided
   case object Auctioneering extends WithName("auctioneering") with EabServicesProvided
+  case object BusinessTransfer extends WithName("businessTransfer") with EabServicesProvided
+  case object Commercial extends WithName("commercial") with EabServicesProvided
+  case object DevelopmentCompany extends WithName("developmentCompany") with EabServicesProvided
+  case object LandManagement extends WithName("landManagement") with EabServicesProvided
+  case object Relocation extends WithName("relocation") with EabServicesProvided
+  case object Residential extends WithName("residential") with EabServicesProvided
+  case object SocialHousingProvision extends WithName("socialHousingProvision") with EabServicesProvided
 
   val values: Seq[EabServicesProvided] = Seq(
-    Assetmanagement,
-    Auctioneering
+    AssetManagement,
+    Auctioneering,
+    BusinessTransfer,
+    Commercial,
+    DevelopmentCompany,
+    LandManagement,
+    Relocation,
+    Residential,
+    SocialHousingProvision
   )
 
   val options: Seq[RadioOption] = values.map {
