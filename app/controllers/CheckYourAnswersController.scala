@@ -39,7 +39,15 @@ class CheckYourAnswersController @Inject()(
 
       val checkYourAnswersHelper = new CheckYourAnswersHelper(request.userAnswers)
 
-      val sections = Seq(AnswerSection(None, Seq()))
+      val sections = Seq(AnswerSection(None, Seq(
+        checkYourAnswersHelper.eabServicesProvided,
+        checkYourAnswersHelper.redressScheme,
+        checkYourAnswersHelper.redressSchemeDetail,
+        checkYourAnswersHelper.penalisedEstateAgentsAct,
+        checkYourAnswersHelper.penalisedEstateAgentsActDetail,
+        checkYourAnswersHelper.penalisedProfessionalBody,
+        checkYourAnswersHelper.penalisedProfessionalBodyDetail
+      ).flatten))
 
       Ok(view(sections))
   }

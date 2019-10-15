@@ -33,16 +33,9 @@ class WhatYouNeedController @Inject()(
                                        view: WhatYouNeedView
                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  // TODO - put back when implementing auth action
-  //def onPageLoad: Action[AnyContent] = (identify andThen getData) {
-  //  implicit request =>
-  //    Ok(view())
-  //}
-
-  def onPageLoad: Action[AnyContent] =  {
-    Action.async {
-      implicit request =>
-        Future.successful { Ok(view()) }
-    }
+  def onPageLoad: Action[AnyContent] = (identify andThen getData) {
+    implicit request =>
+      Ok(view())
   }
+
 }

@@ -29,7 +29,11 @@ object RedressScheme extends Enumerable.Implicits {
   case object Other extends WithName("other") with RedressScheme
 
   val values: Seq[RedressScheme] = Seq(
-    NotRegistered, OmbudsmanServices
+    NotRegistered,
+    OmbudsmanServices,
+    PropertyRedressScheme,
+    PropertyOmbudsmanLimited,
+    Other
   )
 
   val options: Seq[RadioOption] = values.map {

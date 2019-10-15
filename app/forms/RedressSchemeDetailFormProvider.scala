@@ -20,13 +20,12 @@ import javax.inject.Inject
 
 import forms.mappings.Mappings
 import play.api.data.Form
-import play.api.data.Forms._
-import models.EabServicesProvided
 
-class EabServicesProvidedFormProvider @Inject() extends Mappings {
+class RedressSchemeDetailFormProvider @Inject() extends Mappings {
 
-  def apply(): Form[Seq[EabServicesProvided]] =
+  def apply(): Form[String] =
     Form(
-      "value" -> seq(enumerable[EabServicesProvided]("eabServicesProvided.error.required")).verifying(nonEmptySeq("eabServicesProvided.error.required"))
+      "value" -> text("redressSchemeDetail.error.required")
+        .verifying(maxLength(256, "redressSchemeDetail.error.length"))
     )
 }

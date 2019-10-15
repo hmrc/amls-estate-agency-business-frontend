@@ -17,43 +17,43 @@
 package controllers
 
 import base.SpecBase
-import forms.EabServicesProvidedFormProvider
-import models.{NormalMode, EabServicesProvided, UserAnswers}
+import forms.RedressSchemeDetailFormProvider
+import models.{NormalMode, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.EabServicesProvidedPage
+import pages.RedressSchemeDetailPage
 import play.api.inject.bind
 import play.api.libs.json.{JsString, Json}
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import repositories.SessionRepository
-import views.html.EabServicesProvidedView
+import views.html.RedressSchemeDetailView
 
 import scala.concurrent.Future
 
-class EabServicesProvidedControllerSpec extends SpecBase with MockitoSugar {
+class RedressSchemeDetailControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  lazy val eabServicesProvidedRoute = routes.EabServicesProvidedController.onPageLoad(NormalMode).url
-
-  val formProvider = new EabServicesProvidedFormProvider()
+  val formProvider = new RedressSchemeDetailFormProvider()
   val form = formProvider()
 
-  "EabServicesProvided Controller" must {
+  lazy val redressSchemeDetailRoute = routes.RedressSchemeDetailController.onPageLoad(NormalMode).url
+
+  "RedressSchemeDetail Controller" must {
 
     "return OK and the correct view for a GET" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val request = FakeRequest(GET, eabServicesProvidedRoute)
+      val request = FakeRequest(GET, redressSchemeDetailRoute)
 
       val result = route(application, request).value
 
-      val view = application.injector.instanceOf[EabServicesProvidedView]
+      val view = application.injector.instanceOf[RedressSchemeDetailView]
 
       status(result) mustEqual OK
 
@@ -65,20 +65,20 @@ class EabServicesProvidedControllerSpec extends SpecBase with MockitoSugar {
 
     "populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(EabServicesProvidedPage, EabServicesProvided.values.toSet).success.value
+      val userAnswers = UserAnswers(userAnswersId).set(RedressSchemeDetailPage, "answer").success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val request = FakeRequest(GET, eabServicesProvidedRoute)
+      val request = FakeRequest(GET, redressSchemeDetailRoute)
 
-      val view = application.injector.instanceOf[EabServicesProvidedView]
+      val view = application.injector.instanceOf[RedressSchemeDetailView]
 
       val result = route(application, request).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(EabServicesProvided.values.toSet), NormalMode)(fakeRequest, messages).toString
+        view(form.fill("answer"), NormalMode)(fakeRequest, messages).toString
 
       application.stop()
     }
@@ -98,13 +98,12 @@ class EabServicesProvidedControllerSpec extends SpecBase with MockitoSugar {
           .build()
 
       val request =
-        FakeRequest(POST, eabServicesProvidedRoute)
-          .withFormUrlEncodedBody(("value[0]", EabServicesProvided.values.head.toString))
+        FakeRequest(POST, redressSchemeDetailRoute)
+          .withFormUrlEncodedBody(("value", "answer"))
 
       val result = route(application, request).value
 
       status(result) mustEqual SEE_OTHER
-
       redirectLocation(result).value mustEqual onwardRoute.url
 
       application.stop()
@@ -115,12 +114,12 @@ class EabServicesProvidedControllerSpec extends SpecBase with MockitoSugar {
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       val request =
-        FakeRequest(POST, eabServicesProvidedRoute)
-          .withFormUrlEncodedBody(("value", "invalid value"))
+        FakeRequest(POST, redressSchemeDetailRoute)
+          .withFormUrlEncodedBody(("value", ""))
 
-      val boundForm = form.bind(Map("value" -> "invalid value"))
+      val boundForm = form.bind(Map("value" -> ""))
 
-      val view = application.injector.instanceOf[EabServicesProvidedView]
+      val view = application.injector.instanceOf[RedressSchemeDetailView]
 
       val result = route(application, request).value
 
@@ -128,6 +127,38 @@ class EabServicesProvidedControllerSpec extends SpecBase with MockitoSugar {
 
       contentAsString(result) mustEqual
         view(boundForm, NormalMode)(fakeRequest, messages).toString
+
+      application.stop()
+    }
+
+    "redirect to Session Expired for a GET if no existing data is found" in {
+
+      val application = applicationBuilder(userAnswers = None).build()
+
+      val request = FakeRequest(GET, redressSchemeDetailRoute)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+
+      application.stop()
+    }
+
+    "redirect to Session Expired for a POST if no existing data is found" in {
+
+      val application = applicationBuilder(userAnswers = None).build()
+
+      val request =
+        FakeRequest(POST, redressSchemeDetailRoute)
+          .withFormUrlEncodedBody(("value", "answer"))
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
 
       application.stop()
     }

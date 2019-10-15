@@ -14,31 +14,30 @@
  * limitations under the License.
  *@
 
-@import controllers.routes.EabServicesProvidedController
-@import models.{Mode, EabServicesProvided}
+@import controllers.routes._
+@import models.Mode
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF
 )
 
-@(form: Form[Seq[EabServicesProvided]], mode: Mode)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)} ${messages("eabServicesProvided.title")}"
+    title = s"${errorPrefix(form)} ${messages("redressSchemeDetail.title")}"
     ) {
 
-    @formHelper(action = EabServicesProvidedController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = RedressSchemeDetailController.onSubmit(mode), 'autoComplete -> "off") {
 
         @components.back_link()
 
         @components.error_summary(form.errors)
 
-        @components.input_checkboxes(
-            field = form("value"),
-            legend = messages("eabServicesProvided.heading"),
-            headingIsLegend = true,
-            inputs = EabServicesProvided.options
+        @components.input_text(
+          field = form("value"),
+          label = messages("redressSchemeDetail.heading"),
+          headingIsLabel = true
         )
 
         @components.submit_button()

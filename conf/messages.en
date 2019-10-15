@@ -78,3 +78,9 @@ redressScheme.notRegistered = Business is not registered with a redress scheme
 redressScheme.ombudsmanServices = Ombudsman Services
 redressScheme.checkYourAnswersLabel = Which redress scheme is your business registered with?
 redressScheme.error.required = Select redressScheme
+
+redressSchemeDetail.title = redressSchemeDetail
+redressSchemeDetail.heading = redressSchemeDetail
+redressSchemeDetail.checkYourAnswersLabel = redressSchemeDetail
+redressSchemeDetail.error.required = Enter redressSchemeDetail
+redressSchemeDetail.error.length = RedressSchemeDetail must be 256 characters or less
