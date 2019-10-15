@@ -43,3 +43,7 @@ GET        /changeRedressScheme                  controllers.RedressSchemeContro
 POST       /changeRedressScheme                  controllers.RedressSchemeController.onSubmit(mode: Mode = CheckMode)
 
 GET        /what-you-need                           controllers.WhatYouNeedController.onPageLoad()
+GET        /redressSchemeDetail                        controllers.RedressSchemeDetailController.onPageLoad(mode: Mode = NormalMode)
+POST       /redressSchemeDetail                        controllers.RedressSchemeDetailController.onSubmit(mode: Mode = NormalMode)
+GET        /changeRedressSchemeDetail                  controllers.RedressSchemeDetailController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeRedressSchemeDetail                  controllers.RedressSchemeDetailController.onSubmit(mode: Mode = CheckMode)

@@ -28,6 +28,15 @@ import CheckYourAnswersHelper._
 
 class CheckYourAnswersHelper(userAnswers: UserAnswers)(implicit messages: Messages) {
 
+  def redressSchemeDetail: Option[AnswerRow] = userAnswers.get(RedressSchemeDetailPage) map {
+    x =>
+      AnswerRow(
+        HtmlFormat.escape(messages("redressSchemeDetail.checkYourAnswersLabel")),
+        HtmlFormat.escape(x),
+        routes.RedressSchemeDetailController.onPageLoad(CheckMode).url
+      )
+  }
+
   def redressScheme: Option[AnswerRow] = userAnswers.get(RedressSchemePage) map {
     x =>
       AnswerRow(

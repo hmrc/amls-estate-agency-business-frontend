@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package forms
+package pages
 
-import javax.inject.Inject
+import pages.behaviours.PageBehaviours
 
-import forms.mappings.Mappings
-import play.api.data.Form
-import play.api.data.Forms._
-import models.EabServicesProvided
 
-class EabServicesProvidedFormProvider @Inject() extends Mappings {
+class RedressSchemeDetailPageSpec extends PageBehaviours {
 
-  def apply(): Form[Seq[EabServicesProvided]] =
-    Form(
-      "value" -> seq(enumerable[EabServicesProvided]("eabServicesProvided.error.required")).verifying(nonEmptySeq("eabServicesProvided.error.required"))
-    )
+  "RedressSchemeDetailPage" must {
+
+    beRetrievable[String](RedressSchemeDetailPage)
+
+    beSettable[String](RedressSchemeDetailPage)
+
+    beRemovable[String](RedressSchemeDetailPage)
+  }
 }

@@ -16,24 +16,11 @@
 
 package pages
 
-import models.EabServicesProvided.Residential
-import models.{EabServicesProvided, UserAnswers}
 import play.api.libs.json.JsPath
 
-import scala.util.Try
-
-case object EabServicesProvidedPage extends QuestionPage[Seq[EabServicesProvided]] {
+case object RedressSchemeDetailPage extends QuestionPage[String] {
 
   override def path: JsPath = JsPath \ toString
 
-  override def toString: String = "eabServicesProvided"
-
-  override def cleanup(value: Option[Seq[EabServicesProvided]], userAnswers: UserAnswers): Try[UserAnswers] = {
-    value map { ans =>
-      ans.contains(Residential) match {
-        case true => super.cleanup(value, userAnswers)
-        case _ => userAnswers.remove(RedressSchemePage)
-      }
-    }
-  }.getOrElse(super.cleanup(value, userAnswers))
+  override def toString: String = "redressSchemeDetail"
 }
