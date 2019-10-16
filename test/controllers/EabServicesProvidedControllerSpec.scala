@@ -65,7 +65,7 @@ class EabServicesProvidedControllerSpec extends SpecBase with MockitoSugar {
 
     "populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(EabServicesProvidedPage, EabServicesProvided.values.toSet).success.value
+      val userAnswers = UserAnswers(userAnswersId).set(EabServicesProvidedPage, EabServicesProvided.values).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -78,7 +78,7 @@ class EabServicesProvidedControllerSpec extends SpecBase with MockitoSugar {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(EabServicesProvided.values.toSet), NormalMode)(fakeRequest, messages).toString
+        view(form.fill(EabServicesProvided.values), NormalMode)(fakeRequest, messages).toString
 
       application.stop()
     }

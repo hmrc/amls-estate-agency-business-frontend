@@ -16,7 +16,8 @@
 
 package pages
 
-import models.RedressScheme
+import models.RedressScheme.{OmbudsmanServices, Other}
+import models.{RedressScheme, UserAnswers}
 import pages.behaviours.PageBehaviours
 
 class RedressSchemeSpec extends PageBehaviours {
@@ -28,5 +29,19 @@ class RedressSchemeSpec extends PageBehaviours {
     beSettable[RedressScheme](RedressSchemePage)
 
     beRemovable[RedressScheme](RedressSchemePage)
+  }
+
+  "cleanup the RedressSchemeDetailPage value where not Other selected" in {
+    val answerQuestion = UserAnswers("someid").set(RedressSchemeDetailPage, "sometext").success.value
+    val updatedAnswers = answerQuestion.set(RedressSchemePage, OmbudsmanServices).success.value
+
+    updatedAnswers.get(RedressSchemeDetailPage) must be(empty)
+  }
+
+  "not cleanup the RedressSchemeDetailPage value where true selected" in {
+    val answerQuestion = UserAnswers("someid").set(RedressSchemeDetailPage, "sometext").success.value
+    val updatedAnswers = answerQuestion.set(RedressSchemePage, Other).success.value
+
+    updatedAnswers.get(RedressSchemePage) mustNot be(empty)
   }
 }
