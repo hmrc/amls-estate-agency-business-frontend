@@ -34,7 +34,7 @@ class EabServicesProvidedViewSpec extends CheckboxViewBehaviours[EabServicesProv
 
     val view = viewFor[EabServicesProvidedView](Some(emptyUserAnswers))
 
-    def applyView(form: Form[Set[EabServicesProvided]]): HtmlFormat.Appendable =
+    def applyView(form: Form[Seq[EabServicesProvided]]): HtmlFormat.Appendable =
       view.apply(form, NormalMode)(fakeRequest, messages)
 
     behave like normalPage(applyView(form), messageKeyPrefix)

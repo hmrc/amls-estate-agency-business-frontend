@@ -16,6 +16,7 @@
 
 package pages
 
+import models.UserAnswers
 import pages.behaviours.PageBehaviours
 
 class PenalisedEstateAgentsActPageSpec extends PageBehaviours {
@@ -27,5 +28,19 @@ class PenalisedEstateAgentsActPageSpec extends PageBehaviours {
     beSettable[Boolean](PenalisedEstateAgentsActPage)
 
     beRemovable[Boolean](PenalisedEstateAgentsActPage)
+  }
+
+  "cleanup the PenalisedEstateAgentsDetailPage value where false" in {
+    val answerQuestion = UserAnswers("someid").set(PenalisedEstateAgentsActDetailPage, "sometext").success.value
+    val updatedAnswers = answerQuestion.set(PenalisedEstateAgentsActPage, false).success.value
+
+    updatedAnswers.get(PenalisedEstateAgentsActDetailPage) must be(empty)
+  }
+
+  "not cleanup the PenalisedEstateAgentsDetailPage value where true" in {
+    val answerQuestion = UserAnswers("someid").set(PenalisedEstateAgentsActDetailPage, "sometext").success.value
+    val updatedAnswers = answerQuestion.set(PenalisedEstateAgentsActPage, true).success.value
+
+    updatedAnswers.get(PenalisedEstateAgentsActDetailPage) must not be(empty)
   }
 }

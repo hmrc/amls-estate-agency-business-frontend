@@ -93,7 +93,7 @@ class Navigator @Inject()() {
     case PenalisedEstateAgentsActDetailPage  => _ => routes.CheckYourAnswersController.onPageLoad()
     case PenalisedProfessionalBodyPage       =>      penalisedProfessionalBodyDetailsRouteCheckMode
     case PenalisedProfessionalBodyDetailPage => _ => routes.CheckYourAnswersController.onPageLoad()
-    case _                                   => _ => routes.IndexController.onPageLoad()
+    case _                                   => _ => routes.CheckYourAnswersController.onPageLoad()
   }
 
   private def redressSchemeRouteCheckMode(answers: UserAnswers): Call = {
