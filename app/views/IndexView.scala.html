@@ -21,7 +21,7 @@
 @()(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = messages("index.title")
+    title = s"${messages("index.title")} - Estate agency business - Manage your anti-money laundering supervision - GOV.UK".trim
     ) {
 
     @components.heading("index.heading")

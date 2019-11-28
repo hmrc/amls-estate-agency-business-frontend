@@ -2,6 +2,8 @@ checkYourAnswers.title = Check Your Answers
 checkYourAnswers.heading = Check Your Answers
 checkYourAnswers.guidance = Guidance for check your answers
 
+eab.heading = Estate agency business
+
 date.day = Day
 date.month = Month
 date.year = Year
@@ -39,6 +41,15 @@ site.yes = Yes
 site.continue = Continue
 site.service_name = amls-estate-agency-business-frontend
 site.textarea.char_limit = (Limit is {0} characters)
+site.selectAll.hint = Select all that apply
+
+whatYouNeed.title = What you need
+whatYouNeed.heading = What you need
+whatYouNeed.heading2 = In this section you’ll be asked things like:
+whatYouNeed.line_1 = which estate agency services you provide
+whatYouNeed.line_2 = if you’re registered with a redress scheme
+whatYouNeed.line_3 = if your business has been penalised in the past
+whatYouNeed.continue = Continue
 
 unauthorised.title = You can’t access this service with this account
 unauthorised.heading = You can’t access this service with this account
@@ -47,40 +58,50 @@ eabServicesProvided.title = Which services does your business provide?
 eabServicesProvided.heading = Which services does your business provide?
 eabServicesProvided.assetManagement = Asset management
 eabServicesProvided.auctioneering = Auctioneering
+eabServicesProvided.businessTransfer = Business transfer
+eabServicesProvided.commercial = Commercial
+eabServicesProvided.developmentCompany = Development company
+eabServicesProvided.landManagement = Land management
+eabServicesProvided.relocation = Relocation
+eabServicesProvided.residential = Residential
+eabServicesProvided.socialHousingProvision = Social housing provision
 eabServicesProvided.checkYourAnswersLabel = Which services does your business provide?
-eabServicesProvided.error.required = Select eabServicesProvided
+eabServicesProvided.error.required = Select which services your business provides
 
-penalisedEstateAgentsAct.title = penalisedEstateAgentsAct
-penalisedEstateAgentsAct.heading = penalisedEstateAgentsAct
-penalisedEstateAgentsAct.checkYourAnswersLabel = penalisedEstateAgentsAct
-penalisedEstateAgentsAct.error.required = Select yes if penalisedEstateAgentsAct
+penalisedEstateAgentsAct.title = Has the business, or anyone in the business, ever been penalised under the Estate Agents Act 1979?
+penalisedEstateAgentsAct.heading = Has the business, or anyone in the business, ever been penalised under the Estate Agents Act 1979?
+penalisedEstateAgentsAct.checkYourAnswersLabel = Has the business, or anyone in the business, ever been penalised under the Estate Agents Act 1979?
+penalisedEstateAgentsAct.error.required = Select yes if the business, or anyone in the business, has ever been penalised under the Estate Agents Act 1979
 
-penalisedEstateAgentsActDetail.title = penalisedEstateAgentsActDetail
-penalisedEstateAgentsActDetail.heading = penalisedEstateAgentsActDetail
-penalisedEstateAgentsActDetail.checkYourAnswersLabel = penalisedEstateAgentsActDetail
-penalisedEstateAgentsActDetail.error.required = Enter penalisedEstateAgentsActDetail
-penalisedEstateAgentsActDetail.error.length = PenalisedEstateAgentsActDetail must be 255 characters or less
+penalisedEstateAgentsActDetail.title = Detail what the penalty received under the Estate Agents Act 1979 was and when it occurred
+penalisedEstateAgentsActDetail.heading = Detail what the penalty received under the Estate Agents Act 1979 was and when it occurred
+penalisedEstateAgentsActDetail.checkYourAnswersLabel = Detail what the penalty received under the Estate Agents Act 1979 was and when it occurred
+penalisedEstateAgentsActDetail.error.required = Enter the penalty
+penalisedEstateAgentsActDetail.error.length = Input must be 255 characters or less
 
-penalisedProfessionalBody.title = penalisedProfessionalBody
-penalisedProfessionalBody.heading = penalisedProfessionalBody
-penalisedProfessionalBody.checkYourAnswersLabel = penalisedProfessionalBody
-penalisedProfessionalBody.error.required = Select yes if penalisedProfessionalBody
+penalisedProfessionalBody.title = Has the business, or anyone in the business, ever been penalised by a professional body for estate agency business activities?
+penalisedProfessionalBody.heading = Has the business, or anyone in the business, ever been penalised by a professional body for estate agency business activities?
+penalisedProfessionalBody.checkYourAnswersLabel = Has the business, or anyone in the business, ever been penalised by a professional body for estate agency business activities?
+penalisedProfessionalBody.error.required = Select yes if the business, or anyone in the business, has ever been penalised by a professional body for estate agency business activities
 
-penalisedProfessionalBodyDetail.title = penalisedProfessionalBodyDetail
-penalisedProfessionalBodyDetail.heading = penalisedProfessionalBodyDetail
-penalisedProfessionalBodyDetail.checkYourAnswersLabel = penalisedProfessionalBodyDetail
-penalisedProfessionalBodyDetail.error.required = Enter penalisedProfessionalBodyDetail
-penalisedProfessionalBodyDetail.error.length = PenalisedProfessionalBodyDetail must be 255 characters or less
+penalisedProfessionalBodyDetail.title = Detail what the penalty received by a professional body was and when it occurred
+penalisedProfessionalBodyDetail.heading = Detail what the penalty received by a professional body was and when it occurred
+penalisedProfessionalBodyDetail.checkYourAnswersLabel = Detail what the penalty received by a professional body was and when it occurred
+penalisedProfessionalBodyDetail.error.required = Enter the penalty
+penalisedProfessionalBodyDetail.error.length = Input must be 255 characters or less
 
 redressScheme.title = Which redress scheme is your business registered with?
 redressScheme.heading = Which redress scheme is your business registered with?
 redressScheme.notRegistered = Business is not registered with a redress scheme
 redressScheme.ombudsmanServices = Ombudsman Services
+redressScheme.propertyRedressScheme = Property Redress Scheme
+redressScheme.propertyOmbudsmanLimited = The Property Ombudsman Limited
+redressScheme.other = Other
 redressScheme.checkYourAnswersLabel = Which redress scheme is your business registered with?
-redressScheme.error.required = Select redressScheme
+redressScheme.error.required = Select which redress scheme your business is registered with
 
-redressSchemeDetail.title = redressSchemeDetail
-redressSchemeDetail.heading = redressSchemeDetail
-redressSchemeDetail.checkYourAnswersLabel = redressSchemeDetail
-redressSchemeDetail.error.required = Enter redressSchemeDetail
+redressSchemeDetail.title = What other redress scheme is your business registered with?
+redressSchemeDetail.heading = What other redress scheme is your business registered with?
+redressSchemeDetail.checkYourAnswersLabel = What other redress scheme is your business registered with?
+redressSchemeDetail.error.required = Enter a redress scheme
 redressSchemeDetail.error.length = RedressSchemeDetail must be 256 characters or less
