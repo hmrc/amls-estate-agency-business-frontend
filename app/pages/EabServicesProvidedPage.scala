@@ -26,7 +26,7 @@ case object EabServicesProvidedPage extends QuestionPage[Seq[EabServicesProvided
 
   override def path: JsPath = JsPath \ toString
 
-  override def toString: String = "services"
+  override def toString: String = "eabServicesProvided"
 
   override def cleanup(value: Option[Seq[EabServicesProvided]], userAnswers: UserAnswers): Try[UserAnswers] = {
     value map { ans =>
