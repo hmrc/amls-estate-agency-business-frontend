@@ -36,10 +36,21 @@
 
         @components.page_heading("eab.heading")
 
+        @components.heading("penalisedProfessionalBody.heading")
+
+        <p>@Messages("penalisedProfessionalBody.subtitle")</p>
+        <ul class="list list-bullet">
+            <li>@Messages("penalisedProfessionalBody.fine")</li>
+            <li>@Messages("penalisedProfessionalBody.warning")</li>
+            <li>@Messages("penalisedProfessionalBody.suspension")</li>
+            <li>@Messages("penalisedProfessionalBody.expulsion")</li>
+            <li>@Messages("penalisedProfessionalBody.special")</li>
+        </ul>
+
         @components.input_yes_no(
             field = form("value"),
             legend = messages("penalisedProfessionalBody.heading"),
-            headingIsLegend = true
+            legendClass = Some("visually-hidden")
         )
 
         @components.submit_button()

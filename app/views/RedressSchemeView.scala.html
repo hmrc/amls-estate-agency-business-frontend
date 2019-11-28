@@ -36,10 +36,14 @@
 
         @components.page_heading("eab.heading")
 
+        @components.heading("redressScheme.heading")
+
+        <p>@Messages("redressSchemeDetail.content")</p>
+
         @components.input_radio(
             field = form("value"),
             legend = messages("redressScheme.heading"),
-            headingIsLegend = true,
+            legendClass = Some("visually-hidden"),
             inputs = RedressScheme.options.toSeq
         )
 

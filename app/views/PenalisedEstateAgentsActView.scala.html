@@ -36,10 +36,18 @@
 
         @components.page_heading("eab.heading")
 
+        @components.heading("eab.heading")
+
+        <p>@Messages("penalisedEstateAgentsAct.subtitle")</p>
+        <ul class="list list-bullet">
+            <li>@Messages("penalisedEstateAgentsAct.warning")</li>
+            <li>@Messages("penalisedEstateAgentsAct.banned")</li>
+        </ul>
+
         @components.input_yes_no(
             field = form("value"),
             legend = messages("penalisedEstateAgentsAct.heading"),
-            headingIsLegend = true
+            legendClass = Some("visually-hidden")
         )
 
         @components.submit_button()
