@@ -24,6 +24,10 @@
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
+@supportingContent = {
+    <p>@Messages("redressSchemeDetail.content")</p>
+}
+
 @main_template(
     title = s"${errorPrefix(form)} ${messages("redressScheme.title")}" + " - " + messages("eab.title.extension")
     ) {
@@ -36,17 +40,12 @@
 
         @components.page_heading("eab.heading")
 
-        @components.heading("redressScheme.heading")
-
-        <p>@Messages("redressSchemeDetail.content")</p>
-
         @components.input_radio(
             field = form("value"),
             legend = messages("redressScheme.heading"),
             headingIsLegend = true,
-            legendClass = Some("visually-hidden"),
             inputs = RedressScheme.options.toSeq
-        )
+        )(supportingContent = supportingContent)
 
         @components.submit_button()
     }

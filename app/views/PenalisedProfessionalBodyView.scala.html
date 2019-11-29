@@ -24,6 +24,17 @@
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
+@supportingContent = {
+    <p>@Messages("penalisedProfessionalBody.subtitle")</p>
+        <ul class="list list-bullet">
+            <li>@Messages("penalisedProfessionalBody.fine")</li>
+            <li>@Messages("penalisedProfessionalBody.warning")</li>
+            <li>@Messages("penalisedProfessionalBody.suspension")</li>
+            <li>@Messages("penalisedProfessionalBody.expulsion")</li>
+            <li>@Messages("penalisedProfessionalBody.special")</li>
+        </ul>
+}
+
 @main_template(
     title = s"${errorPrefix(form)} ${messages("penalisedProfessionalBody.title")}" + " - " + messages("eab.title.extension")
     ) {
@@ -36,23 +47,11 @@
 
         @components.page_heading("eab.heading")
 
-        @components.heading("penalisedProfessionalBody.heading")
-
-        <p>@Messages("penalisedProfessionalBody.subtitle")</p>
-        <ul class="list list-bullet">
-            <li>@Messages("penalisedProfessionalBody.fine")</li>
-            <li>@Messages("penalisedProfessionalBody.warning")</li>
-            <li>@Messages("penalisedProfessionalBody.suspension")</li>
-            <li>@Messages("penalisedProfessionalBody.expulsion")</li>
-            <li>@Messages("penalisedProfessionalBody.special")</li>
-        </ul>
-
         @components.input_yes_no(
             field = form("value"),
             legend = messages("penalisedProfessionalBody.heading"),
-            headingIsLegend = true,
-            legendClass = Some("visually-hidden")
-        )
+            headingIsLegend = true
+        )(supportingContent = supportingContent)
 
         @components.submit_button()
     }
