@@ -45,6 +45,7 @@ site.service_name = amls-estate-agency-business-frontend
 site.textarea.char_limit = (Limit is {0} characters)
 site.selectAll.hint = Select all that apply.
 site.255.hint = Enter 255 characters or less.
+site.acceptandcomplete = Accept and complete section
 
 whatYouNeed.title = What you need
 whatYouNeed.heading = What you need
