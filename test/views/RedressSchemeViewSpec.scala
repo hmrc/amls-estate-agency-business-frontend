@@ -53,6 +53,12 @@ class RedressSchemeViewSpec extends ViewBehaviours {
           assertContainsRadioButton(doc, option.id, "value", option.value, false)
         }
       }
+
+      "contain supporting content for the question" in {
+          val doc = asDocument(applyView(form))
+          val supportingContent = doc.getElementsContainingOwnText(messages("redressSchemeDetail.content"))
+          supportingContent.size mustBe 1
+      }
     }
 
     for (option <- RedressScheme.options) {
