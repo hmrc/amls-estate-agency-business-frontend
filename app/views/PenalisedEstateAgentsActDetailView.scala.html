@@ -16,16 +16,18 @@
 
 @import controllers.routes._
 @import models.Mode
+@import config.FrontendAppConfig
 
 @this(
-    main_template: MainTemplate,
-    formHelper: FormWithCSRF
+        main_template: MainTemplate,
+        formHelper: FormWithCSRF,
+        appConfig: FrontendAppConfig
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)} ${messages("penalisedEstateAgentsActDetail.title")}"
+    title = s"${errorPrefix(form)} ${messages("penalisedEstateAgentsActDetail.title")}" + " - " + messages("eab.title.extension")
     ) {
 
     @formHelper(action = PenalisedEstateAgentsActDetailController.onSubmit(mode), 'autoComplete -> "off") {
@@ -34,12 +36,17 @@
 
         @components.error_summary(form.errors)
 
+        @components.page_heading("eab.heading")
+
         @components.input_text(
           field = form("value"),
           label = messages("penalisedEstateAgentsActDetail.heading"),
+          hint = Some(Messages("site.255.hint")),
           headingIsLabel = true
-        )
+        )()
 
         @components.submit_button()
+
+        @components.anchor(appConfig = appConfig)
     }
 }

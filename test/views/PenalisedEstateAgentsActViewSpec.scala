@@ -28,6 +28,8 @@ class PenalisedEstateAgentsActViewSpec extends YesNoViewBehaviours {
 
   val messageKeyPrefix = "penalisedEstateAgentsAct"
 
+  val supportingContent = messages("penalisedEstateAgentsAct.subtitle")
+
   val form = new PenalisedEstateAgentsActFormProvider()()
 
   "PenalisedEstateAgentsAct view" must {
@@ -41,6 +43,6 @@ class PenalisedEstateAgentsActViewSpec extends YesNoViewBehaviours {
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like yesNoPage(form, applyView, messageKeyPrefix, routes.PenalisedEstateAgentsActController.onSubmit(NormalMode).url)
+    behave like yesNoPage(form, applyView, messageKeyPrefix, routes.PenalisedEstateAgentsActController.onSubmit(NormalMode).url, Some(supportingContent))
   }
 }

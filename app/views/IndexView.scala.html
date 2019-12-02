@@ -21,7 +21,7 @@
 @()(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = messages("index.title")
+    title = s"${messages("index.title")}" + " - " + messages("eab.title.extension")
     ) {
 
     @components.heading("index.heading")

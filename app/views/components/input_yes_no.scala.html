@@ -20,7 +20,7 @@
         hint: Option[String] = None,
         legendClass: Option[String] = None,
         headingIsLegend: Boolean = false
-)(implicit messages: Messages)
+)(supportingContent: Html = HtmlFormat.empty)(implicit messages: Messages)
 
 
 <div class="form-group @if(field.hasErrors){form-group-error}">
@@ -30,10 +30,12 @@
             <legend>
                 <h1 @if(legendClass.nonEmpty){class="@legendClass" }else{class="heading-xlarge"}>@legend</h1>
             </legend>
+            @supportingContent
         } else {
             <legend @if(legendClass.nonEmpty){class="@legendClass" }>
                 @legend
             </legend>
+            @supportingContent
         }
 
         @if(hint.nonEmpty){

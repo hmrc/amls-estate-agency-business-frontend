@@ -28,6 +28,8 @@ class PenalisedProfessionalBodyViewSpec extends YesNoViewBehaviours {
 
   val messageKeyPrefix = "penalisedProfessionalBody"
 
+  val supportingContent = messages("penalisedProfessionalBody.subtitle")
+
   val form = new PenalisedProfessionalBodyFormProvider()()
 
   "PenalisedProfessionalBody view" must {
@@ -41,6 +43,6 @@ class PenalisedProfessionalBodyViewSpec extends YesNoViewBehaviours {
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like yesNoPage(form, applyView, messageKeyPrefix, routes.PenalisedProfessionalBodyController.onSubmit(NormalMode).url)
+    behave like yesNoPage(form, applyView, messageKeyPrefix, routes.PenalisedProfessionalBodyController.onSubmit(NormalMode).url, Some(supportingContent))
   }
 }

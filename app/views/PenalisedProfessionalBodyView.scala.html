@@ -16,16 +16,29 @@
 
 @import controllers.routes._
 @import models.Mode
+@import config.FrontendAppConfig
 
 @this(
-    main_template: MainTemplate,
-    formHelper: FormWithCSRF
+        main_template: MainTemplate,
+        formHelper: FormWithCSRF,
+        appConfig: FrontendAppConfig
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
+@supportingContent = {
+    <p>@Messages("penalisedProfessionalBody.subtitle")</p>
+        <ul class="list list-bullet">
+            <li>@Messages("penalisedProfessionalBody.fine")</li>
+            <li>@Messages("penalisedProfessionalBody.warning")</li>
+            <li>@Messages("penalisedProfessionalBody.suspension")</li>
+            <li>@Messages("penalisedProfessionalBody.expulsion")</li>
+            <li>@Messages("penalisedProfessionalBody.special")</li>
+        </ul>
+}
+
 @main_template(
-    title = s"${errorPrefix(form)} ${messages("penalisedProfessionalBody.title")}"
+    title = s"${errorPrefix(form)} ${messages("penalisedProfessionalBody.title")}" + " - " + messages("eab.title.extension")
     ) {
 
     @formHelper(action = PenalisedProfessionalBodyController.onSubmit(mode), 'autoComplete -> "off") {
@@ -34,12 +47,16 @@
 
         @components.error_summary(form.errors)
 
+        @components.page_heading("eab.heading")
+
         @components.input_yes_no(
             field = form("value"),
             legend = messages("penalisedProfessionalBody.heading"),
             headingIsLegend = true
-        )
+        )(supportingContent = supportingContent)
 
         @components.submit_button()
+
+        @components.anchor(appConfig = appConfig)
     }
 }

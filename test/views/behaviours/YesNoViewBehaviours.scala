@@ -24,11 +24,20 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
   def yesNoPage(form: Form[Boolean],
                 createView: Form[Boolean] => HtmlFormat.Appendable,
                 messageKeyPrefix: String,
-                expectedFormAction: String): Unit = {
+                expectedFormAction: String,
+                expectedSupportingContent: Option[String]): Unit = {
 
     "behave like a page with a Yes/No question" when {
 
       "rendered" must {
+
+        "contain supporting content for the question if provided" in {
+          if(expectedSupportingContent.nonEmpty) {
+            val doc = asDocument(createView(form))
+            val supportingContent = doc.getElementsContainingOwnText(messages(expectedSupportingContent.get))
+            supportingContent.size mustBe 1
+          }
+        }
 
         "contain a legend for the question" in {
 
@@ -88,7 +97,7 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
         "show an error prefix in the browser title" in {
 
           val doc = asDocument(createView(form.withError(error)))
-          assertEqualsValue(doc, "title", s"""${messages("error.browser.title.prefix")} ${messages(s"$messageKeyPrefix.title")}""")
+          assertEqualsValue(doc, "title", s"""${messages("error.browser.title.prefix")} ${messages(s"$messageKeyPrefix.title")} - Estate agency business - Manage your anti-money laundering supervision - GOV.UK""")
         }
       }
     }
