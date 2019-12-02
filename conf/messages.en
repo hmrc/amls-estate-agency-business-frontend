@@ -4,10 +4,11 @@ checkYourAnswers.guidance = Guidance for check your answers
 
 eab.heading = Estate agency business
 eab.title.extension = Estate agency business - Manage your anti-money laundering supervision - GOV.UK
-
+link.return.registration.progress = Return to about your business
 date.day = Day
 date.month = Month
 date.year = Year
+
 
 error.browser.title.prefix = Error:
 error.boolean = Please give an answer
@@ -85,7 +86,7 @@ penalisedEstateAgentsActDetail.error.required = Enter the penalty
 penalisedEstateAgentsActDetail.error.length = Input must be 255 characters or less
 
 penalisedProfessionalBody.title = Has the business, or anyone in the business, ever been penalised by a professional body for estate agency business activities?
-penalisedProfessionalBody.heading = Has the business, or anyone in the business, ever been penalised by a professional body for estate agency business activities?
+#penalisedProfessionalBody.heading = Has the business, or anyone in the business, ever been penalised by a professional body for estate agency business activities?
 penalisedProfessionalBody.checkYourAnswersLabel = Has the business, or anyone in the business, ever been penalised by a professional body for estate agency business activities?
 penalisedProfessionalBody.error.required = Select yes if the business, or anyone in the business, has ever been penalised by a professional body for estate agency business activities
 penalisedProfessionalBody.subtitle = Examples of a penalty include:

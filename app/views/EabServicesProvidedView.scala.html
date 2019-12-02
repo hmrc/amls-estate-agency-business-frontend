@@ -14,12 +14,14 @@
  * limitations under the License.
  *@
 
-@import controllers.routes.EabServicesProvidedController
-@import models.{Mode, EabServicesProvided}
+@import controllers.routes._
+@import models.Mode
+@import config.FrontendAppConfig
 
 @this(
-    main_template: MainTemplate,
-    formHelper: FormWithCSRF
+        main_template: MainTemplate,
+        formHelper: FormWithCSRF,
+        appConfig: FrontendAppConfig
 )
 
 @(form: Form[Seq[EabServicesProvided]], mode: Mode)(implicit request: Request[_], messages: Messages)
@@ -45,5 +47,7 @@
         )()
 
         @components.submit_button()
+
+        @components.anchor(appConfig = appConfig)
     }
 }
