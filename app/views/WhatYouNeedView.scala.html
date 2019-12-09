@@ -24,7 +24,7 @@
 @()(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${messages("whatYouNeed.title")} - Estate Agency Business - Manage your anti-money laundering supervision - GOV.UK"
+    title = s"${messages("whatYouNeed.title")} - Estate agency business - Manage your anti-money laundering supervision - GOV.UK"
     ) {
 
     @components.back_link()
@@ -32,6 +32,8 @@
     @components.page_heading("eab.heading")
 
     @components.heading("whatYouNeed.heading")
+
+    @components.user_attention_saving()
 
     <p>@Messages("whatYouNeed.heading2")</p>
 
