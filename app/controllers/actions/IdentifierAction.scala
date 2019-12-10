@@ -20,46 +20,82 @@ import com.google.inject.Inject
 import config.FrontendAppConfig
 import controllers.routes
 import models.requests.IdentifierRequest
+import play.api.Logger
 import play.api.mvc.Results._
 import play.api.mvc._
 import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
+import uk.gov.hmrc.auth.core.retrieve.~
 import uk.gov.hmrc.http.{HeaderCarrier, UnauthorizedException}
 import uk.gov.hmrc.play.HeaderCarrierConverter
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait IdentifierAction extends ActionBuilder[IdentifierRequest, AnyContent] with ActionFunction[Request, IdentifierRequest]
+trait IdentifierAction extends ActionBuilder[IdentifierRequest, AnyContent]
+
+final case class enrolmentNotFound(msg: String = "enrolmentNotFound") extends AuthorisationException(msg)
 
 class AuthenticatedIdentifierAction @Inject()(
                                                override val authConnector: AuthConnector,
                                                config: FrontendAppConfig,
                                                val parser: BodyParsers.Default
                                              )
-                                             (implicit val executionContext: ExecutionContext) extends IdentifierAction with AuthorisedFunctions {
+                                             (implicit val executionContext: ExecutionContext) extends IdentifierAction with AuthorisedFunctions with ActionRefiner[Request, IdentifierRequest] {
 
-  override def invokeBlock[A](request: Request[A], block: IdentifierRequest[A] => Future[Result]): Future[Result] = {
+  def unauthorisedUrl = routes.UnauthorisedController.onPageLoad().url
 
-    implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
+  // $COVERAGE-OFF$
+  def exceptionLogger(aex: AuthorisationException) = {
+    Logger.debug(s"AuthenticatedIdentifierAction:Refine - ${aex.getClass}: $aex")
+  }
+  def enrolmentMessage(message: String, parameters: Option[Enrolments]) = {
+    Logger.debug(message + parameters.getOrElse(""))
+  }
+  // $COVERAGE-ON$
 
-    authorised().retrieve(Retrievals.internalId) {
-      _.map {
-        internalId => block(IdentifierRequest(request, internalId))
-      }.getOrElse(throw new UnauthorizedException("Unable to retrieve internal Id"))
-    } recover {
-      case _: NoActiveSession =>
-        Redirect(config.loginUrl, Map("continue" -> Seq(config.loginContinueUrl)))
-      case _: AuthorisationException =>
-        Redirect(routes.UnauthorisedController.onPageLoad())
+  override protected def refine[A](request: Request[A]): Future[Either[Result, IdentifierRequest[A]]] = {
+
+    implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, None)
+
+    authorised(Admin).retrieve(Retrievals.allEnrolments and Retrievals.credentials and Retrievals.affinityGroup) {
+      case enrolments ~ Some(credentials) ~ affinityGroup =>
+        enrolmentMessage("AuthenticatedIdentifierAction:Refine - Enrolments:", Some(enrolments))
+        Future.successful(Right(IdentifierRequest(request, credentials.providerId, affinityGroup)))
+      case _ =>
+        enrolmentMessage("AuthenticatedIdentifierAction:Refine - Non match (enrolments ~ Some(credentials) ~ affinityGroup)", None)
+        Future.successful(Left(Redirect(Call("GET", config.loginUrl))))
+    }.recover[Either[Result, IdentifierRequest[A]]] {
+      case nas: NoActiveSession =>
+        exceptionLogger(nas)
+        Left(Redirect(Call("GET", config.loginUrl)))
+      case ie: InsufficientEnrolments =>
+        exceptionLogger(ie)
+        Left(Redirect(Call("GET", unauthorisedUrl)))
+      case icl: InsufficientConfidenceLevel =>
+        exceptionLogger(icl)
+        Left(Redirect(Call("GET", unauthorisedUrl)))
+      case uap: UnsupportedAuthProvider =>
+        exceptionLogger(uap)
+        Left(Redirect(Call("GET", unauthorisedUrl)))
+      case uag: UnsupportedAffinityGroup =>
+        exceptionLogger(uag)
+        Left(Redirect(Call("GET", unauthorisedUrl)))
+      case ucr: UnsupportedCredentialRole =>
+        exceptionLogger(ucr)
+        Left(Redirect(Call("GET", unauthorisedUrl)))
+      case enf: enrolmentNotFound =>
+        exceptionLogger(enf)
+        Left(Redirect(Call("GET", unauthorisedUrl)))
+      case e : AuthorisationException =>
+        exceptionLogger(e)
+        Left(Redirect(Call("GET", unauthorisedUrl)))
     }
   }
 }
 
-class SessionIdentifierAction @Inject()(
-                                         config: FrontendAppConfig,
-                                         val parser: BodyParsers.Default
-                                       )
-                                       (implicit val executionContext: ExecutionContext) extends IdentifierAction {
+class SessionIdentifierAction @Inject()(config: FrontendAppConfig,
+                                        val parser: BodyParsers.Default)
+                                       (implicit val executionContext: ExecutionContext) extends IdentifierAction with ActionFunction[Request, IdentifierRequest] {
 
   override def invokeBlock[A](request: Request[A], block: IdentifierRequest[A] => Future[Result]): Future[Result] = {
 

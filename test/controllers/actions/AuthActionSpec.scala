@@ -23,7 +23,7 @@ import play.api.mvc.{BodyParsers, Results}
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.authorise.Predicate
-import uk.gov.hmrc.auth.core.retrieve.Retrieval
+import uk.gov.hmrc.auth.core.retrieve.{Credentials, Retrieval, ~}
 import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -171,3 +171,50 @@ class FakeFailingAuthConnector @Inject()(exceptionToReturn: Throwable) extends A
   override def authorise[A](predicate: Predicate, retrieval: Retrieval[A])(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[A] =
     Future.failed(exceptionToReturn)
 }
+
+object AuthActionSpec {
+  private def fakeAuthConnector(stubbedRetrievalResult: Future[_]) = new AuthConnector {
+
+    def authorise[A](predicate: Predicate, retrieval: Retrieval[A])
+                    (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[A] = {
+      stubbedRetrievalResult.map(_.asInstanceOf[A])
+    }
+  }
+
+  val amlsRegistrationNumber = "XAML0000123456789"
+
+  val enrolments = Enrolments(Set(
+    Enrolment("HMCE-VATVAR-ORG", Seq(EnrolmentIdentifier("VATRegNo", "000000000")), "Activated"),
+    Enrolment("HMRC-MLR-ORG", Seq(EnrolmentIdentifier("MLRRefNumber", amlsRegistrationNumber)), "Activated")
+  ))
+  private def orgAuthRetrievals = Future.successful(
+    new ~ (new ~(enrolments, Some(Credentials("gg", "cred-1234"))), Some(AffinityGroup.Organisation))
+  )
+
+  val enrolmentsSa = Enrolments(Set(
+    Enrolment("HMCE-VATVAR-ORG", Seq(EnrolmentIdentifier("VATRegNo", "000000000")), "Activated"),
+    Enrolment("HMRC-MLR-ORG", Seq(EnrolmentIdentifier("MLRRefNumber", amlsRegistrationNumber)), "Activated"),
+    Enrolment("IR-SA", Seq(EnrolmentIdentifier("UTR", "saRef")), "Activated")
+  ))
+  private def agentSaAuthRetrievals = Future.successful(
+    new ~ (new~(enrolmentsSa, Some(Credentials("gg", "cred-1234"))), Some(AffinityGroup.Agent))
+  )
+
+  val enrolmentsCt = Enrolments(Set(
+    Enrolment("HMCE-VATVAR-ORG", Seq(EnrolmentIdentifier("VATRegNo", "000000000")), "Activated"),
+    Enrolment("HMRC-MLR-ORG", Seq(EnrolmentIdentifier("MLRRefNumber", amlsRegistrationNumber)), "Activated"),
+    Enrolment("IR-CT", Seq(EnrolmentIdentifier("UTR", "ctRef")), "Activated")
+  ))
+  private def agentCtAuthRetrievals = Future.successful(
+    new ~ (new ~(enrolmentsCt, Some(Credentials("gg", "cred-1234"))), Some(AffinityGroup.Agent))
+  )
+
+  private def emptyAuthRetrievals = Future.successful(
+    new ~(new ~(Enrolments(Set()), None), None)
+  )
+
+  private def erroneousRetrievals = Future.successful(
+    new ~(new ~(Enrolments(Set()), None), Some(AffinityGroup.Organisation))
+  )
+}
+
