@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryClientMoneyProtectionSchemePage: Arbitrary[ClientMoneyProtectionSchemePage.type] =
+    Arbitrary(ClientMoneyProtectionSchemePage)
+
   implicit lazy val arbitraryRedressSchemeDetailPage: Arbitrary[RedressSchemeDetailPage.type] =
     Arbitrary(RedressSchemeDetailPage)
 

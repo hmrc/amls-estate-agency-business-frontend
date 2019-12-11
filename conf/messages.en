@@ -122,3 +122,8 @@ redressSchemeDetail.content = A redress scheme resolves disputes between an esta
 redressSchemeDetail.checkYourAnswersLabel = What other redress scheme is your business registered with?
 redressSchemeDetail.error.required = Enter a redress scheme
 redressSchemeDetail.error.length = RedressSchemeDetail must be 256 characters or less
+
+clientMoneyProtectionScheme.title = clientMoneyProtectionScheme
+clientMoneyProtectionScheme.heading = clientMoneyProtectionScheme
+clientMoneyProtectionScheme.checkYourAnswersLabel = clientMoneyProtectionScheme
+clientMoneyProtectionScheme.error.required = Select yes if clientMoneyProtectionScheme

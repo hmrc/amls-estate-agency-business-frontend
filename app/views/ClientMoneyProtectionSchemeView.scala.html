@@ -1,0 +1,29 @@
+@import controllers.routes._
+@import models.Mode
+
+@this(
+    main_template: MainTemplate,
+    formHelper: FormWithCSRF
+)
+
+@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+
+@main_template(
+    title = s"${errorPrefix(form)} ${messages("clientMoneyProtectionScheme.title")}"
+    ) {
+
+    @formHelper(action = ClientMoneyProtectionSchemeController.onSubmit(mode), 'autoComplete -> "off") {
+
+        @components.back_link()
+
+        @components.error_summary(form.errors)
+
+        @components.input_yes_no(
+            field = form("value"),
+            legend = messages("clientMoneyProtectionScheme.heading"),
+            headingIsLegend = true
+        )
+
+        @components.submit_button()
+    }
+}

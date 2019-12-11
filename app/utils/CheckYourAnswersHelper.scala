@@ -28,6 +28,15 @@ import CheckYourAnswersHelper._
 
 class CheckYourAnswersHelper(userAnswers: UserAnswers)(implicit messages: Messages) {
 
+  def clientMoneyProtectionScheme: Option[AnswerRow] = userAnswers.get(ClientMoneyProtectionSchemePage) map {
+    x =>
+      AnswerRow(
+        HtmlFormat.escape(messages("clientMoneyProtectionScheme.checkYourAnswersLabel")),
+        yesOrNo(x),
+        routes.ClientMoneyProtectionSchemeController.onPageLoad(CheckMode).url
+      )
+  }
+
   def redressSchemeDetail: Option[AnswerRow] = userAnswers.get(RedressSchemeDetailPage) map {
     x =>
       AnswerRow(
