@@ -31,6 +31,8 @@ import uk.gov.hmrc.play.HeaderCarrierConverter
 
 import scala.concurrent.{ExecutionContext, Future}
 
+//TODO: Below need to be updated to have same structure like in AMP when connecting to AMLS FE
+
 trait IdentifierAction extends ActionBuilder[IdentifierRequest, AnyContent]
 
 final case class enrolmentNotFound(msg: String = "enrolmentNotFound") extends AuthorisationException(msg)
@@ -92,6 +94,8 @@ class AuthenticatedIdentifierAction @Inject()(
     }
   }
 }
+
+//TODO: Below need to be removed when connecting to AMLS FE
 
 class SessionIdentifierAction @Inject()(config: FrontendAppConfig,
                                         val parser: BodyParsers.Default)

@@ -31,7 +31,7 @@ class AMLSConnector @Inject()(config: Configuration,
                              (implicit ec: ExecutionContext) {
 
   private val baseUrl                 = config.get[Service]("microservice.services.amls-frontend")
-  private[connectors] val url: String = s"$baseUrl/amp"
+  private[connectors] val url: String = s"$baseUrl/eab"
 
   def get(id: String)(implicit hc: HeaderCarrier): Future[Option[JsObject]] = {
     val getUrl = s"$url/$id"
