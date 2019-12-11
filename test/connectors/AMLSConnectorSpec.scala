@@ -41,11 +41,11 @@ class AMLSConnectorSpec extends SpecBase with MockitoSugar {
   val answers       = UserAnswers("id").set(EabServicesProvidedPage,  Seq(Auctioneering)).success.value
 
   val completeData  = Json.obj(
-    "typeOfParticipant"            -> Seq("artGalleryOwner"),
-    "boughtOrSoldOverThreshold"    -> true,
-    "dateTransactionOverThreshold" -> LocalDate.now,
-    "identifyLinkedTransactions"   -> true,
-    "percentageExpectedTurnover"   -> "fortyOneToSixty"
+    "eabServicesProvided"            -> Seq("businessTransfer"),
+    "redressScheme"    -> "other",
+    "redressSchemeDetail" -> "other redress scheme",
+    "penalisedEstateAgentsAct"   -> false,
+    "penalisedProfessionalBody"   -> false
   )
 
   val completeJson  = Json.obj(
