@@ -18,6 +18,7 @@ package controllers.actions
 
 import base.SpecBase
 import com.google.inject.Inject
+import controllers.actions.AuthActionSpec.{agentCtAuthRetrievals, agentSaAuthRetrievals, emptyAuthRetrievals, fakeAuthConnector, orgAuthRetrievals}
 import controllers.routes
 import play.api.mvc.{BodyParsers, Results}
 import play.api.test.Helpers._
@@ -160,6 +161,103 @@ class AuthActionSpec extends SpecBase {
         status(result) mustBe SEE_OTHER
 
         redirectLocation(result) mustBe Some(routes.UnauthorisedController.onPageLoad().url)
+      }
+    }
+
+    "AffinityGroup is Organisation" when {
+      "the user has valid credentials" must {
+        "return successful result" in {
+          val application = applicationBuilder(userAnswers = None).build()
+
+          val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
+
+          val authAction = new AuthenticatedIdentifierAction(fakeAuthConnector(orgAuthRetrievals), frontendAppConfig, bodyParsers)
+          val controller = new Harness(authAction)
+          val result = controller.onPageLoad()(fakeRequest)
+
+          status(result) mustBe OK
+        }
+      }
+    }
+
+    "AffinityGroup is not Organisation" when {
+      "the user has valid credentials for sa" must {
+        "return successful result" in {
+          val application = applicationBuilder(userAnswers = None).build()
+
+          val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
+
+          val authAction = new AuthenticatedIdentifierAction(fakeAuthConnector(agentSaAuthRetrievals), frontendAppConfig, bodyParsers)
+          val controller = new Harness(authAction)
+          val result = controller.onPageLoad()(fakeRequest)
+
+          status(result) mustBe OK
+        }
+      }
+
+      "the user has valid credentials for ct" must {
+        "return successful result" in {
+          val application = applicationBuilder(userAnswers = None).build()
+
+          val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
+
+          val authAction = new AuthenticatedIdentifierAction(fakeAuthConnector(agentCtAuthRetrievals), frontendAppConfig, bodyParsers)
+          val controller = new Harness(authAction)
+          val result = controller.onPageLoad()(fakeRequest)
+
+          status(result) mustBe OK
+        }
+      }
+
+      "there is no match in retrievals" must {
+        "redirect to login" in {
+          val application = applicationBuilder(userAnswers = None).build()
+
+          val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
+
+          val authAction = new AuthenticatedIdentifierAction(fakeAuthConnector(emptyAuthRetrievals), frontendAppConfig, bodyParsers)
+          val controller = new Harness(authAction)
+          val result = controller.onPageLoad()(fakeRequest)
+
+          status(result) mustBe SEE_OTHER
+
+          redirectLocation(result).get must startWith(frontendAppConfig.loginUrl)
+        }
+      }
+
+      "there is no enrolments" must {
+        "redirect to unauthorised page" in {
+          val application = applicationBuilder(userAnswers = None).build()
+
+          val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
+
+          val authAction = new AuthenticatedIdentifierAction(new FakeFailingAuthConnector(new enrolmentNotFound), frontendAppConfig, bodyParsers)
+          val controller = new Harness(authAction)
+          val result = controller.onPageLoad()(fakeRequest)
+
+          status(result) mustBe SEE_OTHER
+
+          redirectLocation(result) mustBe Some(routes.UnauthorisedController.onPageLoad().url)
+        }
+      }
+
+      "any other exception thrown" must {
+        "redirect to unauthorised page" in {
+
+          final case class OtherException(msg: String = "otherException") extends AuthorisationException(msg)
+
+          val application = applicationBuilder(userAnswers = None).build()
+
+          val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
+
+          val authAction = new AuthenticatedIdentifierAction(new FakeFailingAuthConnector(new OtherException()), frontendAppConfig, bodyParsers)
+          val controller = new Harness(authAction)
+          val result = controller.onPageLoad()(fakeRequest)
+
+          status(result) mustBe SEE_OTHER
+
+          redirectLocation(result) mustBe Some(routes.UnauthorisedController.onPageLoad().url)
+        }
       }
     }
   }
