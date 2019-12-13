@@ -109,7 +109,7 @@ class Navigator @Inject()() {
 
   private def redressSchemeRouteCheckMode(answers: UserAnswers): Call = {
     answers.get(EabServicesProvidedPage) map { ans =>
-      ans.contains(Residential) match {
+      ans.contains(Residential) || ans.contains(Lettings) match {
         case true => routes.RedressSchemeController.onPageLoad(CheckMode)
         case _    => routes.CheckYourAnswersController.onPageLoad
       }

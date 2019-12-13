@@ -157,6 +157,13 @@ class NavigatorSpec extends SpecBase {
           .mustBe(routes.RedressSchemeController.onPageLoad(CheckMode))
       }
 
+      "go from which services to redress scheme if lettings" in {
+        val answers = UserAnswers("someid").set(EabServicesProvidedPage, Seq(Lettings)).success.value
+
+        navigator.nextPage(EabServicesProvidedPage, CheckMode, answers)
+          .mustBe(routes.RedressSchemeController.onPageLoad(CheckMode))
+      }
+
       "go from which services to Check Your Answers if not residential" in {
         val answers = UserAnswers("someid").set(EabServicesProvidedPage, Seq(AssetManagement)).success.value
 
