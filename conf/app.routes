@@ -49,7 +49,7 @@ POST       /redress-scheme-detail                               controllers.Redr
 GET        /change-redress-scheme-detail                        controllers.RedressSchemeDetailController.onPageLoad(mode: Mode = CheckMode)
 POST       /change-redress-scheme-detail                        controllers.RedressSchemeDetailController.onSubmit(mode: Mode = CheckMode)
 
-GET        /clientMoneyProtectionScheme                        controllers.ClientMoneyProtectionSchemeController.onPageLoad(mode: Mode = NormalMode)
-POST       /clientMoneyProtectionScheme                        controllers.ClientMoneyProtectionSchemeController.onSubmit(mode: Mode = NormalMode)
-GET        /changeClientMoneyProtectionScheme                  controllers.ClientMoneyProtectionSchemeController.onPageLoad(mode: Mode = CheckMode)
-POST       /changeClientMoneyProtectionScheme                  controllers.ClientMoneyProtectionSchemeController.onSubmit(mode: Mode = CheckMode)
+GET        /client-money-protection-scheme                      controllers.ClientMoneyProtectionSchemeController.onPageLoad(mode: Mode = NormalMode)
+POST       /client-money-protection-scheme                      controllers.ClientMoneyProtectionSchemeController.onSubmit(mode: Mode = NormalMode)
+GET        /change-client-money-protection-scheme               controllers.ClientMoneyProtectionSchemeController.onPageLoad(mode: Mode = CheckMode)
+POST       /change-client-money-protection-scheme               controllers.ClientMoneyProtectionSchemeController.onSubmit(mode: Mode = CheckMode)

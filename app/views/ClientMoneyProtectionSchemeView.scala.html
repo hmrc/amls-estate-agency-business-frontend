@@ -16,13 +16,19 @@
 
 @import controllers.routes._
 @import models.Mode
+@import config.FrontendAppConfig
 
 @this(
     main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    formHelper: FormWithCSRF,
+    appConfig: FrontendAppConfig
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+
+@supportingContent = {
+    <p>@messages("clientMoneyProtectionScheme.content")</p>
+}
 
 @main_template(
     title = s"${errorPrefix(form)} ${messages("clientMoneyProtectionScheme.title")}" + " - " + messages("eab.title.extension")
@@ -40,8 +46,10 @@
             field = form("value"),
             legend = messages("clientMoneyProtectionScheme.heading"),
             headingIsLegend = true
-        )()
+        )(supportingContent = supportingContent)
 
         @components.submit_button()
+
+        @components.anchor(appConfig = appConfig)
     }
 }

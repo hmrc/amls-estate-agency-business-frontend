@@ -19,7 +19,7 @@ package navigation
 import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import controllers.routes
-import models.EabServicesProvided.Residential
+import models.EabServicesProvided.{Lettings, Residential}
 import models.RedressScheme.Other
 import pages._
 import models._
@@ -33,7 +33,7 @@ class Navigator @Inject()() {
 
   What you need =>
   Which services =>
-    (If Residential) Redress Scheme =>
+    (If Residential or Lettings) Redress Scheme =>
       (If Other) Redress Scheme Detail =>
   Penalised Estate Agents Act =>
     (If penalised) Penalised Estate Agents Act Details =>
@@ -45,7 +45,8 @@ class Navigator @Inject()() {
   private val normalRoutes: Page => UserAnswers => Call = {
     case EabServicesProvidedPage             =>      redressSchemeRoute
     case RedressSchemePage                   =>      redressSchemeDetailRoute
-    case RedressSchemeDetailPage             => _ => routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode)
+    case RedressSchemeDetailPage             =>      moneyProtectionSchemeRoute
+    case ClientMoneyProtectionSchemePage     => _ => routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode)
     case PenalisedEstateAgentsActPage        =>      penalisedEstateAgentsActDetailsRoute
     case PenalisedEstateAgentsActDetailPage  => _ => routes.PenalisedProfessionalBodyController.onPageLoad(NormalMode)
     case PenalisedProfessionalBodyPage       =>      penalisedProfessionalBodyDetailsRoute
@@ -55,7 +56,7 @@ class Navigator @Inject()() {
 
   private def redressSchemeRoute(answers: UserAnswers): Call = {
     answers.get(EabServicesProvidedPage) map { ans =>
-      ans.contains(Residential) match {
+      ans.contains(Residential) || ans.contains(Lettings) match {
         case true => routes.RedressSchemeController.onPageLoad(NormalMode)
         case _    => routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode)
       }
@@ -79,17 +80,26 @@ class Navigator @Inject()() {
   }
 
   private def redressSchemeDetailRoute(answers: UserAnswers): Call = {
-    answers.get(RedressSchemePage) match {
-      case Some(Other) => routes.RedressSchemeDetailController.onPageLoad(NormalMode)
-      case _           => routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode)
+    (answers.get(RedressSchemePage), answers.get(EabServicesProvidedPage)) match {
+      case (Some(Other), _) => routes.RedressSchemeDetailController.onPageLoad(NormalMode)
+      case (_, Some(services)) if services.contains(Lettings) => routes.ClientMoneyProtectionSchemeController.onPageLoad(NormalMode)
+      case _ => routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode)
+    }
+  }
+
+  private def moneyProtectionSchemeRoute(answers: UserAnswers): Call = {
+    answers.get(EabServicesProvidedPage) match {
+      case Some(services) if services.contains(Lettings) => routes.ClientMoneyProtectionSchemeController.onPageLoad(NormalMode)
+      case _        => routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode)
     }
   }
 
   private val checkRouteMap: Page => UserAnswers => Call = {
     case EabServicesProvidedPage             =>      redressSchemeRouteCheckMode
     case RedressSchemePage                   =>      redressSchemeDetailRouteCheckMode
-    case RedressSchemeDetailPage             => _ => routes.CheckYourAnswersController.onPageLoad()
+    case RedressSchemeDetailPage             =>      moneyProtectionSchemeRouteCheckMode
     case PenalisedEstateAgentsActPage        =>      penalisedEstateAgentsActDetailsRouteCheckMode
+    case ClientMoneyProtectionSchemePage     => _ => routes.CheckYourAnswersController.onPageLoad()
     case PenalisedEstateAgentsActDetailPage  => _ => routes.CheckYourAnswersController.onPageLoad()
     case PenalisedProfessionalBodyPage       =>      penalisedProfessionalBodyDetailsRouteCheckMode
     case PenalisedProfessionalBodyDetailPage => _ => routes.CheckYourAnswersController.onPageLoad()
@@ -105,9 +115,18 @@ class Navigator @Inject()() {
     }
   }.getOrElse(routes.SessionExpiredController.onPageLoad())
 
+  private def moneyProtectionSchemeRouteCheckMode(answers: UserAnswers): Call = {
+    answers.get(EabServicesProvidedPage) match {
+      case Some(services) if services.contains(Lettings) => routes.ClientMoneyProtectionSchemeController.onPageLoad(CheckMode)
+      case Some(_) => routes.PenalisedEstateAgentsActController.onPageLoad(CheckMode)
+      case _           => routes.CheckYourAnswersController.onPageLoad
+    }
+  }
+
   private def redressSchemeDetailRouteCheckMode(answers: UserAnswers): Call = {
     answers.get(RedressSchemePage) match {
       case Some(Other) => routes.RedressSchemeDetailController.onPageLoad(CheckMode)
+      case Some(_) if answers.get(EabServicesProvidedPage).exists(_.contains(Lettings)) => routes.ClientMoneyProtectionSchemeController.onPageLoad(CheckMode)
       case _           => routes.CheckYourAnswersController.onPageLoad
     }
   }
