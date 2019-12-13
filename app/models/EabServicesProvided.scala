@@ -28,6 +28,7 @@ object EabServicesProvided extends Enumerable.Implicits {
   case object Commercial extends WithName("commercial") with EabServicesProvided
   case object DevelopmentCompany extends WithName("developmentCompany") with EabServicesProvided
   case object LandManagement extends WithName("landManagement") with EabServicesProvided
+  case object Lettings extends WithName("lettings") with EabServicesProvided
   case object Relocation extends WithName("relocation") with EabServicesProvided
   case object Residential extends WithName("residential") with EabServicesProvided
   case object SocialHousingProvision extends WithName("socialHousingProvision") with EabServicesProvided
@@ -39,6 +40,7 @@ object EabServicesProvided extends Enumerable.Implicits {
     Commercial,
     DevelopmentCompany,
     LandManagement,
+    Lettings,
     Relocation,
     Residential,
     SocialHousingProvision

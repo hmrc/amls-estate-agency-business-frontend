@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,10 +12,18 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@(messageKey: String = "site.save.continue")(implicit messages: Messages)
+package pages
 
-<div class="section">
- <button id="submit" name="submit" class="button">@messages(messageKey)</button>
-</div>
+import models.UserAnswers
+import play.api.libs.json.JsPath
+
+import scala.util.Try
+
+case object ClientMoneyProtectionSchemePage extends QuestionPage[Boolean] {
+
+  override def path: JsPath = JsPath \ toString
+
+  override def toString: String = "clientMoneyProtectionScheme"
+}

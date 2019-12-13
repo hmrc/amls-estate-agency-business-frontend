@@ -43,6 +43,7 @@ class CheckYourAnswersController @Inject()(
         checkYourAnswersHelper.eabServicesProvided,
         checkYourAnswersHelper.redressScheme,
         checkYourAnswersHelper.redressSchemeDetail,
+        checkYourAnswersHelper.clientMoneyProtectionScheme,
         checkYourAnswersHelper.penalisedEstateAgentsAct,
         checkYourAnswersHelper.penalisedEstateAgentsActDetail,
         checkYourAnswersHelper.penalisedProfessionalBody,

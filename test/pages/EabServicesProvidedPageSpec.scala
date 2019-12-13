@@ -45,4 +45,18 @@ class EabServicesProvidedPageSpec extends PageBehaviours {
 
     updatedAnswers.get(RedressSchemePage) mustNot be(empty)
   }
+
+  "cleanup the ClientMoneyProtectionSchemePage value where not Lettings selected" in {
+    val answerQuestion = UserAnswers("someid").set(RedressSchemePage, OmbudsmanServices).success.value
+    val updatedAnswers = answerQuestion.set(EabServicesProvidedPage, Seq(AssetManagement)).success.value
+
+    updatedAnswers.get(ClientMoneyProtectionSchemePage) must be(empty)
+  }
+
+  "not cleanup the ClientMoneyProtectionSchemePage value where true selected" in {
+    val answerQuestion = UserAnswers("someid").set(ClientMoneyProtectionSchemePage, true).success.value
+    val updatedAnswers = answerQuestion.set(EabServicesProvidedPage, Seq(Lettings)).success.value
+
+    updatedAnswers.get(ClientMoneyProtectionSchemePage) mustNot be(empty)
+  }
 }
