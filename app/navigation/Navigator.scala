@@ -35,6 +35,7 @@ class Navigator @Inject()() {
   Which services =>
     (If Residential or Lettings) Redress Scheme =>
       (If Other) Redress Scheme Detail =>
+    (If Lettings) ClientMoneyProtectionScheme =>
   Penalised Estate Agents Act =>
     (If penalised) Penalised Estate Agents Act Details =>
   Penalised by Professional Body =>

@@ -28,21 +28,6 @@ case object EabServicesProvidedPage extends QuestionPage[Seq[EabServicesProvided
 
   override def toString: String = "eabServicesProvided"
 
-//  override def cleanup2(value: Option[Seq[EabServicesProvided]], userAnswers: UserAnswers): Try[UserAnswers] = {
-//    value map { ans =>
-//      ans.contains(Residential) match {
-//        case true => super.cleanup(value, userAnswers)
-//        case _ => {
-//          if (ans.contains(Lettings)) {
-//            userAnswers.remove(RedressSchemePage).flatMap(_.remove(ClientMoneyProtectionSchemePage))
-//          } else {
-//            userAnswers.remove(RedressSchemePage)
-//          }
-//        }
-//      }
-//    }
-//    }.getOrElse(super.cleanup(value, userAnswers))
-
   override def cleanup(value: Option[Seq[EabServicesProvided]], userAnswers: UserAnswers): Try[UserAnswers] = {
     value map { ans =>
       val cleanupResidential = ans.contains(Residential) match {

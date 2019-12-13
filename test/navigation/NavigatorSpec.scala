@@ -59,37 +59,20 @@ class NavigatorSpec extends SpecBase {
         val eabServices = UserAnswers("someid").set(EabServicesProvidedPage, Seq(Lettings)).success.value
         val answersRedress = eabServices.set(RedressSchemePage, Other).success.value
         val answersRedressOther = answersRedress.set(RedressSchemeDetailPage, "Other").success.value
-        println(answersRedressOther)
 
         navigator.nextPage(RedressSchemeDetailPage, NormalMode, answersRedressOther)
           .mustBe(routes.ClientMoneyProtectionSchemeController.onPageLoad(NormalMode))
       }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       "go from which services to redress scheme if residential" in {
         val answers = UserAnswers("someid").set(EabServicesProvidedPage, Seq(Residential)).success.value
+
+        navigator.nextPage(EabServicesProvidedPage, NormalMode, answers)
+          .mustBe(routes.RedressSchemeController.onPageLoad(NormalMode))
+      }
+
+      "go from which services to redress scheme if lettings" in {
+        val answers = UserAnswers("someid").set(EabServicesProvidedPage, Seq(Lettings)).success.value
 
         navigator.nextPage(EabServicesProvidedPage, NormalMode, answers)
           .mustBe(routes.RedressSchemeController.onPageLoad(NormalMode))
