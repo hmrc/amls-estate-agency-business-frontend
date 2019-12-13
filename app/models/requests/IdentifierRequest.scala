@@ -17,5 +17,7 @@
 package models.requests
 
 import play.api.mvc.{Request, WrappedRequest}
+import uk.gov.hmrc.auth.core.AffinityGroup
 
-case class IdentifierRequest[A] (request: Request[A], identifier: String) extends WrappedRequest[A](request)
+//TODO: This to be updated to version in AMP when connecting to AMLS FE
+case class IdentifierRequest[A] (request: Request[A], identifier: String, affinityGroup: Option[AffinityGroup] = None) extends WrappedRequest[A](request)

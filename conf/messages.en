@@ -50,10 +50,12 @@ site.acceptandcomplete = Accept and complete section
 
 whatYouNeed.title = What you need
 whatYouNeed.heading = What you need
-whatYouNeed.heading2 = In this section you’ll be asked things like:
-whatYouNeed.line_1 = which estate agency services you provide
-whatYouNeed.line_2 = if you’re registered with a redress scheme
-whatYouNeed.line_3 = if your business has been penalised in the past
+whatYouNeed.heading2 = In this section you’ll need to tell us:
+whatYouNeed.heading3 = You may need to tell us:
+whatYouNeed.line_1 = which services your business provides
+whatYouNeed.line_2 = if your business has been penalised under the Estate Agents Act or by a professional body
+whatYouNeed.line_3 = your redress scheme
+whatYouNeed.line_4 = if your business is registered with a client money protection scheme
 whatYouNeed.continue = Continue
 whatYouNeed.attention.title = Automatic saving
 whatYouNeed.attention.information = Information is saved automatically. If you sign out, you’ll have 28 days to complete your application.
