@@ -48,6 +48,9 @@ site.selectAll.hint = Select all that apply.
 site.255.hint = Enter 255 characters or less.
 site.acceptandcomplete = Accept and complete section
 
+site.service_name = Manage your anti-money laundering supervision
+site.signout = Sign out
+
 whatYouNeed.title = What you need
 whatYouNeed.heading = What you need
 whatYouNeed.heading2 = In this section you’ll need to tell us:

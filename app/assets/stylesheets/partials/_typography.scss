@@ -19,6 +19,11 @@ line-height:1.25;
 font-weight:300;
 text-transform:none
 }
+
+h1.heading-xlarge {
+    margin: .15em 0 1.25em;
+}
+
 @media (max-width: 640px){
 p.font-xsmall{
   font-size:14px;
