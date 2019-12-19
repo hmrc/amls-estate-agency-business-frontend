@@ -36,7 +36,7 @@ class NavigatorSpec extends SpecBase {
 
       "go from redress scheme to Penalised Estate Agents Act if residential" in {
         val eabServices = UserAnswers("someid").set(EabServicesProvidedPage, Seq(Residential)).success.value
-        val answersRedress = eabServices.set(RedressSchemePage, OmbudsmanServices).success.value
+        val answersRedress = eabServices.set(RedressSchemePage, ThePropertyOmbudsman).success.value
 
         navigator.nextPage(RedressSchemePage, NormalMode, answersRedress)
           .mustBe(routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode))
@@ -44,7 +44,7 @@ class NavigatorSpec extends SpecBase {
 
       "go from redress scheme to Money Protection Scheme if lettings" in {
         val eabServices = UserAnswers("someid").set(EabServicesProvidedPage, Seq(Lettings)).success.value
-        val answersRedress = eabServices.set(RedressSchemePage, OmbudsmanServices).success.value
+        val answersRedress = eabServices.set(RedressSchemePage, ThePropertyOmbudsman).success.value
 
         navigator.nextPage(RedressSchemePage, NormalMode, answersRedress)
           .mustBe(routes.ClientMoneyProtectionSchemeController.onPageLoad(NormalMode))
@@ -53,15 +53,6 @@ class NavigatorSpec extends SpecBase {
       "go from Money Protection Scheme to Penalised Estate Agents Act" in {
         navigator.nextPage(ClientMoneyProtectionSchemePage, NormalMode, UserAnswers("someid"))
           .mustBe(routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode))
-      }
-
-      "go from redress scheme detail to Money Protection Scheme if lettings" in {
-        val eabServices = UserAnswers("someid").set(EabServicesProvidedPage, Seq(Lettings)).success.value
-        val answersRedress = eabServices.set(RedressSchemePage, Other).success.value
-        val answersRedressOther = answersRedress.set(RedressSchemeDetailPage, "Other").success.value
-
-        navigator.nextPage(RedressSchemeDetailPage, NormalMode, answersRedressOther)
-          .mustBe(routes.ClientMoneyProtectionSchemeController.onPageLoad(NormalMode))
       }
 
       "go from which services to redress scheme if residential" in {
@@ -85,22 +76,10 @@ class NavigatorSpec extends SpecBase {
           .mustBe(routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode))
       }
 
-      "go from redress scheme to redress scheme detail if redress scheme other" in {
-        val answers = UserAnswers("someid").set(RedressSchemePage, Other).success.value
-
-        navigator.nextPage(RedressSchemePage, NormalMode, answers)
-          .mustBe(routes.RedressSchemeDetailController.onPageLoad(NormalMode))
-      }
-
       "go from redress scheme to Penalised Estate Agents Act if redress scheme not other" in {
-        val answers = UserAnswers("someid").set(RedressSchemePage, OmbudsmanServices).success.value
+        val answers = UserAnswers("someid").set(RedressSchemePage, ThePropertyOmbudsman).success.value
 
         navigator.nextPage(RedressSchemePage, NormalMode, answers)
-          .mustBe(routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode))
-      }
-
-      "go from redress scheme detail to Penalised Estate Agents Act" in {
-        navigator.nextPage(RedressSchemeDetailPage, NormalMode, UserAnswers("someid"))
           .mustBe(routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode))
       }
 
@@ -171,22 +150,10 @@ class NavigatorSpec extends SpecBase {
           .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
 
-      "go from redress scheme to redress scheme detail if redress scheme other" in {
-        val answers = UserAnswers("someid").set(RedressSchemePage, Other).success.value
-
-        navigator.nextPage(RedressSchemePage, CheckMode, answers)
-          .mustBe(routes.RedressSchemeDetailController.onPageLoad(CheckMode))
-      }
-
       "go from redress scheme to Check Your Answers if redress scheme not other" in {
-        val answers = UserAnswers("someid").set(RedressSchemePage, OmbudsmanServices).success.value
+        val answers = UserAnswers("someid").set(RedressSchemePage, ThePropertyOmbudsman).success.value
 
         navigator.nextPage(RedressSchemePage, CheckMode, answers)
-          .mustBe(routes.CheckYourAnswersController.onPageLoad())
-      }
-
-      "go from redress scheme detail toCheck your answers" in {
-        navigator.nextPage(RedressSchemeDetailPage, CheckMode, UserAnswers("someid"))
           .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
 

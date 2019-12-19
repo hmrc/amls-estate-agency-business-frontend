@@ -16,7 +16,6 @@
 
 package pages
 
-import models.RedressScheme.Other
 import models.{RedressScheme, UserAnswers}
 import play.api.libs.json.JsPath
 
@@ -27,11 +26,4 @@ case object RedressSchemePage extends QuestionPage[RedressScheme] {
   override def path: JsPath = JsPath \ toString
 
   override def toString: String = "redressScheme"
-
-  override def cleanup(value: Option[RedressScheme], userAnswers: UserAnswers): Try[UserAnswers] = {
-    value match {
-        case Some(Other) => super.cleanup(value, userAnswers)
-        case _ => userAnswers.remove(RedressSchemeDetailPage)
-      }
-    }
 }

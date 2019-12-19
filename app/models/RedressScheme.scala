@@ -23,17 +23,13 @@ sealed trait RedressScheme
 object RedressScheme extends Enumerable.Implicits {
 
   case object NotRegistered extends WithName("notRegistered") with RedressScheme
-  case object OmbudsmanServices extends WithName("ombudsmanServices") with RedressScheme
   case object PropertyRedressScheme extends WithName("propertyRedressScheme") with RedressScheme
-  case object PropertyOmbudsmanLimited extends WithName("propertyOmbudsmanLimited") with RedressScheme
-  case object Other extends WithName("other") with RedressScheme
+  case object ThePropertyOmbudsman extends WithName("propertyOmbudsman") with RedressScheme
 
   val values: Seq[RedressScheme] = Seq(
     NotRegistered,
-    OmbudsmanServices,
     PropertyRedressScheme,
-    PropertyOmbudsmanLimited,
-    Other
+    ThePropertyOmbudsman
   )
 
   val options: Seq[RadioOption] = values.map {
