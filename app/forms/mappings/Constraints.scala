@@ -22,6 +22,8 @@ import play.api.data.validation.{Constraint, Invalid, Valid}
 
 trait Constraints {
 
+  private val basicPunctuationRegex = "^[a-zA-Z0-9\u00C0-\u00FF !#$%&'‘’\"“”«»()*+,./:;=?@\\[\\]|~£€¥\\u005C\u2014\u2013\u2010\u005F\u005E\u0060\u000A\u000D\u002d]+$"
+
   protected def firstError[A](constraints: Constraint[A]*): Constraint[A] =
     Constraint {
       input =>
@@ -76,6 +78,14 @@ trait Constraints {
         Valid
       case _ =>
         Invalid(errorKey, regex)
+    }
+
+  protected def basicPunctuation(errorKey: String): Constraint[String] =
+    Constraint {
+      case str if str.matches(basicPunctuationRegex) =>
+        Valid
+      case _ =>
+        Invalid(errorKey, basicPunctuationRegex)
     }
 
   protected def maxLength(maximum: Int, errorKey: String): Constraint[String] =
