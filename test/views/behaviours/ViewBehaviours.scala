@@ -37,19 +37,16 @@ trait ViewBehaviours extends ViewSpecBase {
         }
 
         "display the correct browser title" in {
-
           val doc = asDocument(view)
           assertTitleEqualsMessage(doc, "title", s"$messageKeyPrefix.title")
         }
 
         "display the correct page title" in {
-
           val doc = asDocument(view)
           assertPageTitleEqualsMessage(doc, s"$messageKeyPrefix.heading")
         }
 
         "display the correct guidance" in {
-
           val doc = asDocument(view)
           for (key <- expectedGuidanceKeys) assertContainsText(doc, messages(s"$messageKeyPrefix.$key"))
         }
@@ -60,9 +57,7 @@ trait ViewBehaviours extends ViewSpecBase {
   def pageWithBackLink(view: HtmlFormat.Appendable): Unit = {
 
     "behave like a page with a back link" must {
-
       "have a back link" in {
-
         val doc = asDocument(view)
         assertRenderedById(doc, "back-link")
       }

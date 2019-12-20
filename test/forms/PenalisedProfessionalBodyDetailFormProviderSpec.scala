@@ -23,6 +23,7 @@ class PenalisedProfessionalBodyDetailFormProviderSpec extends StringFieldBehavio
 
   val requiredKey = "penalisedProfessionalBodyDetail.error.required"
   val lengthKey = "penalisedProfessionalBodyDetail.error.length"
+  val punctuationKey = "penalisedProfessionalBodyDetail.error.punctuation"
   val maxLength = 255
 
   val form = new PenalisedProfessionalBodyDetailFormProvider()()
@@ -37,11 +38,12 @@ class PenalisedProfessionalBodyDetailFormProviderSpec extends StringFieldBehavio
       stringsWithMaxLength(maxLength)
     )
 
-    behave like fieldWithMaxLength(
+    behave like fieldWithMaxLengthAndPunctuation(
       form,
       fieldName,
       maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+      lengthError = FormError(fieldName, lengthKey, Seq(maxLength)),
+      punctuationError = FormError(fieldName, punctuationKey)
     )
 
     behave like mandatoryField(
