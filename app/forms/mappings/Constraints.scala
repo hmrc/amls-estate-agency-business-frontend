@@ -85,7 +85,7 @@ trait Constraints {
       case str if str.matches(basicPunctuationRegex) =>
         Valid
       case _ =>
-        Invalid(errorKey, basicPunctuationRegex)
+        Invalid(errorKey)
     }
 
   protected def maxLength(maximum: Int, errorKey: String): Constraint[String] =

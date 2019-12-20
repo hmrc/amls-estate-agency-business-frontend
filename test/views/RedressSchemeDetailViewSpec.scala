@@ -41,6 +41,6 @@ class RedressSchemeDetailViewSpec extends StringViewBehaviours {
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like stringPage(form, applyView, messageKeyPrefix, routes.RedressSchemeDetailController.onSubmit(NormalMode).url)
+    behave like textfieldPage(form, applyView, messageKeyPrefix, routes.RedressSchemeDetailController.onSubmit(NormalMode).url)
   }
 }

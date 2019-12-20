@@ -23,6 +23,7 @@ class PenalisedEstateAgentsActDetailFormProviderSpec extends StringFieldBehaviou
 
   val requiredKey = "penalisedEstateAgentsActDetail.error.required"
   val lengthKey = "penalisedEstateAgentsActDetail.error.length"
+  val punctuationKey = "penalisedEstateAgentsActDetail.error.punctuation"
   val maxLength = 255
 
   val form = new PenalisedEstateAgentsActDetailFormProvider()()
@@ -37,11 +38,12 @@ class PenalisedEstateAgentsActDetailFormProviderSpec extends StringFieldBehaviou
       stringsWithMaxLength(maxLength)
     )
 
-    behave like fieldWithMaxLength(
+    behave like fieldWithMaxLengthAndPunctuation(
       form,
       fieldName,
       maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+      lengthError = FormError(fieldName, lengthKey, Seq(maxLength)),
+      punctuationError = FormError(fieldName, punctuationKey)
     )
 
     behave like mandatoryField(
