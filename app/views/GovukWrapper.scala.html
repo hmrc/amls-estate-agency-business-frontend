@@ -27,7 +27,8 @@
     footer_links: FooterLinks,
     main_content: MainContent,
     reportAProblemLink: ReportAProblemLink,
-    hmrcGovUkTemplate: GovUkTemplate
+    hmrcGovUkTemplate: GovUkTemplate,
+    betaBanner: BetaBanner
 )
 
 @(appConfig: config.FrontendAppConfig,
@@ -64,25 +65,7 @@
       navLinks = Some(headerNavLinks))
 }
 
-@URRBanner = {
-<div id="full-width-banner" class="full-width-banner no-print">
-    <section class="centered-content visible full-width-banner__container" aria-hidden="false">
-        <div class="full-width-banner__title">
-            @Messages("urr.title")
-        </div>
-        <a href="https://signup.take-part-in-research.service.gov.uk/?utm_campaign=AMLSbanner&utm_source=Other&utm_medium=gov.uk%20survey&t=HMRC&id=63" target="_blank">
-            @Messages("urr.bannertext")
-        </a>
-        <a class="full-width-banner__close" href="#" role="button">
-                <span aria-hidden="true">
-                    @Messages("urr.nothanks")
-                </span>
-        </a>
-    </section>
-</div>
-}
-
-@afterHeader = { @URRBanner }
+@afterHeader = { }
 
 @bodyEnd = {
     @footer(
@@ -97,9 +80,17 @@
 @footerTop = {}
 @footerLinks = {}
 
+@beta = {
+    @betaBanner(
+        userLoggedIn = userLoggedIn,
+        betaFeedbackUrl = appConfig.betaFeedbackUrl,
+        betaFeedbackUnauthenticatedUrl = appConfig.betaFeedbackUnauthenticatedUrl,
+        showFeedbackLinkInBetaBanner = true)
+}
+
 @serviceInfoBlock = {
     @serviceInfo(
-      betaBanner = HtmlFormat.empty,
+      betaBanner = beta,
       includeHMRCBranding = false,
       includeGridWrapper = false,
       serviceInfoContent = Some(serviceInfoContent))
