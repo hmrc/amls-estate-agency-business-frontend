@@ -19,13 +19,21 @@ line-height:1.25;
 font-weight:300;
 text-transform:none
 }
+
+h1.heading-xlarge, h1.form-label {
+    margin: 0.15em 0 1.25em;
+}
+
+label.heading-xlarge {
+    margin: 0.15em 0 0.5em 0;
+}
+
 @media (max-width: 640px){
 p.font-xsmall{
   font-size:14px;
   line-height:1.14286
   }
 }
-
 
 /*give some space to the hero*/
 .hero {

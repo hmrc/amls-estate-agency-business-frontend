@@ -26,9 +26,11 @@
     title = messages("checkYourAnswers.title")
     ) {
 
-    @components.heading("checkYourAnswers.heading")
+    <br/>
 
-    <p>@messages("checkYourAnswers.guidance")</p>
+    @components.page_heading("eab.heading")
+
+    @components.heading("checkYourAnswers.heading")
 
     @for(section <- answerSections){
         @{

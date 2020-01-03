@@ -23,9 +23,13 @@ import play.api.data.Form
 
 class PenalisedProfessionalBodyDetailFormProvider @Inject() extends Mappings {
 
+  private val maxLength: Int = 255
+
   def apply(): Form[String] =
     Form(
       "value" -> text("penalisedProfessionalBodyDetail.error.required")
-        .verifying(maxLength(255, "penalisedProfessionalBodyDetail.error.length"))
+        .verifying(
+          maxLength(maxLength, "penalisedProfessionalBodyDetail.error.length"),
+          basicPunctuation("penalisedProfessionalBodyDetail.error.punctuation"))
     )
 }

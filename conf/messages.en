@@ -48,6 +48,9 @@ site.selectAll.hint = Select all that apply.
 site.255.hint = Enter 255 characters or less.
 site.acceptandcomplete = Accept and complete section
 
+site.service_name = Manage your anti-money laundering supervision
+site.signout = Sign out
+
 whatYouNeed.title = What you need
 whatYouNeed.heading = What you need
 whatYouNeed.heading2 = In this section you’ll need to tell us:
@@ -68,12 +71,12 @@ eabServicesProvided.heading = Which services does your business provide?
 eabServicesProvided.assetManagement = Asset management
 eabServicesProvided.auctioneering = Auctioneering
 eabServicesProvided.businessTransfer = Business transfer
-eabServicesProvided.commercial = Commercial
+eabServicesProvided.commercial = Commercial sales
 eabServicesProvided.developmentCompany = Development company
 eabServicesProvided.landManagement = Land management
 eabServicesProvided.lettings = Lettings when the monthly rent for a property is €10,000 or more
 eabServicesProvided.relocation = Relocation
-eabServicesProvided.residential = Residential
+eabServicesProvided.residential = Residential sales
 eabServicesProvided.socialHousingProvision = Social housing provision
 eabServicesProvided.checkYourAnswersLabel = Which services does your business provide?
 eabServicesProvided.error.required = Select which services your business provides
@@ -86,11 +89,12 @@ penalisedEstateAgentsAct.subtitle = Examples of a penalty include:
 penalisedEstateAgentsAct.warning = receiving a formal warning
 penalisedEstateAgentsAct.banned = being banned from taking part in estate agency activities
 
-penalisedEstateAgentsActDetail.title = Detail what the penalty received under the Estate Agents Act 1979 was and when it occurred
-penalisedEstateAgentsActDetail.heading = Detail what the penalty received under the Estate Agents Act 1979 was and when it occurred
-penalisedEstateAgentsActDetail.checkYourAnswersLabel = Detail what the penalty received under the Estate Agents Act 1979 was and when it occurred
-penalisedEstateAgentsActDetail.error.required = Enter the penalty
-penalisedEstateAgentsActDetail.error.length = Input must be 255 characters or less
+penalisedEstateAgentsActDetail.title = Tell us about the penalty under the Estate Agents Act 1979 and when it happened
+penalisedEstateAgentsActDetail.heading = Tell us about the penalty under the Estate Agents Act 1979 and when it happened
+penalisedEstateAgentsActDetail.checkYourAnswersLabel = Tell us about the penalty under the Estate Agents Act 1979 and when it happened
+penalisedEstateAgentsActDetail.error.required = Enter a description of the penalty and when it happened
+penalisedEstateAgentsActDetail.error.length = Description of the penalty must be 255 characters or less
+penalisedEstateAgentsActDetail.error.punctuation = Description of the penalty can include letters a to z, numbers, spaces and punctuation
 
 penalisedProfessionalBody.title = Has the business, or anyone in the business, ever been penalised by a professional body for estate agency business activities?
 penalisedProfessionalBody.heading = Has the business, or anyone in the business, ever been penalised by a professional body for estate agency business activities?
@@ -104,11 +108,12 @@ penalisedProfessionalBody.expulsion = expulsion
 penalisedProfessionalBody.special = special terms of conditions imposed on your business
 
 
-penalisedProfessionalBodyDetail.title = Detail what the penalty received by a professional body was and when it occurred
-penalisedProfessionalBodyDetail.heading = Detail what the penalty received by a professional body was and when it occurred
-penalisedProfessionalBodyDetail.checkYourAnswersLabel = Detail what the penalty received by a professional body was and when it occurred
-penalisedProfessionalBodyDetail.error.required = Enter the penalty
-penalisedProfessionalBodyDetail.error.length = Input must be 255 characters or less
+penalisedProfessionalBodyDetail.title = Tell us about the penalty from a professional body and when it happened
+penalisedProfessionalBodyDetail.heading = Tell us about the penalty from a professional body and when it happened
+penalisedProfessionalBodyDetail.checkYourAnswersLabel = Tell us about the penalty from a professional body and when it happened
+penalisedProfessionalBodyDetail.error.required = Enter a description of the penalty and when it happened
+penalisedProfessionalBodyDetail.error.length = Description of the penalty must be 255 characters or less
+penalisedProfessionalBodyDetail.error.punctuation = Description of the penalty can include letters a to z, numbers, spaces and punctuation
 
 redressScheme.title = Which redress scheme is your business registered with?
 redressScheme.heading = Which redress scheme is your business registered with?
