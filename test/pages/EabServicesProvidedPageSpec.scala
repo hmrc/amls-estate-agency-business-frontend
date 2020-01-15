@@ -33,21 +33,21 @@ class EabServicesProvidedPageSpec extends PageBehaviours {
   }
 
   "cleanup the RedressSchemePage value where not Resident selected" in {
-    val answerQuestion = UserAnswers("someid").set(RedressSchemePage, OmbudsmanServices).success.value
+    val answerQuestion = UserAnswers("someid").set(RedressSchemePage, ThePropertyOmbudsman).success.value
     val updatedAnswers = answerQuestion.set(EabServicesProvidedPage, Seq(AssetManagement)).success.value
 
     updatedAnswers.get(RedressSchemePage) must be(empty)
   }
 
   "not cleanup the RedressSchemePage value where true selected" in {
-    val answerQuestion = UserAnswers("someid").set(RedressSchemePage, OmbudsmanServices).success.value
+    val answerQuestion = UserAnswers("someid").set(RedressSchemePage, ThePropertyOmbudsman).success.value
     val updatedAnswers = answerQuestion.set(EabServicesProvidedPage, Seq(Residential)).success.value
 
     updatedAnswers.get(RedressSchemePage) mustNot be(empty)
   }
 
   "cleanup the ClientMoneyProtectionSchemePage value where not Lettings selected" in {
-    val answerQuestion = UserAnswers("someid").set(RedressSchemePage, OmbudsmanServices).success.value
+    val answerQuestion = UserAnswers("someid").set(RedressSchemePage, ThePropertyOmbudsman).success.value
     val updatedAnswers = answerQuestion.set(EabServicesProvidedPage, Seq(AssetManagement)).success.value
 
     updatedAnswers.get(ClientMoneyProtectionSchemePage) must be(empty)

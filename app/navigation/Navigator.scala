@@ -20,7 +20,6 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import controllers.routes
 import models.EabServicesProvided.{Lettings, Residential}
-import models.RedressScheme.Other
 import pages._
 import models._
 
@@ -46,7 +45,6 @@ class Navigator @Inject()() {
   private val normalRoutes: Page => UserAnswers => Call = {
     case EabServicesProvidedPage             =>      redressSchemeRoute
     case RedressSchemePage                   =>      redressSchemeDetailRoute
-    case RedressSchemeDetailPage             =>      moneyProtectionSchemeRoute
     case ClientMoneyProtectionSchemePage     => _ => routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode)
     case PenalisedEstateAgentsActPage        =>      penalisedEstateAgentsActDetailsRoute
     case PenalisedEstateAgentsActDetailPage  => _ => routes.PenalisedProfessionalBodyController.onPageLoad(NormalMode)
@@ -82,7 +80,6 @@ class Navigator @Inject()() {
 
   private def redressSchemeDetailRoute(answers: UserAnswers): Call = {
     (answers.get(RedressSchemePage), answers.get(EabServicesProvidedPage)) match {
-      case (Some(Other), _) => routes.RedressSchemeDetailController.onPageLoad(NormalMode)
       case (_, Some(services)) if services.contains(Lettings) => routes.ClientMoneyProtectionSchemeController.onPageLoad(NormalMode)
       case _ => routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode)
     }
@@ -98,7 +95,6 @@ class Navigator @Inject()() {
   private val checkRouteMap: Page => UserAnswers => Call = {
     case EabServicesProvidedPage             =>      redressSchemeRouteCheckMode
     case RedressSchemePage                   =>      redressSchemeDetailRouteCheckMode
-    case RedressSchemeDetailPage             =>      moneyProtectionSchemeRouteCheckMode
     case PenalisedEstateAgentsActPage        =>      penalisedEstateAgentsActDetailsRouteCheckMode
     case ClientMoneyProtectionSchemePage     => _ => routes.CheckYourAnswersController.onPageLoad()
     case PenalisedEstateAgentsActDetailPage  => _ => routes.CheckYourAnswersController.onPageLoad()
@@ -126,9 +122,8 @@ class Navigator @Inject()() {
 
   private def redressSchemeDetailRouteCheckMode(answers: UserAnswers): Call = {
     answers.get(RedressSchemePage) match {
-      case Some(Other) => routes.RedressSchemeDetailController.onPageLoad(CheckMode)
       case Some(_) if answers.get(EabServicesProvidedPage).exists(_.contains(Lettings)) => routes.ClientMoneyProtectionSchemeController.onPageLoad(CheckMode)
-      case _           => routes.CheckYourAnswersController.onPageLoad
+      case _                                                                            => routes.CheckYourAnswersController.onPageLoad
     }
   }
 
