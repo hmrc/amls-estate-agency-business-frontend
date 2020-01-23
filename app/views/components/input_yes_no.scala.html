@@ -1,5 +1,5 @@
 @*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,9 +41,10 @@
         @if(hint.nonEmpty){
             <div class="form-hint" id="hint-@{field.id}">@hint</div>
         }
-        @field.errors.map { error =>
+
+        @if(field.errors.nonEmpty){
             <div class="error-message" id="error-message-@field.id-input">
-                <span class="visually-hidden">@messages("error.browser.title.prefix") </span>@messages(error.message, error.args: _*)
+                <span class="visually-hidden">@messages("error.browser.title.prefix") </span>@messages(field.errors.head.message, field.errors.head.args: _*)
             </div>
         }
 
