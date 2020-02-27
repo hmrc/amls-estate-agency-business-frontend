@@ -24,7 +24,7 @@ import navigation.Navigator
 import pages.EabServicesProvidedPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import repositories.SessionRepository
+import repositories.{AMLSFrontEndSessionRepository}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendBaseController
 import views.html.EabServicesProvidedView
 
@@ -32,7 +32,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class EabServicesProvidedController @Inject()(
                                         override val messagesApi: MessagesApi,
-                                        sessionRepository: SessionRepository,
+                                        sessionRepository: AMLSFrontEndSessionRepository,
                                         navigator: Navigator,
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
@@ -47,7 +47,7 @@ class EabServicesProvidedController @Inject()(
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.getOrElse(UserAnswers(request.internalId)).get(EabServicesProvidedPage) match {
+      val preparedForm = request.userAnswers.getOrElse(UserAnswers()).get(EabServicesProvidedPage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
@@ -64,8 +64,8 @@ class EabServicesProvidedController @Inject()(
 
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.getOrElse(UserAnswers(request.internalId)).set(EabServicesProvidedPage, value))
-            _              <- sessionRepository.set(updatedAnswers)
+            updatedAnswers <- Future.fromTry(request.userAnswers.getOrElse(UserAnswers()).set(EabServicesProvidedPage, value))
+            _              <- sessionRepository.set(request.credId, updatedAnswers)
           } yield Redirect(navigator.nextPage(EabServicesProvidedPage, mode, updatedAnswers))
       )
   }

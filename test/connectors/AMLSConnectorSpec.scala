@@ -22,7 +22,7 @@ import base.SpecBase
 import models.EabServicesProvided.Auctioneering
 import models.UserAnswers
 import org.mockito.Matchers.{any, eq => eqTo}
-import org.mockito.Mockito.when
+import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import pages.EabServicesProvidedPage
 import play.api.Configuration
@@ -38,14 +38,14 @@ class AMLSConnectorSpec extends SpecBase with MockitoSugar {
   implicit val hc   = HeaderCarrier()
   val amlsConnector = new AMLSConnector(config = mock[Configuration], httpClient = mock[HttpClient])
   val dateVal       = LocalDateTime.now
-  val answers       = UserAnswers("id").set(EabServicesProvidedPage,  Seq(Auctioneering)).success.value
+  val answers       = UserAnswers().set(EabServicesProvidedPage,  Seq(Auctioneering)).success.value
 
   val completeData  = Json.obj(
-    "eabServicesProvided"            -> Seq("businessTransfer"),
-    "redressScheme"    -> "other",
-    "redressSchemeDetail" -> "other redress scheme",
-    "penalisedEstateAgentsAct"   -> false,
-    "penalisedProfessionalBody"   -> false
+    "eabServicesProvided"       -> Seq("businessTransfer"),
+    "redressScheme"             -> "other",
+    "redressSchemeDetail"       -> "other redress scheme",
+    "penalisedEstateAgentsAct"  -> false,
+    "penalisedProfessionalBody" -> false
   )
 
   val completeJson  = Json.obj(
@@ -56,7 +56,7 @@ class AMLSConnectorSpec extends SpecBase with MockitoSugar {
 
   "GET" must {
     "successfully fetch cache" in {
-      val getUrl = s"${amlsConnector.url}/someid"
+      val getUrl = s"${amlsConnector.url}/get/someid"
 
       when {
         amlsConnector.httpClient.GET[Option[JsObject]](eqTo(getUrl))(any(), any(), any())
@@ -70,15 +70,10 @@ class AMLSConnectorSpec extends SpecBase with MockitoSugar {
 
   "POST" must {
     "successfully write cache" in {
-      val putUrl = s"${amlsConnector.url}/someid"
+      val putUrl = s"${amlsConnector.url}/set/someid"
 
-      when {
-        amlsConnector.httpClient.PUT[UserAnswers, UserAnswers](eqTo(putUrl), eqTo(answers), any())(any(), any(), any(), any())
-      } thenReturn Future.successful(answers)
-
-      whenReady(amlsConnector.set("someid", answers)) {
-        _ mustBe answers
-      }
+      amlsConnector.set("someid", answers)
+      verify(amlsConnector.httpClient).PUT(eqTo(putUrl), eqTo(answers), any())(any(), any(), any(), any())
     }
   }
 }

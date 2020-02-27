@@ -31,14 +31,14 @@ class PenalisedProfessionalBodyPageSpec extends PageBehaviours {
   }
 
   "cleanup the PenalisedProfessionalBodyDetailPage value where false" in {
-    val answerQuestion = UserAnswers("someid").set(PenalisedProfessionalBodyDetailPage, "sometext").success.value
+    val answerQuestion = UserAnswers().set(PenalisedProfessionalBodyDetailPage, "sometext").success.value
     val updatedAnswers = answerQuestion.set(PenalisedProfessionalBodyPage, false).success.value
 
     updatedAnswers.get(PenalisedProfessionalBodyDetailPage) must be(empty)
   }
 
   "not cleanup the PenalisedProfessionalBodyDetailPage value where true" in {
-    val answerQuestion = UserAnswers("someid").set(PenalisedProfessionalBodyDetailPage, "sometext").success.value
+    val answerQuestion = UserAnswers().set(PenalisedProfessionalBodyDetailPage, "sometext").success.value
     val updatedAnswers = answerQuestion.set(PenalisedProfessionalBodyPage, true).success.value
 
     updatedAnswers.get(PenalisedProfessionalBodyDetailPage) must not be(empty)

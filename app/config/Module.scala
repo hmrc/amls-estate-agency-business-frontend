@@ -18,7 +18,7 @@ package config
 
 import com.google.inject.AbstractModule
 import controllers.actions._
-import repositories.{DefaultSessionRepository, SessionRepository}
+import repositories.{AMLSFrontEndSessionRepository, DefaultAMLSFrontEndSessionRepository}
 
 class Module extends AbstractModule {
 
@@ -26,12 +26,7 @@ class Module extends AbstractModule {
 
     bind(classOf[DataRetrievalAction]).to(classOf[DataRetrievalActionImpl]).asEagerSingleton()
     bind(classOf[DataRequiredAction]).to(classOf[DataRequiredActionImpl]).asEagerSingleton()
-
-    //TODO: Below to be removed in the future
-    // For session based storage instead of cred based, change to SessionIdentifierAction
-    bind(classOf[IdentifierAction]).to(classOf[SessionIdentifierAction]).asEagerSingleton()
-
-    //TODO: to be updated to AMLS FE repository when session based storage removed
-    bind(classOf[SessionRepository]).to(classOf[DefaultSessionRepository]).asEagerSingleton()
+    bind(classOf[IdentifierAction]).to(classOf[AuthenticatedIdentifierAction]).asEagerSingleton()
+    bind(classOf[AMLSFrontEndSessionRepository]).to(classOf[DefaultAMLSFrontEndSessionRepository]).asEagerSingleton()
   }
 }
