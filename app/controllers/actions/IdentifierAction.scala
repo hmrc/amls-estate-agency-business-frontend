@@ -31,8 +31,6 @@ import uk.gov.hmrc.play.HeaderCarrierConverter
 
 import scala.concurrent.{ExecutionContext, Future}
 
-//TODO: Below need to be updated to have same structure like in AMP when connecting to AMLS FE
-
 trait IdentifierAction extends ActionBuilder[IdentifierRequest, AnyContent]
 
 final case class enrolmentNotFound(msg: String = "enrolmentNotFound") extends AuthorisationException(msg)
@@ -59,7 +57,7 @@ class AuthenticatedIdentifierAction @Inject()(
 
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, None)
 
-    authorised(Admin).retrieve(Retrievals.allEnrolments and Retrievals.credentials and Retrievals.affinityGroup) {
+    authorised(User).retrieve(Retrievals.allEnrolments and Retrievals.credentials and Retrievals.affinityGroup) {
       case enrolments ~ Some(credentials) ~ affinityGroup =>
         enrolmentMessage("AuthenticatedIdentifierAction:Refine - Enrolments:", Some(enrolments))
         Future.successful(Right(IdentifierRequest(request, credentials.providerId, affinityGroup)))
@@ -91,25 +89,6 @@ class AuthenticatedIdentifierAction @Inject()(
       case e : AuthorisationException =>
         exceptionLogger(e)
         Left(Redirect(Call("GET", unauthorisedUrl)))
-    }
-  }
-}
-
-//TODO: Below need to be removed when connecting to AMLS FE
-
-class SessionIdentifierAction @Inject()(config: FrontendAppConfig,
-                                        val parser: BodyParsers.Default)
-                                       (implicit val executionContext: ExecutionContext) extends IdentifierAction with ActionFunction[Request, IdentifierRequest] {
-
-  override def invokeBlock[A](request: Request[A], block: IdentifierRequest[A] => Future[Result]): Future[Result] = {
-
-    implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
-
-    hc.sessionId match {
-      case Some(session) =>
-        block(IdentifierRequest(request, session.value))
-      case None =>
-        Future.successful(Redirect(routes.SessionExpiredController.onPageLoad()))
     }
   }
 }

@@ -50,7 +50,6 @@ class Navigator @Inject()() {
     case PenalisedEstateAgentsActDetailPage  => _ => routes.PenalisedProfessionalBodyController.onPageLoad(NormalMode)
     case PenalisedProfessionalBodyPage       =>      penalisedProfessionalBodyDetailsRoute
     case PenalisedProfessionalBodyDetailPage => _ => routes.CheckYourAnswersController.onPageLoad()
-    case _                                   => _ => routes.IndexController.onPageLoad()
   }
 
   private def redressSchemeRoute(answers: UserAnswers): Call = {
@@ -60,13 +59,13 @@ class Navigator @Inject()() {
         case _    => routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode)
       }
     }
-  }.getOrElse(routes.SessionExpiredController.onPageLoad())
+  }.getOrElse(throw new Exception("Unable to navigate to page"))
 
   private def penalisedEstateAgentsActDetailsRoute(answers: UserAnswers): Call = {
     answers.get(PenalisedEstateAgentsActPage) match {
       case Some(true)  => routes.PenalisedEstateAgentsActDetailController.onPageLoad(NormalMode)
       case Some(false) => routes.PenalisedProfessionalBodyController.onPageLoad(NormalMode)
-      case None        => routes.SessionExpiredController.onPageLoad()
+      case None        => throw new Exception("Unable to navigate to page")
     }
   }
 
@@ -74,7 +73,7 @@ class Navigator @Inject()() {
     answers.get(PenalisedProfessionalBodyPage) match {
       case Some(true)  => routes.PenalisedProfessionalBodyDetailController.onPageLoad(NormalMode)
       case Some(false) => routes.CheckYourAnswersController.onPageLoad()
-      case None        => routes.SessionExpiredController.onPageLoad()
+      case None        => throw new Exception("Unable to navigate to page")
     }
   }
 
@@ -110,7 +109,7 @@ class Navigator @Inject()() {
         case _    => routes.CheckYourAnswersController.onPageLoad
       }
     }
-  }.getOrElse(routes.SessionExpiredController.onPageLoad())
+  }.getOrElse(throw new Exception("Unable to navigate to page"))
 
   private def moneyProtectionSchemeRouteCheckMode(answers: UserAnswers): Call = {
     answers.get(EabServicesProvidedPage) match {
@@ -131,7 +130,7 @@ class Navigator @Inject()() {
     answers.get(PenalisedEstateAgentsActPage) match {
       case Some(true)  => routes.PenalisedEstateAgentsActDetailController.onPageLoad(CheckMode)
       case Some(false) => routes.CheckYourAnswersController.onPageLoad
-      case None        => routes.SessionExpiredController.onPageLoad()
+      case None        => throw new Exception("Unable to navigate to page")
     }
   }
 
@@ -139,7 +138,7 @@ class Navigator @Inject()() {
     answers.get(PenalisedProfessionalBodyPage) match {
       case Some(true)  => routes.PenalisedProfessionalBodyDetailController.onPageLoad(CheckMode)
       case Some(false) => routes.CheckYourAnswersController.onPageLoad()
-      case None        => routes.SessionExpiredController.onPageLoad()
+      case None        => throw new Exception("Unable to navigate to page")
     }
   }
 
