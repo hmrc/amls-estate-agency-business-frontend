@@ -132,21 +132,24 @@ class RedressSchemeControllerSpec extends SpecBase with MockitoSugar {
       application.stop()
     }
 
-    "redirect to Session Expired for a GET if no existing data is found" in {
+    "raise an error for a GET if no existing data is found" in {
 
       val application = applicationBuilder(userAnswers = None).build()
 
       val request = FakeRequest(GET, redressSchemeRoute)
 
-      val result = route(application, request).value
+      val exception = intercept[Exception] {
+        val result = route(application, request).value
 
-      status(result) mustEqual SEE_OTHER
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+        status(result) mustEqual SEE_OTHER
+      }
+
+      exception.getMessage must include("Required data not found")
 
       application.stop()
     }
 
-    "redirect to Session Expired for a POST if no existing data is found" in {
+    "raise an error for a POST if no existing data is found" in {
 
       val application = applicationBuilder(userAnswers = None).build()
 
@@ -154,11 +157,13 @@ class RedressSchemeControllerSpec extends SpecBase with MockitoSugar {
         FakeRequest(POST, redressSchemeRoute)
           .withFormUrlEncodedBody(("value", RedressScheme.values.head.toString))
 
-      val result = route(application, request).value
+      val exception = intercept[Exception] {
+        val result = route(application, request).value
 
-      status(result) mustEqual SEE_OTHER
+        status(result) mustEqual SEE_OTHER
+      }
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      exception.getMessage must include("Required data not found")
 
       application.stop()
     }
