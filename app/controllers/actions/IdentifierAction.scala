@@ -40,7 +40,8 @@ class AuthenticatedIdentifierAction @Inject()(
                                                config: FrontendAppConfig,
                                                val parser: BodyParsers.Default
                                              )
-                                             (implicit val executionContext: ExecutionContext) extends IdentifierAction with AuthorisedFunctions with ActionRefiner[Request, IdentifierRequest] {
+                                             (implicit val executionContext: ExecutionContext)
+  extends IdentifierAction with AuthorisedFunctions with ActionRefiner[Request, IdentifierRequest] {
 
   def unauthorisedUrl = routes.UnauthorisedController.onPageLoad().url
 
