@@ -41,7 +41,8 @@ class AuthenticatedIdentifierAction @Inject()(
                                                config: FrontendAppConfig,
                                                val parser: BodyParsers.Default
                                              )
-                                             (implicit val executionContext: ExecutionContext) extends IdentifierAction with AuthorisedFunctions with ActionRefiner[Request, IdentifierRequest] {
+                                             (implicit val executionContext: ExecutionContext)
+  extends IdentifierAction with AuthorisedFunctions with ActionRefiner[Request, IdentifierRequest] {
 
   private val amlsKey       = "HMRC-MLR-ORG"
   private val amlsNumberKey = "MLRRefNumber"
