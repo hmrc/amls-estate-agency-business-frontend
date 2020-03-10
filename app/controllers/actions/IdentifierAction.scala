@@ -26,11 +26,12 @@ import play.api.mvc._
 import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
 import uk.gov.hmrc.auth.core.retrieve.~
-import uk.gov.hmrc.http.{HeaderCarrier, UnauthorizedException}
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.HeaderCarrierConverter
 
 import scala.concurrent.{ExecutionContext, Future}
 
+@com.google.inject.ImplementedBy(classOf[AuthenticatedIdentifierAction])
 trait IdentifierAction extends ActionBuilder[IdentifierRequest, AnyContent]
 
 final case class enrolmentNotFound(msg: String = "enrolmentNotFound") extends AuthorisationException(msg)
@@ -42,11 +43,16 @@ class AuthenticatedIdentifierAction @Inject()(
                                              )
                                              (implicit val executionContext: ExecutionContext) extends IdentifierAction with AuthorisedFunctions with ActionRefiner[Request, IdentifierRequest] {
 
-  def unauthorisedUrl = routes.UnauthorisedController.onPageLoad().url
+  private val amlsKey       = "HMRC-MLR-ORG"
+  private val amlsNumberKey = "MLRRefNumber"
+  private val saKey         = "IR-SA"
+  private val ctKey         = "IR-CT"
+
+  def unauthorisedUrl= routes.UnauthorisedController.onPageLoad().url
 
   // $COVERAGE-OFF$
   def exceptionLogger(aex: AuthorisationException) = {
-    Logger.debug(s"AuthenticatedIdentifierAction:Refine - ${aex.getClass}: $aex")
+    Logger.debug(s"AuthenticatedIdentifierAction:Refine - ${aex.getClass}:", aex)
   }
   def enrolmentMessage(message: String, parameters: Option[Enrolments]) = {
     Logger.debug(message + parameters.getOrElse(""))
@@ -55,15 +61,29 @@ class AuthenticatedIdentifierAction @Inject()(
 
   override protected def refine[A](request: Request[A]): Future[Either[Result, IdentifierRequest[A]]] = {
 
-    implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, None)
+    implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
 
-    authorised(User).retrieve(Retrievals.allEnrolments and Retrievals.credentials and Retrievals.affinityGroup) {
-      case enrolments ~ Some(credentials) ~ affinityGroup =>
-        enrolmentMessage("AuthenticatedIdentifierAction:Refine - Enrolments:", Some(enrolments))
-        Future.successful(Right(IdentifierRequest(request, credentials.providerId, affinityGroup)))
+    authorised(authPredicate).retrieve(
+      Retrievals.allEnrolments and
+        Retrievals.credentials and
+        Retrievals.affinityGroup
+    ) {
+      case enrolments ~ Some(credentials) ~ Some(affinityGroup) =>
+        Logger.debug("DefaultAuthAction:Refine - Enrolments:" + enrolments)
+
+        Future.successful(
+          Right(
+            IdentifierRequest(
+              request,
+              amlsRefNo(enrolments),
+              credentials.providerId,
+              affinityGroup
+            )
+          )
+        )
       case _ =>
-        enrolmentMessage("AuthenticatedIdentifierAction:Refine - Non match (enrolments ~ Some(credentials) ~ affinityGroup)", None)
-        Future.successful(Left(Redirect(Call("GET", config.loginUrl))))
+        Logger.debug("DefaultAuthAction:Refine - Non match (enrolments ~ Some(credentials) ~ Some(affinityGroup))")
+        Future.successful(Left(Redirect(Call("GET", unauthorisedUrl))))
     }.recover[Either[Result, IdentifierRequest[A]]] {
       case nas: NoActiveSession =>
         exceptionLogger(nas)
@@ -90,5 +110,17 @@ class AuthenticatedIdentifierAction @Inject()(
         exceptionLogger(e)
         Left(Redirect(Call("GET", unauthorisedUrl)))
     }
+  }
+
+  private def authPredicate = {
+    User and (AffinityGroup.Organisation or (Enrolment(saKey) or Enrolment(ctKey)))
+  }
+
+  private def amlsRefNo(enrolments: Enrolments): Option[String] = {
+    val amlsRefNumber = for {
+      enrolment      <- enrolments.getEnrolment(amlsKey)
+      amlsIdentifier <- enrolment.getIdentifier(amlsNumberKey)
+    } yield amlsIdentifier.value
+    amlsRefNumber
   }
 }

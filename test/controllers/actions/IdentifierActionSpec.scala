@@ -18,7 +18,7 @@ package controllers.actions
 
 import base.SpecBase
 import com.google.inject.Inject
-import controllers.actions.AuthActionSpec.{agentCtAuthRetrievals, agentSaAuthRetrievals, emptyAuthRetrievals, fakeAuthConnector, orgAuthRetrievals}
+import controllers.actions.IdentifierActionSpec.{agentCtAuthRetrievals, agentSaAuthRetrievals, emptyAuthRetrievals, erroneousRetrievals, fakeAuthConnector, orgAuthRetrievals}
 import controllers.routes
 import play.api.mvc.{BodyParsers, Results}
 import play.api.test.Helpers._
@@ -30,7 +30,7 @@ import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
-class AuthActionSpec extends SpecBase {
+class IdentifierActionSpec extends SpecBase {
 
   class Harness(authAction: IdentifierAction) {
     def onPageLoad() = authAction { _ => Results.Ok }
@@ -210,7 +210,7 @@ class AuthActionSpec extends SpecBase {
       }
 
       "there is no match in retrievals" must {
-        "redirect to login" in {
+        "redirect to unauthorised page" in {
           val application = applicationBuilder(userAnswers = None).build()
 
           val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
@@ -221,7 +221,7 @@ class AuthActionSpec extends SpecBase {
 
           status(result) mustBe SEE_OTHER
 
-          redirectLocation(result).get must startWith(frontendAppConfig.loginUrl)
+          redirectLocation(result) mustBe Some(routes.UnauthorisedController.onPageLoad().url)
         }
       }
 
@@ -270,7 +270,7 @@ class FakeFailingAuthConnector @Inject()(exceptionToReturn: Throwable) extends A
     Future.failed(exceptionToReturn)
 }
 
-object AuthActionSpec {
+object IdentifierActionSpec {
   private def fakeAuthConnector(stubbedRetrievalResult: Future[_]) = new AuthConnector {
 
     def authorise[A](predicate: Predicate, retrieval: Retrieval[A])
@@ -315,4 +315,3 @@ object AuthActionSpec {
     new ~(new ~(Enrolments(Set()), None), Some(AffinityGroup.Organisation))
   )
 }
-

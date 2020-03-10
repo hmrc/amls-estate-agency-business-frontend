@@ -30,7 +30,7 @@ class NavigatorSpec extends SpecBase {
   "Navigator" when {
     "in Normal mode" must {
       "go from redress scheme to Penalised Estate Agents Act if residential" in {
-        val eabServices = UserAnswers("someid").set(EabServicesProvidedPage, Seq(Residential)).success.value
+        val eabServices = UserAnswers().set(EabServicesProvidedPage, Seq(Residential)).success.value
         val answersRedress = eabServices.set(RedressSchemePage, ThePropertyOmbudsman).success.value
 
         navigator.nextPage(RedressSchemePage, NormalMode, answersRedress)
@@ -38,7 +38,7 @@ class NavigatorSpec extends SpecBase {
       }
 
       "go from redress scheme to Money Protection Scheme if lettings" in {
-        val eabServices = UserAnswers("someid").set(EabServicesProvidedPage, Seq(Lettings)).success.value
+        val eabServices = UserAnswers().set(EabServicesProvidedPage, Seq(Lettings)).success.value
         val answersRedress = eabServices.set(RedressSchemePage, ThePropertyOmbudsman).success.value
 
         navigator.nextPage(RedressSchemePage, NormalMode, answersRedress)
@@ -46,73 +46,73 @@ class NavigatorSpec extends SpecBase {
       }
 
       "go from Money Protection Scheme to Penalised Estate Agents Act" in {
-        navigator.nextPage(ClientMoneyProtectionSchemePage, NormalMode, UserAnswers("someid"))
+        navigator.nextPage(ClientMoneyProtectionSchemePage, NormalMode, UserAnswers())
           .mustBe(routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode))
       }
 
       "go from which services to redress scheme if residential" in {
-        val answers = UserAnswers("someid").set(EabServicesProvidedPage, Seq(Residential)).success.value
+        val answers = UserAnswers().set(EabServicesProvidedPage, Seq(Residential)).success.value
 
         navigator.nextPage(EabServicesProvidedPage, NormalMode, answers)
           .mustBe(routes.RedressSchemeController.onPageLoad(NormalMode))
       }
 
       "go from which services to redress scheme if lettings" in {
-        val answers = UserAnswers("someid").set(EabServicesProvidedPage, Seq(Lettings)).success.value
+        val answers = UserAnswers().set(EabServicesProvidedPage, Seq(Lettings)).success.value
 
         navigator.nextPage(EabServicesProvidedPage, NormalMode, answers)
           .mustBe(routes.RedressSchemeController.onPageLoad(NormalMode))
       }
 
       "go from which services to Penalised Estate Agents Act if not residential" in {
-        val answers = UserAnswers("someid").set(EabServicesProvidedPage, Seq(AssetManagement)).success.value
+        val answers = UserAnswers().set(EabServicesProvidedPage, Seq(AssetManagement)).success.value
 
         navigator.nextPage(EabServicesProvidedPage, NormalMode, answers)
           .mustBe(routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode))
       }
 
       "go from redress scheme to Penalised Estate Agents Act if redress scheme not other" in {
-        val answers = UserAnswers("someid").set(RedressSchemePage, ThePropertyOmbudsman).success.value
+        val answers = UserAnswers().set(RedressSchemePage, ThePropertyOmbudsman).success.value
 
         navigator.nextPage(RedressSchemePage, NormalMode, answers)
           .mustBe(routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode))
       }
 
       "go from Penalised Estate Agents Act to Penalised Estate Agents Act Detail if true" in {
-        val answers = UserAnswers("someid").set(PenalisedEstateAgentsActPage, true).success.value
+        val answers = UserAnswers().set(PenalisedEstateAgentsActPage, true).success.value
 
         navigator.nextPage(PenalisedEstateAgentsActPage, NormalMode, answers)
           .mustBe(routes.PenalisedEstateAgentsActDetailController.onPageLoad(NormalMode))
       }
 
       "go from Penalised Estate Agents Act to Penalised by Professional Body if false" in {
-        val answers = UserAnswers("someid").set(PenalisedEstateAgentsActPage, false).success.value
+        val answers = UserAnswers().set(PenalisedEstateAgentsActPage, false).success.value
 
         navigator.nextPage(PenalisedEstateAgentsActPage, NormalMode, answers)
           .mustBe(routes.PenalisedProfessionalBodyController.onPageLoad(NormalMode))
       }
 
       "go from Penalised Estate Agents Act Detail to Penalised by Professional Body" in {
-        navigator.nextPage(PenalisedEstateAgentsActDetailPage, NormalMode, UserAnswers("someid"))
+        navigator.nextPage(PenalisedEstateAgentsActDetailPage, NormalMode, UserAnswers())
           .mustBe(routes.PenalisedProfessionalBodyController.onPageLoad(NormalMode))
       }
 
       "go from Penalised by Professional Body to Penalised by Professional Body Detail where true" in {
-        val answers = UserAnswers("someid").set(PenalisedProfessionalBodyPage, true).success.value
+        val answers = UserAnswers().set(PenalisedProfessionalBodyPage, true).success.value
 
         navigator.nextPage(PenalisedProfessionalBodyPage, NormalMode, answers)
           .mustBe(routes.PenalisedProfessionalBodyDetailController.onPageLoad(NormalMode))
       }
 
       "go from Penalised by Professional Body to Check Your Answers where false" in {
-        val answers = UserAnswers("someid").set(PenalisedProfessionalBodyPage, false).success.value
+        val answers = UserAnswers().set(PenalisedProfessionalBodyPage, false).success.value
 
         navigator.nextPage(PenalisedProfessionalBodyPage, NormalMode, answers)
           .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
 
       "go from Penalised by Professional Body Detail to Check Your Answers" in {
-        navigator.nextPage(PenalisedProfessionalBodyDetailPage, NormalMode, UserAnswers("someid"))
+        navigator.nextPage(PenalisedProfessionalBodyDetailPage, NormalMode, UserAnswers())
           .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
     }
@@ -121,72 +121,72 @@ class NavigatorSpec extends SpecBase {
 
       "go to CheckYourAnswers from a page that doesn't exist in the edit route map" in {
         case object UnknownPage extends Page
-        navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad()
+        navigator.nextPage(UnknownPage, CheckMode, UserAnswers()) mustBe routes.CheckYourAnswersController.onPageLoad()
       }
 
       "go from which services to redress scheme if residential" in {
-        val answers = UserAnswers("someid").set(EabServicesProvidedPage, Seq(Residential)).success.value
+        val answers = UserAnswers().set(EabServicesProvidedPage, Seq(Residential)).success.value
 
         navigator.nextPage(EabServicesProvidedPage, CheckMode, answers)
           .mustBe(routes.RedressSchemeController.onPageLoad(CheckMode))
       }
 
       "go from which services to redress scheme if lettings" in {
-        val answers = UserAnswers("someid").set(EabServicesProvidedPage, Seq(Lettings)).success.value
+        val answers = UserAnswers().set(EabServicesProvidedPage, Seq(Lettings)).success.value
 
         navigator.nextPage(EabServicesProvidedPage, CheckMode, answers)
           .mustBe(routes.RedressSchemeController.onPageLoad(CheckMode))
       }
 
       "go from which services to Check Your Answers if not residential" in {
-        val answers = UserAnswers("someid").set(EabServicesProvidedPage, Seq(AssetManagement)).success.value
+        val answers = UserAnswers().set(EabServicesProvidedPage, Seq(AssetManagement)).success.value
 
         navigator.nextPage(EabServicesProvidedPage, CheckMode, answers)
           .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
 
       "go from redress scheme to Check Your Answers if redress scheme not other" in {
-        val answers = UserAnswers("someid").set(RedressSchemePage, ThePropertyOmbudsman).success.value
+        val answers = UserAnswers().set(RedressSchemePage, ThePropertyOmbudsman).success.value
 
         navigator.nextPage(RedressSchemePage, CheckMode, answers)
           .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
 
       "go from Penalised Estate Agents Act to Penalised Estate Agents Act Detail if true" in {
-        val answers = UserAnswers("someid").set(PenalisedEstateAgentsActPage, true).success.value
+        val answers = UserAnswers().set(PenalisedEstateAgentsActPage, true).success.value
 
         navigator.nextPage(PenalisedEstateAgentsActPage, CheckMode, answers)
           .mustBe(routes.PenalisedEstateAgentsActDetailController.onPageLoad(CheckMode))
       }
 
       "go from Penalised Estate Agents Act to Check Your Answers if false" in {
-        val answers = UserAnswers("someid").set(PenalisedEstateAgentsActPage, false).success.value
+        val answers = UserAnswers().set(PenalisedEstateAgentsActPage, false).success.value
 
         navigator.nextPage(PenalisedEstateAgentsActPage, CheckMode, answers)
           .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
 
       "go from Penalised Estate Agents Act Detail to Check Your Answers" in {
-        navigator.nextPage(PenalisedEstateAgentsActDetailPage, CheckMode, UserAnswers("someid"))
+        navigator.nextPage(PenalisedEstateAgentsActDetailPage, CheckMode, UserAnswers())
           .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
 
       "go from Penalised by Professional Body to Penalised by Professional Body Detail where true" in {
-        val answers = UserAnswers("someid").set(PenalisedProfessionalBodyPage, true).success.value
+        val answers = UserAnswers().set(PenalisedProfessionalBodyPage, true).success.value
 
         navigator.nextPage(PenalisedProfessionalBodyPage, CheckMode, answers)
           .mustBe(routes.PenalisedProfessionalBodyDetailController.onPageLoad(CheckMode))
       }
 
       "go from Penalised by Professional Body to Check Your Answers where false" in {
-        val answers = UserAnswers("someid").set(PenalisedProfessionalBodyPage, false).success.value
+        val answers = UserAnswers().set(PenalisedProfessionalBodyPage, false).success.value
 
         navigator.nextPage(PenalisedProfessionalBodyPage, CheckMode, answers)
           .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
 
       "go from Penalised by Professional Body Detail to Check Your Answers" in {
-        navigator.nextPage(PenalisedProfessionalBodyDetailPage, CheckMode, UserAnswers("someid"))
+        navigator.nextPage(PenalisedProfessionalBodyDetailPage, CheckMode, UserAnswers())
           .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
     }

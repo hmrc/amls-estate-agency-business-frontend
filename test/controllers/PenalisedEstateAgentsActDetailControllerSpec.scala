@@ -29,7 +29,7 @@ import play.api.libs.json.{JsString, Json}
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import repositories.SessionRepository
+import repositories.AMLSFrontEndSessionRepository
 import views.html.PenalisedEstateAgentsActDetailView
 
 import scala.concurrent.Future
@@ -65,7 +65,7 @@ class PenalisedEstateAgentsActDetailControllerSpec extends SpecBase with Mockito
 
     "populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(PenalisedEstateAgentsActDetailPage, "answer").success.value
+      val userAnswers = UserAnswers().set(PenalisedEstateAgentsActDetailPage, "answer").success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -85,15 +85,15 @@ class PenalisedEstateAgentsActDetailControllerSpec extends SpecBase with Mockito
 
     "redirect to the next page when valid data is submitted" in {
 
-      val mockSessionRepository = mock[SessionRepository]
+      val mockSessionRepository = mock[AMLSFrontEndSessionRepository]
 
-      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+      when(mockSessionRepository.set(any(), any())(any())) thenReturn Future.successful(true)
 
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
             bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
-            bind[SessionRepository].toInstance(mockSessionRepository)
+            bind[AMLSFrontEndSessionRepository].toInstance(mockSessionRepository)
           )
           .build()
 

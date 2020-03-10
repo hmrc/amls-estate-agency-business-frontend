@@ -35,7 +35,7 @@ class DataRequiredActionImpl @Inject()(implicit val executionContext: ExecutionC
       case None =>
         Future.successful(Left(throw new Exception("Required data not found")))
       case Some(data) =>
-        Future.successful(Right(DataRequest(request.request, request.internalId, data)))
+        Future.successful(Right(DataRequest(request.request, request.credId, data)))
     }
   }
 }

@@ -29,27 +29,27 @@ class DefaultAMLSFrontEndSessionRepository @Inject()(amlsConnector: AMLSConnecto
                                                      config: Configuration)
                                                     (implicit ec: ExecutionContext, m: Materializer) extends AMLSFrontEndSessionRepository {
 
-  def get(id: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] =
-    amlsConnector.get(id).map {
+  def get(credId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] = {
+    amlsConnector.get(credId).map {
       _.map {
-        json =>
-          json.as[UserAnswers]
+        json => json.as[UserAnswers]
       }
     } recover {
-      case _: Exception => throw new Exception("Failed")
+      case _: Exception => None
     }
+  }
 
-  def set(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean] =
-    amlsConnector.set(userAnswers.id, userAnswers).map { r =>
-      r.isInstanceOf[UserAnswers]
+  def set(credId: String, userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean] = {
+
+    amlsConnector.set(credId, userAnswers).map { result =>
+      result.body.nonEmpty
     } recover {
-      case e: Exception => throw new Exception(e.getMessage)
+      case _: Exception => false
     }
+  }
 }
 
 trait AMLSFrontEndSessionRepository {
-
   def get(id: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]]
-
-  def set(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean]
+  def set(credId: String, userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean]
 }

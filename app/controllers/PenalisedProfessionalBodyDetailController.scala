@@ -24,7 +24,7 @@ import navigation.Navigator
 import pages.PenalisedProfessionalBodyDetailPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import repositories.SessionRepository
+import repositories.{AMLSFrontEndSessionRepository}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendBaseController
 import views.html.PenalisedProfessionalBodyDetailView
 
@@ -32,7 +32,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class PenalisedProfessionalBodyDetailController @Inject()(
                                         override val messagesApi: MessagesApi,
-                                        sessionRepository: SessionRepository,
+                                        sessionRepository: AMLSFrontEndSessionRepository,
                                         navigator: Navigator,
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
@@ -65,7 +65,7 @@ class PenalisedProfessionalBodyDetailController @Inject()(
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(PenalisedProfessionalBodyDetailPage, value))
-            _              <- sessionRepository.set(updatedAnswers)
+            _              <- sessionRepository.set(request.credId, updatedAnswers)
           } yield Redirect(navigator.nextPage(PenalisedProfessionalBodyDetailPage, mode, updatedAnswers))
       )
   }
