@@ -1,3 +1,19 @@
+/*
+ * Copyright 2020 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package controllers
 
 import java.time.{LocalDate, ZoneOffset}
@@ -14,7 +30,7 @@ import play.api.inject.bind
 import play.api.mvc.{AnyContentAsEmpty, AnyContentAsFormUrlEncoded, Call}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import repositories.SessionRepository
+import repositories.AMLSFrontEndSessionRepository
 import views.html.DateOfChangeView
 
 import scala.concurrent.Future
@@ -30,7 +46,7 @@ class DateOfChangeControllerSpec extends SpecBase with MockitoSugar {
 
   lazy val dateOfChangeRoute = routes.DateOfChangeController.onPageLoad(NormalMode).url
 
-  override val emptyUserAnswers = UserAnswers(userAnswersId)
+  override val emptyUserAnswers = UserAnswers()
 
   def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, dateOfChangeRoute)
@@ -63,7 +79,7 @@ class DateOfChangeControllerSpec extends SpecBase with MockitoSugar {
 
     "populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(DateOfChangePage, validAnswer).success.value
+      val userAnswers = UserAnswers().set(DateOfChangePage, validAnswer).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -81,15 +97,15 @@ class DateOfChangeControllerSpec extends SpecBase with MockitoSugar {
 
     "redirect to the next page when valid data is submitted" in {
 
-      val mockSessionRepository = mock[SessionRepository]
+      val mockSessionRepository = mock[AMLSFrontEndSessionRepository]
 
-      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+      when(mockSessionRepository.set(any(), any())(any())) thenReturn Future.successful(true)
 
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
             bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
-            bind[SessionRepository].toInstance(mockSessionRepository)
+            bind[AMLSFrontEndSessionRepository].toInstance(mockSessionRepository)
           )
           .build()
 
@@ -124,27 +140,32 @@ class DateOfChangeControllerSpec extends SpecBase with MockitoSugar {
       application.stop()
     }
 
-    "redirect to Session Expired for a GET if no existing data is found" in {
+    "raise an error for a GET if no existing data is found" in {
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest).value
+      val exception = intercept[Exception]{
+        val result = route(application, postRequest).value
 
-      status(result) mustEqual SEE_OTHER
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+        status(result) mustEqual SEE_OTHER
+      }
+
+      //TODO exception.getMessage must include("Required data not found")
 
       application.stop()
     }
 
-    "redirect to Session Expired for a POST if no existing data is found" in {
+    "raise an error for a POST if no existing data is found" in {
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest).value
+      val exception = intercept[Exception]{
+        val result = route(application, postRequest).value
 
-      status(result) mustEqual SEE_OTHER
+        status(result) mustEqual SEE_OTHER
+      }
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      //TODO exception.getMessage must include("Required data not found")
 
       application.stop()
     }
