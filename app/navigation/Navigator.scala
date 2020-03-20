@@ -92,7 +92,8 @@ class Navigator @Inject()() {
   }
 
   private val checkRouteMap: Page => UserAnswers => Call = {
-    case EabServicesProvidedPage             =>      redressSchemeRouteCheckMode
+    case EabServicesProvidedPage             => _ => routes.DateOfChangeController.onPageLoad(CheckMode)
+    case DateOfChangePage                    =>      redressSchemeRouteCheckMode
     case RedressSchemePage                   =>      redressSchemeDetailRouteCheckMode
     case PenalisedEstateAgentsActPage        =>      penalisedEstateAgentsActDetailsRouteCheckMode
     case ClientMoneyProtectionSchemePage     => _ => routes.CheckYourAnswersController.onPageLoad()

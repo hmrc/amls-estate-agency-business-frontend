@@ -22,7 +22,7 @@
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)} ${messages("dateOfChange.title")}"
+    title = s"${errorPrefix(form)} ${messages("dateOfChange.title")}" + " - " + messages("eab.title.extension")
 ) {
 
     @formHelper(action = DateOfChangeController.onSubmit(mode), 'autoComplete -> "off") {
