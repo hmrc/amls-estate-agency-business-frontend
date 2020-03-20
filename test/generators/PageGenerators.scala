@@ -21,6 +21,9 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryDateOfChangePage: Arbitrary[DateOfChangePage.type] =
+    Arbitrary(DateOfChangePage)
+
   implicit lazy val arbitraryClientMoneyProtectionSchemePage: Arbitrary[ClientMoneyProtectionSchemePage.type] =
     Arbitrary(ClientMoneyProtectionSchemePage)
 

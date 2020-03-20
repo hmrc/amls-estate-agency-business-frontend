@@ -27,6 +27,15 @@ import viewmodels.AnswerRow
 
 class CheckYourAnswersHelper(userAnswers: UserAnswers)(implicit messages: Messages) {
 
+  def dateOfChange: Option[AnswerRow] = userAnswers.get(DateOfChangePage) map {
+    x =>
+      AnswerRow(
+        HtmlFormat.escape(messages("dateOfChange.checkYourAnswersLabel")),
+        HtmlFormat.escape(x.format(dateFormatter)),
+        routes.DateOfChangeController.onPageLoad(CheckMode).url
+      )
+  }
+
   def clientMoneyProtectionScheme: Option[AnswerRow] = userAnswers.get(ClientMoneyProtectionSchemePage) map {
     x =>
       AnswerRow(

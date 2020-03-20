@@ -131,3 +131,11 @@ clientMoneyProtectionScheme.heading = Is your business registered with a client 
 clientMoneyProtectionScheme.checkYourAnswersLabel = Is your business registered with a client money protection scheme?
 clientMoneyProtectionScheme.error.required = Select yes if your business is registered with a client money protection scheme
 clientMoneyProtectionScheme.content = A client money protection scheme makes sure landlords and tenants are compensated if your business cannot repay their money. This is different to tenancy deposit protection.
+
+dateOfChange.title = DateOfChange
+dateOfChange.heading = DateOfChange
+dateOfChange.checkYourAnswersLabel = DateOfChange
+dateOfChange.error.required.all = Enter the dateOfChange
+dateOfChange.error.required.two = The dateOfChange must include {0} and {1}
+dateOfChange.error.required = The dateOfChange must include {0}
+dateOfChange.error.invalid = Enter a real DateOfChange
