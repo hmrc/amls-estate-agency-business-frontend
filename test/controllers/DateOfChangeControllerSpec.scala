@@ -77,7 +77,7 @@ class DateOfChangeControllerSpec extends SpecBase with MockitoSugar {
       application.stop()
     }
 
-    "populate the view correctly (no data) on a GET when the question has previously been answered" in {
+    "populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = UserAnswers().set(DateOfChangePage, validAnswer).success.value
 
@@ -90,7 +90,7 @@ class DateOfChangeControllerSpec extends SpecBase with MockitoSugar {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode)(getRequest, messages).toString
+        view(form.fill(validAnswer), NormalMode)(getRequest, messages).toString
 
       application.stop()
     }

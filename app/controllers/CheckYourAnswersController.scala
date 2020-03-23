@@ -45,7 +45,6 @@ class CheckYourAnswersController @Inject()(
 
       val sections = Seq(AnswerSection(None, Seq(
         checkYourAnswersHelper.eabServicesProvided,
-        checkYourAnswersHelper.dateOfChange,
         checkYourAnswersHelper.redressScheme,
         checkYourAnswersHelper.clientMoneyProtectionScheme,
         checkYourAnswersHelper.penalisedEstateAgentsAct,

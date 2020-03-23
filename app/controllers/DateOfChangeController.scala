@@ -47,7 +47,12 @@ class DateOfChangeController @Inject()(
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData) {
     implicit request =>
 
-      Ok(view(form, mode))
+      val preparedForm = request.userAnswers.getOrElse(UserAnswers()).get(DateOfChangePage) match {
+        case None => form
+        case Some(value) => form.fill(value)
+      }
+
+      Ok(view(preparedForm, mode))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData).async {
