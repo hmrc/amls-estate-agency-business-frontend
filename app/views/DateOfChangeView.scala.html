@@ -14,9 +14,12 @@
  * limitations under the License.
  *@
 
+@import config.FrontendAppConfig
+
 @this(
     main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    formHelper: FormWithCSRF,
+    appConfig: FrontendAppConfig
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
@@ -31,12 +34,17 @@
 
         @components.error_summary(form.errors)
 
+        @components.page_heading("eab.heading")
+
         @components.input_date(
             field = form("value"),
             legend = messages("dateOfChange.heading"),
+            hint = Some(messages("dateOfChange.hint")),
             headingIsLegend = true
         )()
 
         @components.submit_button()
+
+        @components.anchor(appConfig = appConfig)
     }
 }
