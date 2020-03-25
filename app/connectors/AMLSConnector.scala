@@ -49,4 +49,12 @@ class AMLSConnector @Inject()(config: Configuration,
       implicitly
     )
   }
+
+  def isPreSubmission(amlsRefNo: Option[String],
+                      accountTypeId: (String, String),
+                      credId: String)(implicit hc: HeaderCarrier): Future[Option[JsObject]] = {
+    val getUrl = s"$url/ispresubmission/$amlsRefNo/$accountTypeId/$credId"
+
+    httpClient.GET[Option[JsObject]](getUrl)
+  }
 }

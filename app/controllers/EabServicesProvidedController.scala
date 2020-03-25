@@ -19,12 +19,12 @@ package controllers
 import controllers.actions._
 import forms.EabServicesProvidedFormProvider
 import javax.inject.Inject
-import models.{Mode, UserAnswers}
+import models.{EabServicesProvided, Mode, UserAnswers}
 import navigation.Navigator
 import pages.EabServicesProvidedPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import repositories.{AMLSFrontEndSessionRepository}
+import repositories.AMLSFrontEndSessionRepository
 import uk.gov.hmrc.play.bootstrap.controller.FrontendBaseController
 import views.html.EabServicesProvidedView
 
@@ -58,6 +58,8 @@ class EabServicesProvidedController @Inject()(
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData).async {
     implicit request =>
 
+      val current = request.userAnswers.getOrElse(UserAnswers())
+
       form.bindFromRequest().fold(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
@@ -65,8 +67,7 @@ class EabServicesProvidedController @Inject()(
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.getOrElse(UserAnswers()).set(EabServicesProvidedPage, value))
-            _              <- sessionRepository.set(request.credId, updatedAnswers)
-          } yield Redirect(navigator.nextPage(EabServicesProvidedPage, mode, updatedAnswers))
-      )
+            _ <- sessionRepository.set(request.credId, updatedAnswers)
+          } yield Redirect(navigator.dateOfChangePageNext(EabServicesProvidedPage, mode, updatedAnswers, current)))
   }
 }

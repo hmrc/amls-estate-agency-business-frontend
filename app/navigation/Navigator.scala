@@ -84,13 +84,6 @@ class Navigator @Inject()() {
     }
   }
 
-  private def moneyProtectionSchemeRoute(answers: UserAnswers): Call = {
-    answers.get(EabServicesProvidedPage) match {
-      case Some(services) if services.contains(Lettings) => routes.ClientMoneyProtectionSchemeController.onPageLoad(NormalMode)
-      case _        => routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode)
-    }
-  }
-
   private val checkRouteMap: Page => UserAnswers => Call = {
     case EabServicesProvidedPage             => _ => routes.DateOfChangeController.onPageLoad(CheckMode)
     case DateOfChangePage                    =>      redressSchemeRouteCheckMode
@@ -103,6 +96,15 @@ class Navigator @Inject()() {
     case _                                   => _ => routes.CheckYourAnswersController.onPageLoad()
   }
 
+  private def requireDateOfChange(answers: UserAnswers, current: UserAnswers): Call = {
+    current.get(EabServicesProvidedPage).getOrElse(Seq()).equals(
+      answers.get(EabServicesProvidedPage).getOrElse(Seq())
+    ) match {
+      case true => routes.CheckYourAnswersController.onPageLoad()
+      case _ => routes.DateOfChangeController.onPageLoad(CheckMode)
+    }
+  }
+
   private def redressSchemeRouteCheckMode(answers: UserAnswers): Call = {
     answers.get(EabServicesProvidedPage) map { ans =>
       ans.contains(Residential) || ans.contains(Lettings) match {
@@ -111,14 +113,6 @@ class Navigator @Inject()() {
       }
     }
   }.getOrElse(throw new Exception("Unable to navigate to page"))
-
-  private def moneyProtectionSchemeRouteCheckMode(answers: UserAnswers): Call = {
-    answers.get(EabServicesProvidedPage) match {
-      case Some(services) if services.contains(Lettings) => routes.ClientMoneyProtectionSchemeController.onPageLoad(CheckMode)
-      case Some(_) => routes.PenalisedEstateAgentsActController.onPageLoad(CheckMode)
-      case _           => routes.CheckYourAnswersController.onPageLoad
-    }
-  }
 
   private def redressSchemeDetailRouteCheckMode(answers: UserAnswers): Call = {
     answers.get(RedressSchemePage) match {
@@ -148,5 +142,11 @@ class Navigator @Inject()() {
       normalRoutes(page)(userAnswers)
     case CheckMode =>
       checkRouteMap(page)(userAnswers)
+  }
+  def dateOfChangePageNext(page: Page, mode: Mode, userAnswers: UserAnswers, current: UserAnswers): Call = mode match {
+    case NormalMode =>
+      normalRoutes(page)(userAnswers)
+    case CheckMode =>
+      requireDateOfChange(userAnswers, current)
   }
 }
