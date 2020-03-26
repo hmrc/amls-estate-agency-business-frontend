@@ -25,7 +25,9 @@ import pages.EabServicesProvidedPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.AMLSFrontEndSessionRepository
+import uk.gov.hmrc.play.HeaderCarrierConverter
 import uk.gov.hmrc.play.bootstrap.controller.FrontendBaseController
+import utils.ControllerHelper
 import views.html.EabServicesProvidedView
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -39,7 +41,8 @@ class EabServicesProvidedController @Inject()(
                                         requireData: DataRequiredAction,
                                         formProvider: EabServicesProvidedFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
-                                        view: EabServicesProvidedView
+                                        view: EabServicesProvidedView,
+                                        val controllerHelper: ControllerHelper
                                       )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
@@ -58,16 +61,18 @@ class EabServicesProvidedController @Inject()(
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData).async {
     implicit request =>
 
-      val current = request.userAnswers.getOrElse(UserAnswers())
-
       form.bindFromRequest().fold(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
 
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.getOrElse(UserAnswers()).set(EabServicesProvidedPage, value))
-            _ <- sessionRepository.set(request.credId, updatedAnswers)
-          } yield Redirect(navigator.dateOfChangePageNext(EabServicesProvidedPage, mode, updatedAnswers, current)))
+            updatedAnswers       <- Future.fromTry(request.userAnswers.getOrElse(UserAnswers()).set(EabServicesProvidedPage, value))
+            dateOfChangeRequired <- controllerHelper.requireDateOfChange(request.credId, request.amlsRefNumber.isDefined, updatedAnswers)
+            _                    <- sessionRepository.set(request.credId, updatedAnswers)
+          } yield Redirect(
+            navigator.nextPage(EabServicesProvidedPage, mode, updatedAnswers, Some(dateOfChangeRequired))
+          )
+      )
   }
 }

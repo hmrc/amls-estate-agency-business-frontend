@@ -22,6 +22,7 @@ import controllers.routes
 import models.EabServicesProvided.{Lettings, Residential}
 import pages._
 import models._
+import play.api.Logger
 
 @Singleton
 class Navigator @Inject()() {
@@ -96,12 +97,10 @@ class Navigator @Inject()() {
     case _                                   => _ => routes.CheckYourAnswersController.onPageLoad()
   }
 
-  private def requireDateOfChange(answers: UserAnswers, current: UserAnswers): Call = {
-    current.get(EabServicesProvidedPage).getOrElse(Seq()).equals(
-      answers.get(EabServicesProvidedPage).getOrElse(Seq())
-    ) match {
-      case true => routes.CheckYourAnswersController.onPageLoad()
-      case _ => routes.DateOfChangeController.onPageLoad(CheckMode)
+  private def requireDateOfChange(answers: UserAnswers, dateOfChangeRequired: Boolean): Call = {
+    dateOfChangeRequired match {
+      case true => routes.DateOfChangeController.onPageLoad(CheckMode)
+      case _    => redressSchemeRouteCheckMode(answers)
     }
   }
 
@@ -137,16 +136,14 @@ class Navigator @Inject()() {
     }
   }
 
-  def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call = mode match {
+  def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, dateOfChangeRequired: Option[Boolean] = None): Call = mode match {
     case NormalMode =>
       normalRoutes(page)(userAnswers)
     case CheckMode =>
-      checkRouteMap(page)(userAnswers)
-  }
-  def dateOfChangePageNext(page: Page, mode: Mode, userAnswers: UserAnswers, current: UserAnswers): Call = mode match {
-    case NormalMode =>
-      normalRoutes(page)(userAnswers)
-    case CheckMode =>
-      requireDateOfChange(userAnswers, current)
+      if(dateOfChangeRequired.isDefined) {
+        requireDateOfChange(userAnswers, dateOfChangeRequired.getOrElse(false))
+      } else {
+        checkRouteMap(page)(userAnswers)
+      }
   }
 }

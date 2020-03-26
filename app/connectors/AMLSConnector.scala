@@ -19,8 +19,8 @@ package connectors
 import config.Service
 import javax.inject.Inject
 import models.UserAnswers
-import play.api.Configuration
-import play.api.libs.json.{JsObject, Writes}
+import play.api.{Configuration, Logger}
+import play.api.libs.json.{JsObject, Json, Writes}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, HttpResponse}
 import uk.gov.hmrc.play.bootstrap.http.HttpClient
 
@@ -50,11 +50,23 @@ class AMLSConnector @Inject()(config: Configuration,
     )
   }
 
-  def isPreSubmission(amlsRefNo: Option[String],
-                      accountTypeId: (String, String),
-                      credId: String)(implicit hc: HeaderCarrier): Future[Option[JsObject]] = {
-    val getUrl = s"$url/ispresubmission/$amlsRefNo/$accountTypeId/$credId"
+  def requireDateOfChange(credId: String,
+                          isSubmitted: Boolean,
+                          userAnswers: UserAnswers)
+                         (implicit hc: HeaderCarrier) = {
 
-    httpClient.GET[Option[JsObject]](getUrl)
+    val postUrl = s"$url/require-date-change/$credId/$isSubmitted"
+
+    httpClient.POST[UserAnswers, JsObject](postUrl, userAnswers)(
+      implicitly[Writes[UserAnswers]],
+      implicitly[HttpReads[JsObject]],
+      hc.withExtraHeaders("Csrf-Token" -> "nocheck"),
+      implicitly
+    ) map {
+      response =>
+        // $COVERAGE-OFF$
+        Logger.debug(s"requireDateOfChange - Response Body: ${Json.toJson(response)}")
+        response
+    }
   }
 }
