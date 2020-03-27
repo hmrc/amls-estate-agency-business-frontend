@@ -44,7 +44,7 @@ POST       /client-money-protection-scheme                      controllers.Clie
 GET        /change-client-money-protection-scheme               controllers.ClientMoneyProtectionSchemeController.onPageLoad(mode: Mode = CheckMode)
 POST       /change-client-money-protection-scheme               controllers.ClientMoneyProtectionSchemeController.onSubmit(mode: Mode = CheckMode)
 
-GET        /dateOfChange                  controllers.DateOfChangeController.onPageLoad(mode: Mode = NormalMode)
-POST       /dateOfChange                  controllers.DateOfChangeController.onSubmit(mode: Mode = NormalMode)
-GET        /changeDateOfChange                        controllers.DateOfChangeController.onPageLoad(mode: Mode = CheckMode)
-POST       /changeDateOfChange                        controllers.DateOfChangeController.onSubmit(mode: Mode = CheckMode)
+GET        /dateOfChange                                        controllers.DateOfChangeController.onPageLoad(mode: Mode = NormalMode)
+POST       /dateOfChange                                        controllers.DateOfChangeController.onSubmit(mode: Mode = NormalMode)
+GET        /changeDateOfChange                                  controllers.DateOfChangeController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeDateOfChange                                  controllers.DateOfChangeController.onSubmit(mode: Mode = CheckMode)

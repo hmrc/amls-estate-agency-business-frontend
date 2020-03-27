@@ -150,7 +150,7 @@ class DateOfChangeControllerSpec extends SpecBase with MockitoSugar {
         status(result) mustEqual SEE_OTHER
       }
 
-      //TODO exception.getMessage must include("Required data not found")
+      exception.getMessage must include("Required data not found")
 
       application.stop()
     }
@@ -165,7 +165,7 @@ class DateOfChangeControllerSpec extends SpecBase with MockitoSugar {
         status(result) mustEqual SEE_OTHER
       }
 
-      //TODO exception.getMessage must include("Required data not found")
+      exception.getMessage must include("Required data not found")
 
       application.stop()
     }

@@ -40,7 +40,7 @@ class ControllerHelper @Inject()(amlsConnector: AMLSConnector,
                           (implicit ec: ExecutionContext, hc: HeaderCarrier): Future[String] = {
 
     amlsRefNo match {
-      case Some(number) => amlsBackEndConnector.status(number, accountTypeId).map(r => r.formBundleStatus)
+      case Some(number) => amlsBackEndConnector.status(number, accountTypeId).map(response => response.formBundleStatus)
       case None         => Future.successful("NotYetSubmitted")
     }
   }
