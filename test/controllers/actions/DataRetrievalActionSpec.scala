@@ -52,6 +52,7 @@ class DataRetrievalActionSpec extends SpecBase with MockitoSugar with ScalaFutur
           fakeRequest,
           Some("amlsRef"),
           "CredId",
+          ("foo", "bar"),
           AffinityGroup.Organisation))
 
         whenReady(futureResult) { result =>
@@ -72,6 +73,7 @@ class DataRetrievalActionSpec extends SpecBase with MockitoSugar with ScalaFutur
           fakeRequest,
           Some("amlsRef"),
           "CredId",
+          ("foo", "bar"),
           AffinityGroup.Organisation))
 
         whenReady(futureResult) { result =>

@@ -30,6 +30,7 @@ import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import repositories.AMLSFrontEndSessionRepository
+import utils.ControllerHelper
 import views.html.EabServicesProvidedView
 
 import scala.concurrent.Future
@@ -83,17 +84,52 @@ class EabServicesProvidedControllerSpec extends SpecBase with MockitoSugar {
       application.stop()
     }
 
-    "redirect to the next page when valid data is submitted" in {
+    "redirect to the right page when valid data is submitted and date of change required" in {
 
       val mockSessionRepository = mock[AMLSFrontEndSessionRepository]
+      val mockControllerHelper = mock[ControllerHelper]
 
       when(mockSessionRepository.set(any(), any())(any())) thenReturn Future.successful(true)
+      when(mockControllerHelper.getApplicationStatus(any(), any())(any(), any())) thenReturn Future.successful("Approved")
+      when(mockControllerHelper.requireDateOfChange(any(), any(), any())(any(), any())) thenReturn Future.successful(true)
 
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
             bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
-            bind[AMLSFrontEndSessionRepository].toInstance(mockSessionRepository)
+            bind[AMLSFrontEndSessionRepository].toInstance(mockSessionRepository),
+            bind[ControllerHelper].toInstance(mockControllerHelper)
+          )
+          .build()
+
+      val request =
+        FakeRequest(POST, eabServicesProvidedRoute)
+          .withFormUrlEncodedBody(("value[0]", EabServicesProvided.values.head.toString))
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual onwardRoute.url
+
+      application.stop()
+    }
+
+    "redirect to the right page when valid data is submitted and date of change is not required" in {
+
+      val mockSessionRepository = mock[AMLSFrontEndSessionRepository]
+      val mockControllerHelper = mock[ControllerHelper]
+
+      when(mockSessionRepository.set(any(), any())(any())) thenReturn Future.successful(true)
+      when(mockControllerHelper.getApplicationStatus(any(), any())(any(), any())) thenReturn Future.successful("NotYetSubmitted")
+      when(mockControllerHelper.requireDateOfChange(any(), any(), any())(any(), any())) thenReturn Future.successful(false)
+
+      val application =
+        applicationBuilder(userAnswers = Some(emptyUserAnswers))
+          .overrides(
+            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+            bind[AMLSFrontEndSessionRepository].toInstance(mockSessionRepository),
+            bind[ControllerHelper].toInstance(mockControllerHelper)
           )
           .build()
 
