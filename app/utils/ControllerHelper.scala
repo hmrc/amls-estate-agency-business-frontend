@@ -16,25 +16,32 @@
 
 package utils
 
-import connectors.AMLSConnector
+import connectors.{AMLSBackEndConnector, AMLSConnector}
 import javax.inject.Inject
 import models.UserAnswers
 import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class ControllerHelper @Inject()(amlsConnector: AMLSConnector) {
+class ControllerHelper @Inject()(amlsConnector: AMLSConnector,
+                                 amlsBackEndConnector: AMLSBackEndConnector) {
 
   def requireDateOfChange(credId: String,
-                          isSubmitted: Boolean,
-                          userAnswers: UserAnswers)
+                          userAnswers: UserAnswers,
+                          status: String)
                          (implicit ec: ExecutionContext, hc: HeaderCarrier) = {
 
-    amlsConnector.requireDateOfChange(credId, isSubmitted, userAnswers).flatMap { json =>
-      json.value("requireDateOfChange").toString.contains("true") match {
-        case true   => Future.successful(true)
-        case _      => Future.successful(false)
-      }
+
+    amlsConnector.requireDateOfChange(credId, status, userAnswers).map(r => r.requireDateOfChange)
+  }
+
+  def getApplicationStatus(amlsRefNo: Option[String],
+                           accountTypeId: (String, String))
+                          (implicit ec: ExecutionContext, hc: HeaderCarrier): Future[String] = {
+
+    amlsRefNo match {
+      case Some(number) => amlsBackEndConnector.status(number, accountTypeId).map(r => r.formBundleStatus)
+      case None         => Future.successful("NotYetSubmitted")
     }
   }
 }

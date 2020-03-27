@@ -19,13 +19,12 @@ package controllers
 import controllers.actions._
 import forms.EabServicesProvidedFormProvider
 import javax.inject.Inject
-import models.{EabServicesProvided, Mode, UserAnswers}
+import models.{Mode, UserAnswers}
 import navigation.Navigator
 import pages.EabServicesProvidedPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.AMLSFrontEndSessionRepository
-import uk.gov.hmrc.play.HeaderCarrierConverter
 import uk.gov.hmrc.play.bootstrap.controller.FrontendBaseController
 import utils.ControllerHelper
 import views.html.EabServicesProvidedView
@@ -68,7 +67,8 @@ class EabServicesProvidedController @Inject()(
         value =>
           for {
             updatedAnswers       <- Future.fromTry(request.userAnswers.getOrElse(UserAnswers()).set(EabServicesProvidedPage, value))
-            dateOfChangeRequired <- controllerHelper.requireDateOfChange(request.credId, request.amlsRefNumber.isDefined, updatedAnswers)
+            status               <- controllerHelper.getApplicationStatus(request.amlsRefNumber, request.accountTypeId)
+            dateOfChangeRequired <- controllerHelper.requireDateOfChange(request.credId, updatedAnswers, status)
             _                    <- sessionRepository.set(request.credId, updatedAnswers)
           } yield Redirect(
             navigator.nextPage(EabServicesProvidedPage, mode, updatedAnswers, Some(dateOfChangeRequired))
