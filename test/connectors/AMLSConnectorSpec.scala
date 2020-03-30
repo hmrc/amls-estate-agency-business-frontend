@@ -20,7 +20,7 @@ import java.time.{LocalDate, LocalDateTime, ZoneOffset}
 
 import base.SpecBase
 import models.EabServicesProvided.Auctioneering
-import models.UserAnswers
+import models.{DateOfChangeResponse, UserAnswers}
 import org.mockito.Matchers.{any, eq => eqTo}
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
@@ -74,6 +74,27 @@ class AMLSConnectorSpec extends SpecBase with MockitoSugar {
 
       amlsConnector.set("someid", answers)
       verify(amlsConnector.httpClient).PUT(eqTo(putUrl), eqTo(answers), any())(any(), any(), any(), any())
+    }
+  }
+
+  "requireDateOfChange" must {
+    val credId                   = "someid"
+    val submissionStatus         = "Approved"
+    val mockDateOfChangeResponse = mock[DateOfChangeResponse]
+
+    "make a request to amls frontend to find out if date of change is required" in {
+      val url = s"${amlsConnector.url}/require-date-change/$credId/$submissionStatus"
+
+      when(
+        amlsConnector.httpClient.POST[UserAnswers, DateOfChangeResponse](
+          eqTo(url), eqTo(answers), any()
+        )(any(), any(), any(), any())).thenReturn(Future.successful(mockDateOfChangeResponse))
+
+      amlsConnector.requireDateOfChange(credId, submissionStatus, answers)
+
+      verify(amlsConnector.httpClient).POST[UserAnswers, DateOfChangeResponse](
+        eqTo(url), eqTo(answers), any()
+      )(any(), any(), any(), any())
     }
   }
 }

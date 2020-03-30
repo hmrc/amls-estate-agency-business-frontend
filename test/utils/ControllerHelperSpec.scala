@@ -18,11 +18,10 @@ package utils
 
 import base.SpecBase
 import connectors.{AMLSBackEndConnector, AMLSConnector}
-import models.ReadStatusResponse
+import models.{DateOfChangeResponse, ReadStatusResponse, UserAnswers}
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.inject.bind
 import uk.gov.hmrc.http.HeaderCarrier
-import org.mockito.Matchers.{any, eq => eqTo}
 import org.mockito.Mockito._
 
 import scala.concurrent.Future
@@ -36,6 +35,9 @@ class ControllerHelperSpec extends SpecBase with MockitoSugar {
   val amlsRefNo                = "refNo"
   val accountTypeId            = ("foo", "bar")
   val statusResponse           = mock[ReadStatusResponse]
+  val mockDateOfChangeResponse = mock[DateOfChangeResponse]
+  val credId                   = "foo"
+  val mockAnswers              = UserAnswers()
 
   val application =
     applicationBuilder(userAnswers = Some(emptyUserAnswers))
@@ -52,9 +54,7 @@ class ControllerHelperSpec extends SpecBase with MockitoSugar {
     "return the application status as NotYetSubmitted where no amls reference number" in {
       val response = helper.getApplicationStatus(None, accountTypeId)
 
-      response map {r =>
-        r mustBe "NotYetSubmitted"
-      }
+      response.map(r => r mustBe "NotYetSubmitted")
     }
 
     "return an application status of Approved where amls reference number present" in {
@@ -65,9 +65,7 @@ class ControllerHelperSpec extends SpecBase with MockitoSugar {
 
       val response = helper.getApplicationStatus(None, accountTypeId)
 
-      response map {r =>
-        r mustBe "Approved"
-      }
+      response.map(r => r mustBe "Approved")
     }
   }
 
@@ -75,10 +73,28 @@ class ControllerHelperSpec extends SpecBase with MockitoSugar {
 
     "return false where date of change not required" in {
 
+      when(mockDateOfChangeResponse.requireDateOfChange).thenReturn(false)
+
+      when(mockAMLSConnector.requireDateOfChange(credId, "Approved", mockAnswers)).thenReturn(
+        Future.successful(mockDateOfChangeResponse)
+      )
+
+      val response = helper.requireDateOfChange(credId, mockAnswers, "Approved")
+
+      response.map(r => r mustBe false)
     }
 
     "return true where date of change is required" in {
 
+      when(mockDateOfChangeResponse.requireDateOfChange).thenReturn(true)
+
+      when(mockAMLSConnector.requireDateOfChange(credId, "Approved", mockAnswers)).thenReturn(
+        Future.successful(mockDateOfChangeResponse)
+      )
+
+      val response = helper.requireDateOfChange(credId, mockAnswers, "Approved")
+
+      response.map(r => r mustBe true)
     }
   }
 }

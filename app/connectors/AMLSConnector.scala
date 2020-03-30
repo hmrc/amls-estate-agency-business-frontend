@@ -52,8 +52,7 @@ class AMLSConnector @Inject()(config: Configuration,
 
   def requireDateOfChange(credId: String,
                           submissionStatus: String,
-                          userAnswers: UserAnswers)
-                         (implicit hc: HeaderCarrier) = {
+                          userAnswers: UserAnswers)(implicit hc: HeaderCarrier) = {
 
     val postUrl = s"$url/require-date-change/$credId/$submissionStatus"
 
