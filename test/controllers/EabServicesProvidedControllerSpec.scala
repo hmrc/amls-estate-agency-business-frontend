@@ -25,7 +25,6 @@ import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.EabServicesProvidedPage
 import play.api.inject.bind
-import play.api.libs.json.{JsString, Json}
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
@@ -121,8 +120,14 @@ class EabServicesProvidedControllerSpec extends SpecBase with MockitoSugar {
       val mockControllerHelper = mock[ControllerHelper]
 
       when(mockSessionRepository.set(any(), any())(any())) thenReturn Future.successful(true)
-      when(mockControllerHelper.getApplicationStatus(any(), any())(any(), any())) thenReturn Future.successful("NotYetSubmitted")
-      when(mockControllerHelper.requireDateOfChange(any(), any(), any())(any(), any())) thenReturn Future.successful(false)
+
+      when(
+        mockControllerHelper.getApplicationStatus(any(), any())(any(), any())
+      ) thenReturn Future.successful("NotYetSubmitted")
+
+      when(
+        mockControllerHelper.requireDateOfChange(any(), any(), any())(any(), any())
+      ) thenReturn Future.successful(false)
 
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))

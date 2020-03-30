@@ -31,7 +31,7 @@ class AMLSBackEndConnector @Inject()(config: Configuration,
                                     (implicit ec: ExecutionContext) {
 
   private val baseUrl = config.get[Service]("microservice.services.amls")
-  private val statusUrl = s"$baseUrl/amls/subscription"
+  private[connectors] val statusUrl = s"$baseUrl/amls/subscription"
 
   // GET status (API9)
   def status(amlsRegistrationNumber: String, accountTypeId: (String, String))

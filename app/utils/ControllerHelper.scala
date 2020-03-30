@@ -26,15 +26,6 @@ import scala.concurrent.{ExecutionContext, Future}
 class ControllerHelper @Inject()(amlsConnector: AMLSConnector,
                                  amlsBackEndConnector: AMLSBackEndConnector) {
 
-  def requireDateOfChange(credId: String,
-                          userAnswers: UserAnswers,
-                          status: String)
-                         (implicit ec: ExecutionContext, hc: HeaderCarrier) = {
-
-
-    amlsConnector.requireDateOfChange(credId, status, userAnswers).map(r => r.requireDateOfChange)
-  }
-
   def getApplicationStatus(amlsRefNo: Option[String],
                            accountTypeId: (String, String))
                           (implicit ec: ExecutionContext, hc: HeaderCarrier): Future[String] = {
@@ -43,5 +34,13 @@ class ControllerHelper @Inject()(amlsConnector: AMLSConnector,
       case Some(number) => amlsBackEndConnector.status(number, accountTypeId).map(response => response.formBundleStatus)
       case None         => Future.successful("NotYetSubmitted")
     }
+  }
+
+  def requireDateOfChange(credId: String,
+                          userAnswers: UserAnswers,
+                          status: String)
+                         (implicit ec: ExecutionContext, hc: HeaderCarrier) = {
+
+    amlsConnector.requireDateOfChange(credId, status, userAnswers).map(r => r.requireDateOfChange)
   }
 }
