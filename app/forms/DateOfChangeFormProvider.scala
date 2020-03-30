@@ -16,7 +16,7 @@
 
 package forms
 
-import java.time.LocalDate
+import java.time.{LocalDate, ZoneOffset}
 
 import forms.mappings.Mappings
 import javax.inject.Inject
@@ -27,10 +27,17 @@ class DateOfChangeFormProvider @Inject() extends Mappings {
   def apply(): Form[LocalDate] =
     Form(
       "value" -> localDate(
-        invalidKey     = "dateOfChange.error.invalid",
+        invalidKey = "dateOfChange.error.invalid",
         allRequiredKey = "dateOfChange.error.required.all",
         twoRequiredKey = "dateOfChange.error.required.two",
-        requiredKey    = "dateOfChange.error.required"
-      )
+        requiredKey = "dateOfChange.error.required"
+      ).verifying(
+        minDate(DateOfChangeFormProvider.pastDate, "dateOfChange.error.past"),
+        maxDate(DateOfChangeFormProvider.futureDate, "dateOfChange.error.future"))
     )
+}
+object DateOfChangeFormProvider {
+
+  val pastDate   = LocalDate.of(1900, 1, 1)
+  val futureDate = LocalDate.now(ZoneOffset.UTC)
 }

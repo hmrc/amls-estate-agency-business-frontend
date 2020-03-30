@@ -42,10 +42,10 @@ class DateOfChangeController @Inject()(
                                         view: DateOfChangeView
                                       )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  val form = formProvider()
-
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData) {
     implicit request =>
+
+      val form = formProvider()
 
       val preparedForm = request.userAnswers.getOrElse(UserAnswers()).get(DateOfChangePage) match {
         case None => form
@@ -57,6 +57,8 @@ class DateOfChangeController @Inject()(
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData).async {
     implicit request =>
+
+      val form = formProvider()
 
       form.bindFromRequest().fold(
         formWithErrors =>
