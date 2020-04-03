@@ -32,7 +32,7 @@ class DateOfChangeFormProvider @Inject() extends Mappings {
         twoRequiredKey = "dateOfChange.error.required.two",
         requiredKey = "dateOfChange.error.required"
       ).verifying(
-        minDate(DateOfChangeFormProvider.pastDate, "x"),
+        minDate(DateOfChangeFormProvider.pastDate, "dateOfChange.error.past"),
         maxDate(DateOfChangeFormProvider.futureDate, "dateOfChange.error.future"))
     )
 }
