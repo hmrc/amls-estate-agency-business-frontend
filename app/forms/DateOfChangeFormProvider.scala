@@ -32,12 +32,12 @@ class DateOfChangeFormProvider @Inject() extends Mappings {
         twoRequiredKey = "dateOfChange.error.required.two",
         requiredKey = "dateOfChange.error.required"
       ).verifying(
-        minDate(DateOfChangeFormProvider.pastDate, "dateOfChange.error.past"),
+        minDate(DateOfChangeFormProvider.pastDate, "x"),
         maxDate(DateOfChangeFormProvider.futureDate, "dateOfChange.error.future"))
     )
 }
 object DateOfChangeFormProvider {
 
-  val pastDate   = LocalDate.of(1900, 1, 1)
-  val futureDate = LocalDate.now(ZoneOffset.UTC)
+  def pastDate   = LocalDate.of(1900, 1, 1)
+  def futureDate = LocalDate.now(ZoneOffset.UTC)
 }
