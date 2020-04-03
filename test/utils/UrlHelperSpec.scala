@@ -14,13 +14,27 @@
  * limitations under the License.
  */
 
-package models.requests
+package utils
 
-import play.api.mvc.{Request, WrappedRequest}
-import uk.gov.hmrc.auth.core.{AffinityGroup}
+import base.SpecBase
+import org.apache.commons.codec.binary.Base64.encodeBase64String
+import org.apache.commons.codec.digest.DigestUtils
 
-case class IdentifierRequest[A] (request: Request[A],
-                                 amlsRefNumber: Option[String],
-                                 credId: String,
-                                 accountTypeId: (String, String),
-                                 affinityGroup: AffinityGroup) extends WrappedRequest[A](request)
+
+class UrlHelperSpec extends SpecBase {
+
+  "UrlHelper" should {
+
+    "return a url safe encoded string when invalid chars in string" in {
+
+      val sha1: Array[Byte] = DigestUtils.sha1("foo=bar//=safe+")
+      val encoded = encodeBase64String(sha1)
+
+      val res = encoded.replace("=", "")
+        .replace("/", "_")
+        .replace("+", "-")
+
+      UrlHelper.hash("foo=bar//=safe+").mustEqual(res)
+    }
+  }
+}

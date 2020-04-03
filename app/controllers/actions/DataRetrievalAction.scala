@@ -35,9 +35,9 @@ class DataRetrievalActionImpl @Inject()(
 
     sessionRepository.get(request.credId).map {
       case None =>
-        OptionalDataRequest(request.request, request.credId, None)
+        OptionalDataRequest(request.request, request.credId, request.amlsRefNumber, request.accountTypeId,  None)
       case Some(userAnswers) =>
-        OptionalDataRequest(request.request, request.credId, Some(userAnswers))
+        OptionalDataRequest(request.request, request.credId,request.amlsRefNumber, request.accountTypeId, Some(userAnswers))
     }
   }
 }

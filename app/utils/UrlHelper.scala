@@ -14,13 +14,24 @@
  * limitations under the License.
  */
 
-package models.requests
+package utils
 
-import play.api.mvc.{Request, WrappedRequest}
-import uk.gov.hmrc.auth.core.{AffinityGroup}
+import org.apache.commons.codec.binary.Base64._
+import org.apache.commons.codec.digest.DigestUtils
 
-case class IdentifierRequest[A] (request: Request[A],
-                                 amlsRefNumber: Option[String],
-                                 credId: String,
-                                 accountTypeId: (String, String),
-                                 affinityGroup: AffinityGroup) extends WrappedRequest[A](request)
+object UrlHelper{
+
+  def hash(value: String): String = {
+    val sha1: Array[Byte] = DigestUtils.sha1(value)
+    val encoded = encodeBase64String(sha1)
+
+    urlSafe(encoded)
+  }
+
+  private def urlSafe(encoded: String): String = {
+    encoded.replace("=", "")
+      .replace("/", "_")
+      .replace("+", "-")
+  }
+}
+

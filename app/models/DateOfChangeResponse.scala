@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package models.requests
+package models
 
-import play.api.mvc.{Request, WrappedRequest}
-import uk.gov.hmrc.auth.core.{AffinityGroup}
+import play.api.libs.json._
 
-case class IdentifierRequest[A] (request: Request[A],
-                                 amlsRefNumber: Option[String],
-                                 credId: String,
-                                 accountTypeId: (String, String),
-                                 affinityGroup: AffinityGroup) extends WrappedRequest[A](request)
+case class DateOfChangeResponse(requireDateOfChange: Boolean)
+
+object DateOfChangeResponse {
+  implicit val format = Json.format[DateOfChangeResponse]
+}

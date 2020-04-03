@@ -28,6 +28,7 @@ import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
 import uk.gov.hmrc.auth.core.retrieve.~
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.HeaderCarrierConverter
+import utils.{UrlHelper}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -78,6 +79,7 @@ class AuthenticatedIdentifierAction @Inject()(
               request,
               amlsRefNo(enrolments),
               credentials.providerId,
+              accountTypeAndId(affinityGroup, enrolments, credentials.providerId),
               affinityGroup
             )
           )
@@ -123,5 +125,47 @@ class AuthenticatedIdentifierAction @Inject()(
       amlsIdentifier <- enrolment.getIdentifier(amlsNumberKey)
     } yield amlsIdentifier.value
     amlsRefNumber
+  }
+
+  private def getActiveEnrolment(enrolments: Enrolments, key: String) = {
+    /*
+    *  Look for activated enrolments only for SA and CT.
+    *  Enrolments can be 'Activated' or 'NotYetActivated'.
+    */
+    enrolments.getEnrolment(key).filter(e => e.isActivated)
+  }
+
+  private def accountTypeAndId(affinityGroup: AffinityGroup,
+                               enrolments: Enrolments,
+                               credId: String) = {
+    /*
+    * Set the `accountType` to `"org"` if `affinityGroup = "Organisation"` (which you get through retrievals)
+    * Set the `accountId` as a hash of the CredId. Its possible to get the `credId` through retrievals
+    */
+
+    /*
+     * For an affinity group other than Org;
+     * Retrieve the enrolments through retrievals.
+     * If one of them is `"IR-SA"`, you can set `accountType` to `"sa"` and `accountId` to the `value` for `key` `"UTR"`
+     * If one of them is `"IR-CT"`, you can set `accountType` to `"ct"` and `accountId` to the `value` for `key` `"UTR"`
+
+     */
+
+    affinityGroup match {
+      case AffinityGroup.Organisation => ("org", UrlHelper.hash(credId))
+      case _ =>
+
+        val sa = for {
+          enrolment <- getActiveEnrolment(enrolments, saKey)
+          utr       <- enrolment.getIdentifier("UTR")
+        } yield "sa" -> utr.value
+
+        val ct = for {
+          enrolment <- getActiveEnrolment(enrolments, ctKey)
+          utr       <- enrolment.getIdentifier("UTR")
+        } yield "ct" -> utr.value
+
+        (sa orElse ct).getOrElse(throw new enrolmentNotFound)
+    }
   }
 }

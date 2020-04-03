@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-package models.requests
+package pages
 
-import play.api.mvc.{Request, WrappedRequest}
-import uk.gov.hmrc.auth.core.{AffinityGroup}
+import java.time.LocalDate
 
-case class IdentifierRequest[A] (request: Request[A],
-                                 amlsRefNumber: Option[String],
-                                 credId: String,
-                                 accountTypeId: (String, String),
-                                 affinityGroup: AffinityGroup) extends WrappedRequest[A](request)
+import play.api.libs.json.JsPath
+
+case object DateOfChangePage extends QuestionPage[LocalDate] {
+
+  override def path: JsPath = JsPath \ toString
+
+  override def toString: String = "dateOfChange"
+}

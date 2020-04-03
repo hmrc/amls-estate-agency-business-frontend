@@ -22,6 +22,7 @@ import controllers.routes
 import models.EabServicesProvided.{Lettings, Residential}
 import pages._
 import models._
+import play.api.Logger
 
 @Singleton
 class Navigator @Inject()() {
@@ -84,15 +85,9 @@ class Navigator @Inject()() {
     }
   }
 
-  private def moneyProtectionSchemeRoute(answers: UserAnswers): Call = {
-    answers.get(EabServicesProvidedPage) match {
-      case Some(services) if services.contains(Lettings) => routes.ClientMoneyProtectionSchemeController.onPageLoad(NormalMode)
-      case _        => routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode)
-    }
-  }
-
   private val checkRouteMap: Page => UserAnswers => Call = {
-    case EabServicesProvidedPage             =>      redressSchemeRouteCheckMode
+    case EabServicesProvidedPage             => _ => routes.DateOfChangeController.onPageLoad(CheckMode)
+    case DateOfChangePage                    =>      redressSchemeRouteCheckMode
     case RedressSchemePage                   =>      redressSchemeDetailRouteCheckMode
     case PenalisedEstateAgentsActPage        =>      penalisedEstateAgentsActDetailsRouteCheckMode
     case ClientMoneyProtectionSchemePage     => _ => routes.CheckYourAnswersController.onPageLoad()
@@ -100,6 +95,13 @@ class Navigator @Inject()() {
     case PenalisedProfessionalBodyPage       =>      penalisedProfessionalBodyDetailsRouteCheckMode
     case PenalisedProfessionalBodyDetailPage => _ => routes.CheckYourAnswersController.onPageLoad()
     case _                                   => _ => routes.CheckYourAnswersController.onPageLoad()
+  }
+
+  private def requireDateOfChange(answers: UserAnswers, dateOfChangeRequired: Boolean): Call = {
+    dateOfChangeRequired match {
+      case true => routes.DateOfChangeController.onPageLoad(CheckMode)
+      case _    => redressSchemeRouteCheckMode(answers)
+    }
   }
 
   private def redressSchemeRouteCheckMode(answers: UserAnswers): Call = {
@@ -110,14 +112,6 @@ class Navigator @Inject()() {
       }
     }
   }.getOrElse(throw new Exception("Unable to navigate to page"))
-
-  private def moneyProtectionSchemeRouteCheckMode(answers: UserAnswers): Call = {
-    answers.get(EabServicesProvidedPage) match {
-      case Some(services) if services.contains(Lettings) => routes.ClientMoneyProtectionSchemeController.onPageLoad(CheckMode)
-      case Some(_) => routes.PenalisedEstateAgentsActController.onPageLoad(CheckMode)
-      case _           => routes.CheckYourAnswersController.onPageLoad
-    }
-  }
 
   private def redressSchemeDetailRouteCheckMode(answers: UserAnswers): Call = {
     answers.get(RedressSchemePage) match {
@@ -142,10 +136,14 @@ class Navigator @Inject()() {
     }
   }
 
-  def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call = mode match {
+  def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, dateOfChangeRequired: Option[Boolean] = None): Call = mode match {
     case NormalMode =>
       normalRoutes(page)(userAnswers)
     case CheckMode =>
-      checkRouteMap(page)(userAnswers)
+      if(dateOfChangeRequired.isDefined) {
+        requireDateOfChange(userAnswers, dateOfChangeRequired.getOrElse(false))
+      } else {
+        checkRouteMap(page)(userAnswers)
+      }
   }
 }

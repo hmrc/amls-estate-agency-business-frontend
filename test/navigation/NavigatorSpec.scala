@@ -124,24 +124,31 @@ class NavigatorSpec extends SpecBase {
         navigator.nextPage(UnknownPage, CheckMode, UserAnswers()) mustBe routes.CheckYourAnswersController.onPageLoad()
       }
 
-      "go from which services to redress scheme if residential" in {
+      "go from which services to date of change" in {
+        val answers = UserAnswers()
+
+        navigator.nextPage(EabServicesProvidedPage, CheckMode, answers)
+          .mustBe(routes.DateOfChangeController.onPageLoad(CheckMode))
+      }
+
+      "go from date of change to redress scheme if residential" in {
         val answers = UserAnswers().set(EabServicesProvidedPage, Seq(Residential)).success.value
 
-        navigator.nextPage(EabServicesProvidedPage, CheckMode, answers)
+        navigator.nextPage(DateOfChangePage, CheckMode, answers)
           .mustBe(routes.RedressSchemeController.onPageLoad(CheckMode))
       }
 
-      "go from which services to redress scheme if lettings" in {
+      "go from date of change to redress scheme if lettings" in {
         val answers = UserAnswers().set(EabServicesProvidedPage, Seq(Lettings)).success.value
 
-        navigator.nextPage(EabServicesProvidedPage, CheckMode, answers)
+        navigator.nextPage(DateOfChangePage, CheckMode, answers)
           .mustBe(routes.RedressSchemeController.onPageLoad(CheckMode))
       }
 
-      "go from which services to Check Your Answers if not residential" in {
+      "go from date of change to Check Your Answers if not residential" in {
         val answers = UserAnswers().set(EabServicesProvidedPage, Seq(AssetManagement)).success.value
 
-        navigator.nextPage(EabServicesProvidedPage, CheckMode, answers)
+        navigator.nextPage(DateOfChangePage, CheckMode, answers)
           .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
 
