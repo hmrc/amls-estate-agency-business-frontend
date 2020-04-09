@@ -140,8 +140,6 @@ $(document).ready(function () {
     window.onafterprint = function () {
         afterPrintCall();
     }
-
-    GOVUK.shimLinksWithButtonRole.init();
 });
 
 function numberInputs() {
