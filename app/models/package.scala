@@ -73,10 +73,15 @@ package object models {
 
       oldValue match {
         case oldValue: JsArray if index >= 0 && index <= oldValue.value.length =>
-          if (index == oldValue.value.length) {
-            JsSuccess(oldValue.append(newValue))
-          } else {
-            JsSuccess(JsArray(oldValue.value.updated(index, newValue)))
+          if(newValue.toString() != "null") {
+            if (index == oldValue.value.length) {
+              JsSuccess(oldValue.append(newValue))
+            } else {
+              JsSuccess(JsArray(oldValue.value.updated(index, newValue)))
+            }
+          }
+          else {
+            JsSuccess(oldValue)
           }
         case oldValue: JsArray =>
           JsError(s"array index out of bounds: $index, $oldValue")
@@ -103,7 +108,11 @@ package object models {
 
       oldValue match {
         case oldValue: JsObject =>
-          JsSuccess(oldValue + (key -> newValue))
+          if(newValue.toString() != "null") {
+            JsSuccess(oldValue + (key -> newValue))
+          } else {
+            JsSuccess(oldValue)
+          }
         case _ =>
           JsError(s"cannot set a key on $oldValue")
       }
