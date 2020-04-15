@@ -55,10 +55,10 @@ class RichJsValueSpec extends FreeSpec with MustMatchers with ScalaCheckProperty
       "must set a value on a JsObject" in {
 
         val gen = for {
-          originalKey <- nonEmptyAlphaStr
+          originalKey   <- nonEmptyAlphaStr
           originalValue <- nonEmptyAlphaStr
-          pathKey <- nonEmptyAlphaStr suchThat (_ != originalKey)
-          newValue <- nonEmptyAlphaStr
+          pathKey       <- nonEmptyAlphaStr suchThat (_ != originalKey)
+          newValue      <- nonEmptyAlphaStr
         } yield (originalKey, originalValue, pathKey, newValue)
 
         forAll(gen) {
