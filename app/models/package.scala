@@ -78,7 +78,6 @@ package object models {
           } else {
             JsSuccess(JsArray(oldValue.value.updated(index, newValue)))
           }
-
         case oldValue: JsArray =>
           JsError(s"array index out of bounds: $index, $oldValue")
         case _ =>
