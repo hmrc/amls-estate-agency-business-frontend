@@ -15,11 +15,11 @@
  *@
 
 @(
-field: Field,
-legend: String,
-legendClass: Option[String] = None,
-hint: Option[String] = None,
-headingIsLegend: Boolean = false
+    field: Field,
+    legend: String,
+    legendClass: Option[String] = None,
+    hint: Option[String] = None,
+    headingIsLegend: Boolean = false
 )(supportingContent: Html = HtmlFormat.empty)(implicit messages: Messages)
 
 <div class="form-group @if(field.hasErrors){form-group-error}">
@@ -49,10 +49,10 @@ headingIsLegend: Boolean = false
 
         <div id="@field.id" class="form-date">
             @List("day", "month", "year").map { part =>
-            <div class="form-control-wrapper form-group form-group-@part">
-                <label class="form-label" for="@field(part).id">@messages(s"date.$part")</label>
-                <input class="form-control @if(field.hasErrors){form-control-error}" id="@field(part).id" name="@field(part).name" type="tel" value="@field(part).value" />
-            </div>
+                <div class="form-control-wrapper form-group form-group-@part">
+                    <label class="form-label" for="@field(part).id">@messages(s"date.$part")</label>
+                    <input class="form-control @if(field.hasErrors){form-control-error}" id="@field(part).id" name="@field(part).name" type="tel" value="@field(part).value" />
+                </div>
             }
         </div>
     </fieldset>
