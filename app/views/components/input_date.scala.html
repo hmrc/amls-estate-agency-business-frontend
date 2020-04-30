@@ -27,24 +27,24 @@ headingIsLegend: Boolean = false
               @if(hint.nonEmpty && !field.hasErrors) {aria-describedby="@if(hint.nonEmpty){hint-@{field.id}}"}
               @if(hint.isEmpty && field.hasErrors) {aria-describedby="@if(field.hasErrors){error-message-@{field.id}-input}"}>
         @if(headingIsLegend){
-        <legend>
-            <h1 @if(legendClass.nonEmpty){class="@legendClass" }else{class="heading-xlarge"}>@legend</h1>
-        </legend>
-        @supportingContent
+            <legend>
+                <h1 @if(legendClass.nonEmpty){class="@legendClass" }else{class="heading-xlarge"}>@legend</h1>
+            </legend>
+            @supportingContent
         } else {
-        <legend @if(legendClass.nonEmpty){class="@legendClass" }>
-            @legend
-        </legend>
-        @supportingContent
+            <legend @if(legendClass.nonEmpty){class="@legendClass" }>
+                @legend
+            </legend>
+            @supportingContent
         }
         @if(hint.nonEmpty){
-        <div class="form-hint" id="hint-@{field.id}">@hint</div>
+            <div class="form-hint" id="hint-@{field.id}">@hint</div>
         }
 
         @if(field.errors.nonEmpty){
-        <div class="error-message" id="error-message-@field.id-input">
-            <span class="visually-hidden">@messages("error.browser.title.prefix") </span>@messages(field.errors.head.message, field.errors.head.args: _*)
-        </div>
+            <div class="error-message" id="error-message-@field.id-input">
+                <span class="visually-hidden">@messages("error.browser.title.prefix") </span>@messages(field.errors.head.message, field.errors.head.args: _*)
+            </div>
         }
 
         <div id="@field.id" class="form-date">
