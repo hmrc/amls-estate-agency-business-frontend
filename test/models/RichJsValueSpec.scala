@@ -38,8 +38,15 @@ class RichJsValueSpec extends FreeSpec with MustMatchers with ScalaCheckProperty
 
     "set" - {
 
-      "must return an error if the path is empty" in {
+      "must return the original value where null passed" in {
 
+        val path = JsPath \ "foo"
+        val value = Json.obj("foo" -> "one")
+
+        value.set(path, JsNull) mustEqual JsSuccess(value)
+      }
+
+      "must return an error if the path is empty" in {
         val value = Json.obj()
 
         value.set(JsPath, Json.obj()) mustEqual JsError("path cannot be empty")

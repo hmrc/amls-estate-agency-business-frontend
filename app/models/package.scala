@@ -103,7 +103,11 @@ package object models {
 
       oldValue match {
         case oldValue: JsObject =>
-          JsSuccess(oldValue + (key -> newValue))
+          if(newValue.toString() != "null") {
+            JsSuccess(oldValue + (key -> newValue))
+          } else {
+            JsSuccess(oldValue)
+          }
         case _ =>
           JsError(s"cannot set a key on $oldValue")
       }
