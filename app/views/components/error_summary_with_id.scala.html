@@ -1,4 +1,4 @@
-/*
+@*
  * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,28 +12,19 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package views
+@(errors: Seq[FormError], id: String)(implicit messages: Messages)
+@if(errors.nonEmpty) {
+    <div class="error-summary error-summary--show" role="alert" aria-labelledby="error-summary-heading" tabindex="-1">
 
-import play.api.data.Form
-import play.api.i18n.Messages
+        <h2 class="heading-medium error-summary-heading" id="error-summary-heading">
+        @messages("error.summary.title")
+        </h2>
 
-object ViewUtils {
+        <ul role="list" class="error-summary-list">
+            <li><a href="#@{id}">@messages(errors.head.message, errors.head.args:_*)</a></li>
+        </ul>
 
-  def errorPrefix(form: Form[_])(implicit messages: Messages): String = {
-    if (form.hasErrors || form.hasGlobalErrors) messages("error.browser.title.prefix") else ""
-  }
-
-  def genericYesNoErrorId = {
-    "value-yes"
-  }
-
-  def percentageExpectedTurnoverErrorId = {
-    //"percentageExpectedTurnover.zeroToTwenty"
-  }
-
-  def genericCheckboxErrorId = {
-    "value_0"
-  }
+    </div>
 }
