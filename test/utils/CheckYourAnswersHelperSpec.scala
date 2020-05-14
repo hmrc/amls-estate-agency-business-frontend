@@ -49,7 +49,7 @@ class CheckYourAnswersHelperSpec extends SpecBase {
           val doc = Jsoup.parse(answers.toString())
 
           doc.getElementsByClass("list list-bullet").size() mustBe 0
-          doc.getElementsByClass("list list-bullet").toString must include("Business transfer")
+          doc.toString must include("Business transfer")
 
         }
       }
