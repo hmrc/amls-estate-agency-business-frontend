@@ -25,15 +25,7 @@ object ViewUtils {
     if (form.hasErrors || form.hasGlobalErrors) messages("error.browser.title.prefix") else ""
   }
 
-  def genericYesNoErrorId = {
-    "value-yes"
-  }
-
-  def percentageExpectedTurnoverErrorId = {
-    //"percentageExpectedTurnover.zeroToTwenty"
-  }
-
-  def genericCheckboxErrorId = {
-    "value_0"
-  }
+  val genericYesNoErrorId = "value-yes"
+  val redressSchemeErrorId = "redressScheme.notRegistered"
+  val genericCheckboxErrorId = "value_0"
 }
