@@ -26,6 +26,6 @@
         @row.answer
     </dd>
     <dd class="cya-summary-list__actions">
-        <a href='@row.changeUrl' class="change-answer">@messages("site.edit")<span class="visuallyhidden"> @row.label</span></a>
+        <a id="@row.changeUrl.split('/').last" href='@row.changeUrl' class="change-answer">@messages("site.edit")<span class="visuallyhidden"> @row.label</span></a>
     </dd>
 </div>
