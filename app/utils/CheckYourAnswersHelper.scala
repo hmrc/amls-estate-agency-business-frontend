@@ -84,11 +84,19 @@ class CheckYourAnswersHelper(userAnswers: UserAnswers)(implicit messages: Messag
 
   def eabServicesProvided: Option[AnswerRow] = userAnswers.get(EabServicesProvidedPage) map {
     x =>
-      AnswerRow(
-        HtmlFormat.escape(messages("eabServicesProvided.checkYourAnswersLabel")),
-        Html("<ul>" + x.map(value => "<li>" + HtmlFormat.escape(messages(s"eabServicesProvided.$value")).toString + "</li>").mkString + "</ul>"),
-        routes.EabServicesProvidedController.onPageLoad(CheckMode).url
-      )
+      if(x.size == 1) {
+        AnswerRow(
+          HtmlFormat.escape(messages("eabServicesProvided.checkYourAnswersLabel")),
+          HtmlFormat.escape(messages(s"eabServicesProvided.${x.head}")),
+          routes.EabServicesProvidedController.onPageLoad(CheckMode).url
+        )
+      } else {
+        AnswerRow(
+          HtmlFormat.escape(messages("eabServicesProvided.checkYourAnswersLabel")),
+          Html("<ul class=\"list list-bullet\">" + x.map(value => "<li>" + HtmlFormat.escape(messages(s"eabServicesProvided.$value")).toString + "</li>").mkString + "</ul>"),
+          routes.EabServicesProvidedController.onPageLoad(CheckMode).url
+        )
+      }
   }
 
   private def yesOrNo(answer: Boolean)(implicit messages: Messages): Html =
