@@ -106,7 +106,7 @@ class Navigator @Inject()() {
 
   private def redressSchemeRouteCheckMode(answers: UserAnswers): Call = {
     answers.get(EabServicesProvidedPage) map { ans =>
-      ans.contains(Residential) || ans.contains(Lettings) match {
+      (ans.contains(Residential) && answers.get(RedressSchemePage).isEmpty) || (ans.contains(Lettings) && answers.get(ClientMoneyProtectionSchemePage).isEmpty) match {
         case true => routes.RedressSchemeController.onPageLoad(CheckMode)
         case _    => routes.CheckYourAnswersController.onPageLoad
       }
@@ -115,7 +115,7 @@ class Navigator @Inject()() {
 
   private def redressSchemeDetailRouteCheckMode(answers: UserAnswers): Call = {
     answers.get(RedressSchemePage) match {
-      case Some(_) if answers.get(EabServicesProvidedPage).exists(_.contains(Lettings)) => routes.ClientMoneyProtectionSchemeController.onPageLoad(CheckMode)
+      case Some(_) if answers.get(EabServicesProvidedPage).exists(_.contains(Lettings)) && answers.get(ClientMoneyProtectionSchemePage).isEmpty => routes.ClientMoneyProtectionSchemeController.onPageLoad(CheckMode)
       case _                                                                            => routes.CheckYourAnswersController.onPageLoad
     }
   }
