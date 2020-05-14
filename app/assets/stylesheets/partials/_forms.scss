@@ -164,3 +164,229 @@ override character count display
 .form-field--error .form-control {
     border: 4px solid #d4351c;
 }
+
+/* summary styles */
+
+table.summary-title {
+    width: 88%;
+}
+
+table.summary {
+    table-layout: fixed;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+table.summary th {
+    vertical-align: top;
+}
+
+table.summary th.edit {
+    font-weight: normal;
+}
+
+table.summary td {
+    word-break: break-all;
+}
+
+table.summary ul li {
+    font-size: 16px;
+    margin-bottom: 0;
+}
+
+table caption {
+    font-weight: inherit;
+    text-align: left;
+}
+
+.panel-indent {
+    /*margin-bottom: 40px;*/
+}
+
+fieldset .panel-indent {
+    margin-bottom: 20px;
+}
+
+.check-your-answers {
+    margin-bottom: 20px;
+    word-break: break-word;
+}
+
+.check-your-answers__listing {
+    margin: 0 0 10px;
+}
+
+.check-your-answers,
+.check-your-answers__listing {
+    border-bottom: 1px solid #bfc1c3;
+    padding: 0 0 .52632em 0;
+    word-break: break-word;
+}
+
+ul#complete-rp-list, ul#complete-tp-list {
+    border-top: 1px solid #bfc1c3;
+    margin-top: 20px;
+}
+
+ul#incomplete-rp-list, ul#incomplete-tp-list {
+    border-top: 1px solid #bfc1c3;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+h2#incomplete-header {
+    margin-top: 1.875em !important;
+    margin-bottom: 0.83333em;
+}
+h2#complete-header {
+    margin-top: 1.875em !important;
+    margin-bottom: 0.83333em;
+}
+
+.summary__listing {
+    border-bottom: 1px solid #bfc1c3;
+    padding-top:15px;
+    padding-bottom:15px;
+}
+
+.summary__listing > div > div:nth-child(1) {
+    display:inline-block;
+    width: 66.66%;
+}
+
+.summary__listing > div > div:nth-child(2) {
+    float:right;
+    margin-right:0px;
+}
+
+.cya-summary-list {
+    display: table;
+}
+@media (max-width: 640px) {
+    .cya-summary-list {
+        display: block;
+    }
+}
+
+.cya-summary-list__row {
+    display: table-row;
+}
+
+@media (max-width: 640px) {
+    .cya-summary-list__row {
+        display: block;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #b1b4b6;
+    }
+}
+
+.cya-summary-list__key,
+.cya-summary-list__value,
+.cya-summary-list__actions {
+    display: table-cell;
+    padding: 10px 20px 10px 0;
+    border-bottom: 1px solid #b1b4b6;
+}
+
+.cya-summary-list__key {
+    width: 50%;
+}
+
+@media (max-width: 640px) {
+    .cya-summary-list__key {
+        width: auto;
+    }
+}
+
+@media (max-width: 640px) {
+    .cya-summary-list__key,
+    .cya-summary-list__value,
+    .cya-summary-list__actions {
+        display: block;
+        border-bottom: 0;
+        padding: 0;
+    }
+}
+
+.cya-summary-list__value {
+    margin-bottom: 15px;
+}
+
+.cya-summary-list__value > :last-child {
+    margin-bottom: 0;
+}
+
+
+.cya-summary-list__actions {
+    white-space: nowrap;
+    padding-right: 0;
+    text-align: right;
+}
+
+@media (max-width: 640px) {
+    .cya-summary-list__actions {
+        text-align: left;
+    }
+}
+
+@media (max-width: 640px) {
+    .table-placeholder {
+        height: 0;
+        margin-bottom: -15px;
+        display: block;
+    }
+}
+
+/* class for older browsers; pseudo-class for modern browsers */
+
+.check-your-answers__last,
+.check-your-answers:last-of-type,
+.check-your-answers__listing:last-of-type {
+    border: 0;
+}
+
+.check-your-answers header {
+    padding: 0;
+}
+
+.check-your-answers h2 {
+    margin-bottom: 0;
+    margin-top: 0;
+    padding: 0 0 .52632em 0;
+}
+
+.check-your-answers .list,
+.check-your-answers .list li,
+.check-your-answers p {
+    margin-top: 0;
+    margin-bottom: 1.05263em;
+}
+
+.check-your-answers .list li {
+    margin-bottom: .05263em;
+}
+
+.check-your-answers .edit,
+.check-your-answers--list li,
+.check-your-answers--header .heading-xsmall {
+    font-size: 16px;
+    word-wrap: break-word;
+}
+
+.check-your-answers .change-answer {
+    color: #1d70b8;
+    font-weight: bold;
+    line-height: 1.25;
+    margin: 0 0 .21053em;
+    text-decoration: underline;
+}
+
+.check-your-answers__footer {
+    text-align: right;
+    vertical-align: middle;
+}
+
+.list--listing .check-your-answers__footer {
+    text-align: left;
+}

@@ -18,13 +18,14 @@
 
 @(row: AnswerRow)(implicit messages: Messages)
 
-<li>
-    <div class="cya-question">@row.label</div>
-    <div class="cya-answer">@row.answer</div>
-    <div class="cya-change">
-        <a href='@row.changeUrl'>
-            <span aria-hidden="true">@messages("site.edit")</span>
-            <span class="visually-hidden">@messages("site.hidden-edit", row.label)</span>
-        </a>
-    </div>
-</li>
+<div class="cya-summary-list__row">
+    <dt class="cya-summary-list__key">
+        <span class="bold">@row.label</span>
+    </dt>
+    <dd class="cya-summary-list__value">
+        @row.answer
+    </dd>
+    <dd class="cya-summary-list__actions">
+        <a href='@row.changeUrl' class="change-answer">@messages("site.edit")<span class="visuallyhidden"> @row.label</span></a>
+    </dd>
+</div>
