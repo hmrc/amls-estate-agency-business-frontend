@@ -106,7 +106,7 @@ class Navigator @Inject()() {
 
   private def redressSchemeRouteCheckMode(answers: UserAnswers): Call = {
     answers.get(EabServicesProvidedPage) map { ans =>
-      ans.contains(Residential) || ans.contains(Lettings) match {
+      (isRedressQuestionNotAnswered(ans, answers) || isCmpQuestionNotAnswered(ans, answers)) match {
         case true => routes.RedressSchemeController.onPageLoad(CheckMode)
         case _    => routes.CheckYourAnswersController.onPageLoad
       }
@@ -114,11 +114,20 @@ class Navigator @Inject()() {
   }.getOrElse(throw new Exception("Unable to navigate to page"))
 
   private def redressSchemeDetailRouteCheckMode(answers: UserAnswers): Call = {
-    answers.get(RedressSchemePage) match {
-      case Some(_) if answers.get(EabServicesProvidedPage).exists(_.contains(Lettings)) => routes.ClientMoneyProtectionSchemeController.onPageLoad(CheckMode)
-      case _                                                                            => routes.CheckYourAnswersController.onPageLoad
+    answers.get(EabServicesProvidedPage) map { ans =>
+      if (isCmpQuestionNotAnswered(ans, answers)) {
+        routes.ClientMoneyProtectionSchemeController.onPageLoad(CheckMode)
+      } else {
+        routes.CheckYourAnswersController.onPageLoad
+      }
     }
-  }
+  }.getOrElse(throw new Exception("Unable to navigate to page"))
+
+  private def isRedressQuestionNotAnswered(ans: Seq[EabServicesProvided], answers: UserAnswers) =
+    ans.contains(Residential) && answers.get(RedressSchemePage).isEmpty
+
+  private def isCmpQuestionNotAnswered(ans: Seq[EabServicesProvided], answers: UserAnswers) =
+    ans.contains(Lettings) && answers.get(ClientMoneyProtectionSchemePage).isEmpty
 
   private def penalisedEstateAgentsActDetailsRouteCheckMode(answers: UserAnswers): Call = {
     answers.get(PenalisedEstateAgentsActPage) match {

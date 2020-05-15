@@ -14,17 +14,17 @@
  * limitations under the License.
  *@
 
-@import viewmodels.AnswerSection
-@import views.html._
+@(errors: Seq[FormError], id: String)(implicit messages: Messages)
+@if(errors.nonEmpty) {
+    <div class="error-summary error-summary--show" role="alert" aria-labelledby="error-summary-heading" tabindex="-1">
 
-@(answerSection: AnswerSection)(implicit messages: Messages)
+        <h2 class="heading-medium error-summary-heading" id="error-summary-heading">
+        @messages("error.summary.title")
+        </h2>
 
-@if(answerSection.headingKey.isDefined){
-    <h2 class="heading-large">@messages(answerSection.headingKey.get)</h2>
+        <ul role="list" class="error-summary-list">
+            <li><a href="#@{id}">@messages(errors.head.message, errors.head.args:_*)</a></li>
+        </ul>
+
+    </div>
 }
-
-<dl class="cya-summary-list">
-    @for(row <- answerSection.rows){
-        @components.answer_row(row)
-    }
-</dl>

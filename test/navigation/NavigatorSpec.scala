@@ -131,18 +131,34 @@ class NavigatorSpec extends SpecBase {
           .mustBe(routes.DateOfChangeController.onPageLoad(CheckMode))
       }
 
-      "go from date of change to redress scheme if residential" in {
+      "go from date of change to redress scheme if residential and residential not answered" in {
         val answers = UserAnswers().set(EabServicesProvidedPage, Seq(Residential)).success.value
 
         navigator.nextPage(DateOfChangePage, CheckMode, answers)
           .mustBe(routes.RedressSchemeController.onPageLoad(CheckMode))
       }
 
-      "go from date of change to redress scheme if lettings" in {
+      "go from date of change to check your answers if residential and residential answered" in {
+        val answersWithRedress = UserAnswers().set(RedressSchemePage, ThePropertyOmbudsman).success.value
+        val answers = answersWithRedress.set(EabServicesProvidedPage, Seq(Residential)).success.value
+
+        navigator.nextPage(DateOfChangePage, CheckMode, answers)
+          .mustBe(routes.CheckYourAnswersController.onPageLoad())
+      }
+
+      "go from date of change to redress scheme if lettings and client money protection not answered" in {
         val answers = UserAnswers().set(EabServicesProvidedPage, Seq(Lettings)).success.value
 
         navigator.nextPage(DateOfChangePage, CheckMode, answers)
           .mustBe(routes.RedressSchemeController.onPageLoad(CheckMode))
+      }
+
+      "go from date of change to check your answers if lettings and client money protection answered" in {
+        val answersWithCmp = UserAnswers().set(ClientMoneyProtectionSchemePage, true).success.value
+        val answers = answersWithCmp.set(EabServicesProvidedPage, Seq(Lettings)).success.value
+
+        navigator.nextPage(DateOfChangePage, CheckMode, answers)
+          .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
 
       "go from date of change to Check Your Answers if not residential" in {
@@ -152,8 +168,26 @@ class NavigatorSpec extends SpecBase {
           .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
 
-      "go from redress scheme to Check Your Answers if redress scheme not other" in {
-        val answers = UserAnswers().set(RedressSchemePage, ThePropertyOmbudsman).success.value
+      "go from redress scheme to Check Your Answers if lettings not selected" in {
+        val answersWithLettings = UserAnswers().set(EabServicesProvidedPage, Seq(AssetManagement)).success.value
+        val answers = answersWithLettings.set(RedressSchemePage, NotRegistered).success.value
+
+        navigator.nextPage(RedressSchemePage, CheckMode, answers)
+          .mustBe(routes.CheckYourAnswersController.onPageLoad())
+      }
+
+      "go from redress scheme to Client Money Protection if lettings selected and CMP not answered" in {
+        val answersWithLettings = UserAnswers().set(EabServicesProvidedPage, Seq(Lettings)).success.value
+        val answers = answersWithLettings.set(RedressSchemePage, NotRegistered).success.value
+
+        navigator.nextPage(RedressSchemePage, CheckMode, answers)
+          .mustBe(routes.ClientMoneyProtectionSchemeController.onPageLoad(CheckMode))
+      }
+
+      "go from redress scheme to Check Your Answers if lettings selected and CMP answered" in {
+        val answersWithLettings = UserAnswers().set(EabServicesProvidedPage, Seq(Lettings)).success.value
+        val answersWithCmp = answersWithLettings.set(ClientMoneyProtectionSchemePage, true).success.value
+        val answers = answersWithCmp.set(RedressSchemePage, NotRegistered).success.value
 
         navigator.nextPage(RedressSchemePage, CheckMode, answers)
           .mustBe(routes.CheckYourAnswersController.onPageLoad())

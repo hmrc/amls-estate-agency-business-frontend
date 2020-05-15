@@ -17,6 +17,7 @@
 @import controllers.routes._
 @import models.Mode
 @import config.FrontendAppConfig
+@import views.ViewUtils
 
 @this(
         main_template: MainTemplate,
@@ -42,7 +43,7 @@
 
         @components.back_link()
 
-        @components.error_summary(form.errors)
+        @components.error_summary_with_id(form.errors, ViewUtils.genericYesNoErrorId)
 
         @components.page_heading("eab.heading")
 

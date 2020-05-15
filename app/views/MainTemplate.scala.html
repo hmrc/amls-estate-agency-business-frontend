@@ -40,13 +40,19 @@
     }
 }
 
+@content = {
+    <div class = "content__body">
+        @mainContent
+    </div>
+}
+
 @govuk_wrapper(appConfig = appConfig,
                title = title,
                mainClass = mainClass,
                bodyClasses = bodyClasses,
                sidebar = sidebarContent,
                contentHeader = contentHeader,
-               mainContent = article(mainContent),
+               mainContent = content,
                serviceInfoContent = serviceInfoContent,
                scriptElem = scriptElem
 )
