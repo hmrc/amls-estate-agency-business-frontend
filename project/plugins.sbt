@@ -10,9 +10,9 @@ addSbtPlugin("uk.gov.hmrc" % "sbt-git-versioning" % "2.1.0")
 
 addSbtPlugin("uk.gov.hmrc" % "sbt-distributables" % "2.0.0")
 
-addSbtPlugin("uk.gov.hmrc" % "sbt-artifactory" % "1.0.0")
+addSbtPlugin("uk.gov.hmrc" % "sbt-artifactory" % "1.2.0")
 
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.6.20")
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.6.24")
 
 addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "1.0.0")
 
