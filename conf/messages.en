@@ -142,3 +142,6 @@ dateOfChange.error.required = Date of the change must include a {0}
 dateOfChange.error.invalid = Enter a real date for when this change happened
 dateOfChange.error.past = Date of the change must be after 1900
 dateOfChange.error.future = Date of the change must be today or in the past
+
+############################### Footer ###############################
+footer.links.accessibility.text = Accessibility statement
