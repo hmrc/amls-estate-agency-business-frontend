@@ -28,8 +28,8 @@
 
 <div class="form-group @if(field.hasErrors){form-group-error}">
     <fieldset
-        @if(hint.nonEmpty && field.hasErrors) {aria-describedby="@if(hint.nonEmpty){@{field.id}-hint }@if(field.hasErrors){@{field.id}-error-notification}"}
-        @if(hint.nonEmpty && !field.hasErrors) {aria-describedby="@if(hint.nonEmpty){@{field.id}-hint}"}
+        @if(hint.nonEmpty && field.hasErrors) {aria-describedby="@if(hint.nonEmpty){hint-@{field.id} }@if(field.hasErrors){@{field.id}-error-notification}"}
+        @if(hint.nonEmpty && !field.hasErrors) {aria-describedby="@if(hint.nonEmpty){hint-@{field.id}}"}
         @if(hint.isEmpty && field.hasErrors) {aria-describedby="@if(field.hasErrors){@{field.id}-error-notification}"}>
 
         @if(headingIsLegend){
