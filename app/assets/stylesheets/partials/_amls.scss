@@ -40,3 +40,13 @@
   margin-top: 1px;
   padding-bottom: 2px;
 }
+
+.govuk-error-message.govuk-character-count__message {
+  color: #d4351c;
+  font-weight: bold;
+}
+
+.govuk-textarea.form-control.form-control--full-width {
+  width: 100%;
+  margin-bottom: 5px;
+}
