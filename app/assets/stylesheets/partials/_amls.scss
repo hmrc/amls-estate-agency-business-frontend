@@ -60,3 +60,7 @@
   padding: unset;
   margin-bottom: 10px;
 }
+
+.govuk-character-count .govuk-textarea:focus {
+  border: 2px solid #0b0c0c;
+}
