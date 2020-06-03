@@ -1,0 +1,1 @@
+ + [AMLS-5935] - 'Added additional styling to character counter error message'
