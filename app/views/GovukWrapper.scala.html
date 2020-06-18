@@ -27,8 +27,7 @@
     footer_links: FooterLinks,
     main_content: MainContent,
     reportAProblemLink: ReportAProblemLink,
-    hmrcGovUkTemplate: GovUkTemplate,
-    betaBanner: BetaBanner
+    hmrcGovUkTemplate: GovUkTemplate
 )
 
 @(appConfig: config.FrontendAppConfig,
@@ -88,22 +87,6 @@
 
 @footerTop = {}
 
-@beta = {
-    @betaBanner(
-        userLoggedIn = userLoggedIn,
-        betaFeedbackUrl = appConfig.betaFeedbackUrl,
-        betaFeedbackUnauthenticatedUrl = appConfig.betaFeedbackUnauthenticatedUrl,
-        showFeedbackLinkInBetaBanner = true)
-}
-
-@serviceInfoBlock = {
-    @serviceInfo(
-      betaBanner = beta,
-      includeHMRCBranding = false,
-      includeGridWrapper = false,
-      serviceInfoContent = Some(serviceInfoContent))
-}
-
 @mainContentHeader = {
     @if(contentHeader.isDefined) {
         @main_content_header(contentHeader = contentHeader.get)
@@ -118,7 +101,6 @@
       mainClass = mainClass,
       mainDataAttributes = mainDataAttributes,
       mainContentHeader = mainContentHeader,
-      serviceInfo = serviceInfoBlock,
       getHelpForm = getHelpForm,
       sidebar = sidebar)
 }
