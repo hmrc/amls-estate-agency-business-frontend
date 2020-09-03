@@ -107,7 +107,7 @@
 
 @footerLinks = {
     @if(appConfig.accessibilityStatementToggle) {
-        @footer_links(accessibilityFooterUrl = Some(appConfig.accessibilityStatementUrl))
+        @footer_links(accessibilityFooterUrl = Some(appConfig.accessibilityStatementUrl(request.uri)))
     } else {
         @footer_links()
     }
