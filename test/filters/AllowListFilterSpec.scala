@@ -27,7 +27,7 @@ import org.scalatest.{FreeSpec, MustMatchers}
 import play.api.Configuration
 import play.api.mvc.Call
 
-class WhitelistFilterSpec extends FreeSpec with MustMatchers with ScalaCheckPropertyChecks with MockitoSugar with Generators {
+class AllowListFilterSpec extends FreeSpec with MustMatchers with ScalaCheckPropertyChecks with MockitoSugar with Generators {
 
   val mockMaterializer = mock[Materializer]
 
@@ -38,7 +38,7 @@ class WhitelistFilterSpec extends FreeSpec with MustMatchers with ScalaCheckProp
     } yield (key, value)
   )
 
-  "the list of whitelisted IP addresses" - {
+  "the list of allowListed IP addresses" - {
 
     "must throw an exception" - {
 
@@ -57,7 +57,7 @@ class WhitelistFilterSpec extends FreeSpec with MustMatchers with ScalaCheckProp
               )
 
               assertThrows[ConfigException] {
-                new WhitelistFilter(config, mockMaterializer)
+                new AllowListFilter(config, mockMaterializer)
               }
             }
         }
@@ -79,9 +79,9 @@ class WhitelistFilterSpec extends FreeSpec with MustMatchers with ScalaCheckProp
               ).toSeq: _*
             )
 
-            val whitelistFilter = new WhitelistFilter(config, mockMaterializer)
+            val allowListFilter = new AllowListFilter(config, mockMaterializer)
 
-            whitelistFilter.whitelist mustBe empty
+            allowListFilter.whitelist mustBe empty
           }
       }
     }
@@ -105,15 +105,15 @@ class WhitelistFilterSpec extends FreeSpec with MustMatchers with ScalaCheckProp
               ).toSeq: _*
             )
 
-            val whitelistFilter = new WhitelistFilter(config, mockMaterializer)
+            val allowListFilter = new AllowListFilter(config, mockMaterializer)
 
-            whitelistFilter.whitelist must contain theSameElementsAs ips
+            allowListFilter.whitelist must contain theSameElementsAs ips
         }
       }
     }
   }
 
-  "the destination for non-whitelisted visitors" - {
+  "the destination for non-allowListed visitors" - {
 
     "must throw an exception" - {
 
@@ -132,7 +132,7 @@ class WhitelistFilterSpec extends FreeSpec with MustMatchers with ScalaCheckProp
               )
 
               assertThrows[ConfigException] {
-                new WhitelistFilter(config, mockMaterializer)
+                new AllowListFilter(config, mockMaterializer)
               }
             }
         }
@@ -152,9 +152,9 @@ class WhitelistFilterSpec extends FreeSpec with MustMatchers with ScalaCheckProp
               ).toSeq: _*
           )
 
-          val whitelistFilter = new WhitelistFilter(config, mockMaterializer)
+          val allowListFilter = new AllowListFilter(config, mockMaterializer)
 
-          whitelistFilter.destination mustEqual Call("GET", destination)
+          allowListFilter.destination mustEqual Call("GET", destination)
       }
     }
   }
@@ -178,7 +178,7 @@ class WhitelistFilterSpec extends FreeSpec with MustMatchers with ScalaCheckProp
               )
 
               assertThrows[ConfigException] {
-                new WhitelistFilter(config, mockMaterializer)
+                new AllowListFilter(config, mockMaterializer)
               }
             }
         }
@@ -206,9 +206,9 @@ class WhitelistFilterSpec extends FreeSpec with MustMatchers with ScalaCheckProp
 
             val expectedCalls = excludedPaths.map(Call("GET", _))
 
-            val whitelistFilter = new WhitelistFilter(config, mockMaterializer)
+            val allowListFilter = new AllowListFilter(config, mockMaterializer)
 
-            whitelistFilter.excludedPaths must contain theSameElementsAs expectedCalls
+            allowListFilter.excludedPaths must contain theSameElementsAs expectedCalls
         }
       }
     }

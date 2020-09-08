@@ -20,12 +20,12 @@ import akka.stream.Materializer
 import com.google.inject.Inject
 import play.api.Configuration
 import play.api.mvc.Call
-import uk.gov.hmrc.whitelist.AkamaiWhitelistFilter
+import uk.gov.hmrc.whitelist.{AkamaiWhitelistFilter =>AkamaiAllowListFilter}
 
-class WhitelistFilter @Inject() (
+class AllowListFilter @Inject()(
                                   config: Configuration,
                                   override val mat: Materializer
-                                ) extends AkamaiWhitelistFilter {
+                                ) extends AkamaiAllowListFilter {
 
   override val whitelist: Seq[String] = {
     config
