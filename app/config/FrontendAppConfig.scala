@@ -40,19 +40,10 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
   val betaFeedbackUrl = configuration.get[String]("microservice.services.contact-frontend.beta-feedback-url.authenticated")
   val betaFeedbackUnauthenticatedUrl = configuration.get[String]("microservice.services.contact-frontend.beta-feedback-url.unauthenticated")
 
-  val accessibilityStatementToggle = configuration.getOptional[Boolean]("microservice.services.feature-toggle.accessibility-statement").getOrElse(true)
-
   lazy val gtmEnabled: Boolean = configuration.getOptional[Boolean](s"google-tag-manager.enabled").getOrElse(false)
   lazy val gtmAppId: String = configuration.get[String](s"google-tag-manager.id")
 
   val amlsFrontendBaseUrl = configuration.get[String](s"microservice.services.amls-frontend.url")
-
-  val frontendHost: String= configuration.get[String]("accessibility-statement.baseUrl")
-
-  lazy val accessibilityBaseUrl: String = configuration.get[String]("accessibility-statement.baseUrl")
-  def accessibilityStatementUrl(referrer: String) =
-    s"$accessibilityBaseUrl/accessibility-statement/anti-money-laundering?referrerUrl=${SafeRedirectUrl(
-      frontendHost + referrer).encodedUrl}"
 
   val renewalProgressUrl = s"${amlsFrontendBaseUrl}/renewal-progress"
   val registrationProgressUrl = s"${amlsFrontendBaseUrl}/registration-progress"
