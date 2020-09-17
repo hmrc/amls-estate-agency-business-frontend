@@ -275,7 +275,7 @@ object IdentifierActionSpec {
 
     def authorise[A](predicate: Predicate, retrieval: Retrieval[A])
                     (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[A] = {
-      stubbedRetrievalResult.map(_.asInstanceOf[A])
+      stubbedRetrievalResult.asInstanceOf[Future[A]]
     }
   }
 
