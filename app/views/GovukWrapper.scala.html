@@ -105,12 +105,6 @@
       sidebar = sidebar)
 }
 
-@footerLinks = {
-    @if(appConfig.accessibilityStatementToggle) {
-        @footer_links(accessibilityFooterUrl = Some(appConfig.accessibilityStatementUrl))
-    } else {
-        @footer_links()
-    }
-}
+@footerLinks = {}
 
-@hmrcGovUkTemplate(Some(title), bodyClasses)(headContent, bodyEnd, insideHeader, afterHeader, footerTop, Some(footerLinks), true)(content)
+@hmrcGovUkTemplate(Some(title), bodyClasses)(headContent, bodyEnd, insideHeader, afterHeader, footerTop, Some(footer_links()), true)(content)
