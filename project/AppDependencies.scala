@@ -7,13 +7,13 @@ object AppDependencies {
     play.sbt.PlayImport.ws,
     "org.reactivemongo" %% "play2-reactivemongo"            % "0.20.3-play26",
     "uk.gov.hmrc"       %% "logback-json-logger"            % "4.8.0",
-    "uk.gov.hmrc"       %% "govuk-template"                 % "5.55.0-play-26",
+    "uk.gov.hmrc"       %% "govuk-template"                 % "5.56.0-play-26",
     "uk.gov.hmrc"       %% "play-health"                    % "3.15.0-play-26",
     "uk.gov.hmrc"       %% "play-ui"                        % "8.12.0-play-26",
     "uk.gov.hmrc"       %% "play-conditional-form-mapping"  % "1.3.0-play-26",
     "uk.gov.hmrc"       %% "bootstrap-frontend-play-26"     % "2.25.0",
     "uk.gov.hmrc"       %% "play-whitelist-filter"          % "3.4.0-play-26",
-    "uk.gov.hmrc"       %% "auth-client"                    % "3.0.0-play-26"
+    "uk.gov.hmrc"       %% "auth-client"                    % "3.1.0-play-26"
   )
 
   val test = Seq(
