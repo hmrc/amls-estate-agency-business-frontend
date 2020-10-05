@@ -21,6 +21,7 @@ import controllers.routes
 import play.api.Configuration
 import play.api.i18n.Lang
 import play.api.mvc.Call
+import uk.gov.hmrc.play.bootstrap.binders.SafeRedirectUrl
 
 @Singleton
 class FrontendAppConfig @Inject() (configuration: Configuration) {
@@ -39,13 +40,10 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
   val betaFeedbackUrl = configuration.get[String]("microservice.services.contact-frontend.beta-feedback-url.authenticated")
   val betaFeedbackUnauthenticatedUrl = configuration.get[String]("microservice.services.contact-frontend.beta-feedback-url.unauthenticated")
 
-  val accessibilityStatementToggle = configuration.getOptional[Boolean]("microservice.services.feature-toggle.accessibility-statement").getOrElse(true)
-
   lazy val gtmEnabled: Boolean = configuration.getOptional[Boolean](s"google-tag-manager.enabled").getOrElse(false)
   lazy val gtmAppId: String = configuration.get[String](s"google-tag-manager.id")
 
   val amlsFrontendBaseUrl = configuration.get[String](s"microservice.services.amls-frontend.url")
-  val accessibilityStatementUrl = configuration.get[String](s"microservice.services.amls-frontend.url-accessibility-statement")
 
   val renewalProgressUrl = s"${amlsFrontendBaseUrl}/renewal-progress"
   val registrationProgressUrl = s"${amlsFrontendBaseUrl}/registration-progress"
