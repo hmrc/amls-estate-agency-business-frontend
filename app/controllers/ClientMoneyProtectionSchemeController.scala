@@ -25,7 +25,7 @@ import pages.ClientMoneyProtectionSchemePage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.{AMLSFrontEndSessionRepository}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendBaseController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.ClientMoneyProtectionSchemeView
 
 import scala.concurrent.{ExecutionContext, Future}

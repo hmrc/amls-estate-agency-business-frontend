@@ -25,8 +25,7 @@ import org.scalatestplus.play.components.OneAppPerSuiteWithComponents
 import play.api.{Application, BuiltInComponents, BuiltInComponentsFromContext, NoHttpFiltersComponents}
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.json.Json
-import play.api.mvc.{Action, Results, SessionCookieBaker}
-import play.api.routing.Router
+import play.api.mvc.SessionCookieBaker
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.{HeaderNames, SessionKeys}
@@ -83,7 +82,7 @@ class SessionIdFilterSpec extends WordSpec with MustMatchers with OptionValues  
         bind[SessionIdFilter].to[TestSessionIdFilter]
       )
       .configure(
-        "play.filters.disabled" -> List("uk.gov.hmrc.play.bootstrap.filters.frontend.crypto.SessionCookieCryptoFilter")
+        "play.filters.disabled" -> List("uk.gov.hmrc.play.bootstrap.frontend.filters.crypto.SessionCookieCryptoFilter")
       )
       .router(components.router)
       .build()

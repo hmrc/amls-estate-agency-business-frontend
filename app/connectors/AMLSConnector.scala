@@ -21,8 +21,7 @@ import javax.inject.Inject
 import models.{DateOfChangeResponse, UserAnswers}
 import play.api.{Configuration, Logger}
 import play.api.libs.json.{JsObject, Json, Writes}
-import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, HttpResponse}
-import uk.gov.hmrc.play.bootstrap.http.HttpClient
+import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, HttpResponse, HttpClient}
 
 import scala.concurrent.{ExecutionContext, Future}
 
