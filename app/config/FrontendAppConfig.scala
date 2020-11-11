@@ -17,17 +17,10 @@
 package config
 
 import com.google.inject.{Inject, Singleton}
-import controllers.routes
 import play.api.Configuration
-import play.api.i18n.Lang
-import play.api.mvc.Call
-import uk.gov.hmrc.play.bootstrap.binders.SafeRedirectUrl
 
 @Singleton
 class FrontendAppConfig @Inject() (configuration: Configuration) {
-
-  private val contactHost = configuration.get[String]("contact-frontend.host")
-  private val contactFormServiceIdentifier = "play26frontend"
 
   val timeoutSeconds = configuration.get[String](s"timeout.seconds")
   val timeoutCountdown = configuration.get[String](s"timeout.countdown")
