@@ -16,8 +16,7 @@
 
 package connectors
 
-import java.time.{LocalDate, LocalDateTime, ZoneOffset}
-
+import java.time.{LocalDateTime, ZoneOffset}
 import base.SpecBase
 import models.EabServicesProvided.Auctioneering
 import models.{DateOfChangeResponse, UserAnswers}

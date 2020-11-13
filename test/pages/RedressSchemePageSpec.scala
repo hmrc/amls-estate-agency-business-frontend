@@ -16,7 +16,7 @@
 
 package pages
 
-import models.{RedressScheme, UserAnswers}
+import models.RedressScheme
 import pages.behaviours.PageBehaviours
 
 class RedressSchemeSpec extends PageBehaviours {

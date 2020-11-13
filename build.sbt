@@ -68,7 +68,6 @@ lazy val root = (project in file("."))
       "-Xlint:-missing-interpolator,_",
       "-Yno-adapted-args",
       "-Ywarn-value-discard",
-      "-Ywarn-dead-code",
       "-deprecation",
       "-feature",
       "-unchecked",
