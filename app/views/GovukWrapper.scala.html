@@ -15,7 +15,6 @@
  *@
 
 @import play.twirl.api.HtmlFormat
-@import views.html.components.language_selection
 @import views.html.layouts.GovUkTemplate
 
 @this(
@@ -104,7 +103,5 @@
       getHelpForm = getHelpForm,
       sidebar = sidebar)
 }
-
-@footerLinks = {}
 
 @hmrcGovUkTemplate(Some(title), bodyClasses)(headContent, bodyEnd, insideHeader, afterHeader, footerTop, Some(footer_links()), true)(content)

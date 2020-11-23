@@ -63,15 +63,6 @@ lazy val root = (project in file("."))
   )
   .settings(
     scalacOptions ++= List(
-      "-Yrangepos",
-      "-Xfatal-warnings",
-      "-Xlint:-missing-interpolator,_",
-      "-Yno-adapted-args",
-      "-Ywarn-value-discard",
-      "-deprecation",
-      "-feature",
-      "-unchecked",
-      "-language:implicitConversions",
       "-P:silencer:pathFilters=views;routes;TestStorage"
     )
   )
