@@ -38,10 +38,6 @@ lazy val root = (project in file("."))
     ScoverageKeys.coverageHighlighting := true,
     scalacOptions ++= Seq("-feature"),
     libraryDependencies ++= AppDependencies(),
-    libraryDependencies ++= Seq(
-      compilerPlugin("com.github.ghik" % "silencer-plugin" % "1.6.0" cross CrossVersion.full),
-      "com.github.ghik" % "silencer-lib" % "1.6.0" % Provided cross CrossVersion.full
-    ),
     dependencyOverrides += "commons-codec" % "commons-codec" % "1.12",
     retrieveManaged := true,
     resolvers ++= Seq(
