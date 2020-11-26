@@ -16,8 +16,6 @@
 
 package connectors
 
-import java.time.{LocalDateTime, ZoneOffset}
-
 import base.SpecBase
 import models.{ReadStatusResponse}
 import org.mockito.Matchers.{any, eq => eqTo}

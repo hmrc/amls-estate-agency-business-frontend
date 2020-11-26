@@ -16,10 +16,8 @@
 
 package pages
 
-import models.{RedressScheme, UserAnswers}
+import models.RedressScheme
 import play.api.libs.json.JsPath
-
-import scala.util.Try
 
 case object RedressSchemePage extends QuestionPage[RedressScheme] {
 

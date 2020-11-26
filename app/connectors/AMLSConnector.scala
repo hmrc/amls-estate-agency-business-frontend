@@ -20,8 +20,9 @@ import config.Service
 import javax.inject.Inject
 import models.{DateOfChangeResponse, UserAnswers}
 import play.api.{Configuration, Logger}
-import play.api.libs.json.{JsObject, Json, Writes}
+import play.api.libs.json.{JsObject, Writes}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, HttpResponse, HttpClient}
+import uk.gov.hmrc.http.HttpReads.Implicits._
 
 import scala.concurrent.{ExecutionContext, Future}
 

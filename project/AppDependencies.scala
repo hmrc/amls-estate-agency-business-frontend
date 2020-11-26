@@ -13,7 +13,9 @@ object AppDependencies {
     "uk.gov.hmrc"       %% "play-conditional-form-mapping"  % "1.3.0-play-26",
     "uk.gov.hmrc"       %% "bootstrap-frontend-play-26"     % "2.25.0",
     "uk.gov.hmrc"       %% "play-whitelist-filter"          % "3.4.0-play-26",
-    "uk.gov.hmrc"       %% "auth-client"                    % "3.1.0-play-26"
+    "uk.gov.hmrc"       %% "auth-client"                    % "3.1.0-play-26",
+    compilerPlugin("com.github.ghik" % "silencer-plugin" % "1.7.1" cross CrossVersion.full),
+    "com.github.ghik" % "silencer-lib" % "1.7.1" % Provided cross CrossVersion.full
   )
 
   val test = Seq(

@@ -26,8 +26,7 @@ import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import scala.concurrent.{ExecutionContext, Future}
 
 class AMLSBackEndConnector @Inject()(config: Configuration,
-                                     implicit val httpClient: HttpClient)
-                                    (implicit ec: ExecutionContext) {
+                                     implicit val httpClient: HttpClient) {
 
   private val baseUrl = config.get[Service]("microservice.services.amls")
   private[connectors] val statusUrl = s"$baseUrl/amls/subscription"
@@ -40,6 +39,7 @@ class AMLSBackEndConnector @Inject()(config: Configuration,
 
     val getUrl = s"$statusUrl/$accountType/$accountId/$amlsRegistrationNumber/status"
 
+    import uk.gov.hmrc.http.HttpReads.Implicits._
     httpClient.GET[ReadStatusResponse](getUrl) map {
       response =>
         // $COVERAGE-OFF$

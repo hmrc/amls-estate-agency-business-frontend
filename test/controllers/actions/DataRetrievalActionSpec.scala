@@ -25,7 +25,6 @@ import org.mockito.Mockito.when
 import org.mockito.Matchers.{eq => eqTo}
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatestplus.mockito.MockitoSugar
-import play.api.libs.json.Json
 import repositories.{AMLSFrontEndSessionRepository}
 import uk.gov.hmrc.auth.core.AffinityGroup
 

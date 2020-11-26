@@ -22,7 +22,6 @@ import controllers.routes
 import models.EabServicesProvided.{Lettings, Residential}
 import pages._
 import models._
-import play.api.Logger
 
 @Singleton
 class Navigator @Inject()() {

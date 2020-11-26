@@ -18,7 +18,7 @@ package controllers.actions
 
 import base.SpecBase
 import com.google.inject.Inject
-import controllers.actions.IdentifierActionSpec.{agentCtAuthRetrievals, agentSaAuthRetrievals, emptyAuthRetrievals, erroneousRetrievals, fakeAuthConnector, orgAuthRetrievals}
+import controllers.actions.IdentifierActionSpec.{agentCtAuthRetrievals, agentSaAuthRetrievals, emptyAuthRetrievals, fakeAuthConnector, orgAuthRetrievals}
 import controllers.routes
 import play.api.mvc.{BodyParsers, Results}
 import play.api.test.Helpers._
@@ -311,7 +311,4 @@ object IdentifierActionSpec {
     new ~(new ~(Enrolments(Set()), None), None)
   )
 
-  private def erroneousRetrievals = Future.successful(
-    new ~(new ~(Enrolments(Set()), None), Some(AffinityGroup.Organisation))
-  )
 }

@@ -16,7 +16,6 @@
 
 package repositories
 
-import akka.stream.Materializer
 import connectors.AMLSConnector
 import javax.inject.Inject
 import models.UserAnswers
@@ -27,7 +26,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class DefaultAMLSFrontEndSessionRepository @Inject()(amlsConnector: AMLSConnector,
                                                      config: Configuration)
-                                                    (implicit ec: ExecutionContext, m: Materializer) extends AMLSFrontEndSessionRepository {
+                                                    (implicit ec: ExecutionContext) extends AMLSFrontEndSessionRepository {
 
   def get(credId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] = {
     amlsConnector.get(credId).map {

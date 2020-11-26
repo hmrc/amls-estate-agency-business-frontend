@@ -18,7 +18,6 @@ package models.requests
 
 import play.api.mvc.{Request, WrappedRequest}
 import models.UserAnswers
-import uk.gov.hmrc.auth.core.AffinityGroup
 
 case class OptionalDataRequest[A] (request: Request[A],
                                    credId: String,
