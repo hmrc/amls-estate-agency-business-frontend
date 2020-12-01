@@ -33,9 +33,6 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
   val betaFeedbackUrl = configuration.get[String]("microservice.services.contact-frontend.beta-feedback-url.authenticated")
   val betaFeedbackUnauthenticatedUrl = configuration.get[String]("microservice.services.contact-frontend.beta-feedback-url.unauthenticated")
 
-  lazy val gtmEnabled: Boolean = configuration.getOptional[Boolean](s"google-tag-manager.enabled").getOrElse(false)
-  lazy val gtmAppId: String = configuration.get[String](s"google-tag-manager.id")
-
   val amlsFrontendBaseUrl = configuration.get[String](s"microservice.services.amls-frontend.url")
 
   val renewalProgressUrl = s"${amlsFrontendBaseUrl}/renewal-progress"
