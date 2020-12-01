@@ -20,6 +20,7 @@
 @this(
     header_nav: HeaderNav,
     head: Head,
+    headWithTrackingConsent: HeadWithTrackingConsent,
     footer: Footer,
     serviceInfo: ServiceInfo,
     main_content_header: MainContentHeader,
@@ -42,15 +43,11 @@
   userLoggedIn : Boolean = true)(implicit request: Request[_], messages: Messages)
 
 @headContent = {
-    @head(
+    @headWithTrackingConsent(
       linkElem = None,
       headScripts = None)
     <meta name="format-detection" content="telephone=no" />
     <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/amlsestateagencybusinessfrontend-app.css")' />
-
-    @if(appConfig.gtmEnabled) {
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','@appConfig.gtmAppId');</script>
-    }
 }
 
 @headerNavLinks = {
@@ -65,10 +62,6 @@
       navTitleLink = None,
       showBetaLink = false,
       navLinks = Some(headerNavLinks))
-
-    @if(appConfig.gtmEnabled) {
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=@appConfig.gtmAppId" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    }
 }
 
 @afterHeader = { }
