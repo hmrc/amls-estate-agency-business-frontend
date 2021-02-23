@@ -25,9 +25,6 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
   val timeoutSeconds = configuration.get[String](s"timeout.seconds")
   val timeoutCountdown = configuration.get[String](s"timeout.countdown")
 
-  val analyticsToken: String = configuration.get[String](s"google-analytics.token")
-  val analyticsHost: String = configuration.get[String](s"google-analytics.host")
-
   val reportAProblemPartialUrl = configuration.get[String]("microservice.services.contact-frontend.report-problem-url.with-js")
   val reportAProblemNonJSUrl = configuration.get[String]("microservice.services.contact-frontend.report-problem-url.non-js")
   val betaFeedbackUrl = configuration.get[String]("microservice.services.contact-frontend.beta-feedback-url.authenticated")
