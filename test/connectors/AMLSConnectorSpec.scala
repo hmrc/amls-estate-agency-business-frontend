@@ -57,7 +57,7 @@ class AMLSConnectorSpec extends SpecBase with MockitoSugar {
       val getUrl = s"${amlsConnector.url}/get/someid"
 
       when {
-        amlsConnector.httpClient.GET[Option[JsObject]](eqTo(getUrl))(any(), any(), any())
+        amlsConnector.httpClient.GET[Option[JsObject]](eqTo(getUrl), any(), any())(any(), any(), any())
       } thenReturn Future.successful(Some(completeJson))
 
       whenReady(amlsConnector.get("someid")) {
