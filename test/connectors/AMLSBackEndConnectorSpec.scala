@@ -42,7 +42,7 @@ class AMLSBackEndConnectorSpec extends SpecBase with MockitoSugar {
       val getUrl = s"${amlsBackEndConnector.statusUrl}/$accountType/$accountId/$amlsRefNo/status"
 
       when {
-        amlsBackEndConnector.httpClient.GET[ReadStatusResponse](eqTo(getUrl))(any(), any(), any())
+        amlsBackEndConnector.httpClient.GET[ReadStatusResponse](eqTo(getUrl), any(), any())(any(), any(), any())
       } thenReturn Future.successful(statusResponse)
 
       whenReady(amlsBackEndConnector.status(amlsRefNo, accountTypeId)) {
