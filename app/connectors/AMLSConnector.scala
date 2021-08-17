@@ -17,18 +17,19 @@
 package connectors
 
 import config.Service
+
 import javax.inject.Inject
 import models.{DateOfChangeResponse, UserAnswers}
-import play.api.{Configuration, Logger}
+import play.api.{Configuration, Logger, Logging}
 import play.api.libs.json.{JsObject, Writes}
-import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, HttpResponse, HttpClient}
+import uk.gov.hmrc.http.{HeaderCarrier, HttpClient, HttpReads, HttpResponse}
 import uk.gov.hmrc.http.HttpReads.Implicits._
 
 import scala.concurrent.{ExecutionContext, Future}
 
 class AMLSConnector @Inject()(config: Configuration,
                               implicit val httpClient: HttpClient)
-                             (implicit ec: ExecutionContext) {
+                             (implicit ec: ExecutionContext) extends Logging {
 
   private val baseUrl                 = config.get[Service]("microservice.services.amls-frontend")
   private[connectors] val url: String = s"$baseUrl/eab"
@@ -64,7 +65,7 @@ class AMLSConnector @Inject()(config: Configuration,
     ) map {
       response =>
         // $COVERAGE-OFF$
-        Logger.debug(s"AMLSConnector:requireDateOfChange - Response: ${response}")
+        logger.debug(s"AMLSConnector:requireDateOfChange - Response: ${response}")
         // $COVERAGE-ON$
         response
     }

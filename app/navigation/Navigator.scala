@@ -49,7 +49,7 @@ class Navigator @Inject()() {
     case PenalisedEstateAgentsActPage        =>      penalisedEstateAgentsActDetailsRoute
     case PenalisedEstateAgentsActDetailPage  => _ => routes.PenalisedProfessionalBodyController.onPageLoad(NormalMode)
     case PenalisedProfessionalBodyPage       =>      penalisedProfessionalBodyDetailsRoute
-    case PenalisedProfessionalBodyDetailPage => _ => routes.CheckYourAnswersController.onPageLoad()
+    case PenalisedProfessionalBodyDetailPage => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
   private def redressSchemeRoute(answers: UserAnswers): Call = {
@@ -72,7 +72,7 @@ class Navigator @Inject()() {
   private def penalisedProfessionalBodyDetailsRoute(answers: UserAnswers): Call = {
     answers.get(PenalisedProfessionalBodyPage) match {
       case Some(true)  => routes.PenalisedProfessionalBodyDetailController.onPageLoad(NormalMode)
-      case Some(false) => routes.CheckYourAnswersController.onPageLoad()
+      case Some(false) => routes.CheckYourAnswersController.onPageLoad
       case None        => throw new Exception("Unable to navigate to page")
     }
   }
@@ -89,11 +89,11 @@ class Navigator @Inject()() {
     case DateOfChangePage                    =>      redressSchemeRouteCheckMode
     case RedressSchemePage                   =>      redressSchemeDetailRouteCheckMode
     case PenalisedEstateAgentsActPage        =>      penalisedEstateAgentsActDetailsRouteCheckMode
-    case ClientMoneyProtectionSchemePage     => _ => routes.CheckYourAnswersController.onPageLoad()
-    case PenalisedEstateAgentsActDetailPage  => _ => routes.CheckYourAnswersController.onPageLoad()
+    case ClientMoneyProtectionSchemePage     => _ => routes.CheckYourAnswersController.onPageLoad
+    case PenalisedEstateAgentsActDetailPage  => _ => routes.CheckYourAnswersController.onPageLoad
     case PenalisedProfessionalBodyPage       =>      penalisedProfessionalBodyDetailsRouteCheckMode
-    case PenalisedProfessionalBodyDetailPage => _ => routes.CheckYourAnswersController.onPageLoad()
-    case _                                   => _ => routes.CheckYourAnswersController.onPageLoad()
+    case PenalisedProfessionalBodyDetailPage => _ => routes.CheckYourAnswersController.onPageLoad
+    case _                                   => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
   private def requireDateOfChange(answers: UserAnswers, dateOfChangeRequired: Boolean): Call = {
@@ -139,7 +139,7 @@ class Navigator @Inject()() {
   private def penalisedProfessionalBodyDetailsRouteCheckMode(answers: UserAnswers): Call = {
     answers.get(PenalisedProfessionalBodyPage) match {
       case Some(true)  => routes.PenalisedProfessionalBodyDetailController.onPageLoad(CheckMode)
-      case Some(false) => routes.CheckYourAnswersController.onPageLoad()
+      case Some(false) => routes.CheckYourAnswersController.onPageLoad
       case None        => throw new Exception("Unable to navigate to page")
     }
   }
