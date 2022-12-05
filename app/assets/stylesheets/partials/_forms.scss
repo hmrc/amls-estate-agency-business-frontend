@@ -261,6 +261,8 @@ h2#complete-header {
 
 .cya-summary-list {
     display: table;
+    table-layout: fixed;
+    width: 100%;
 }
 @media (max-width: 640px) {
     .cya-summary-list {
@@ -290,7 +292,7 @@ h2#complete-header {
 }
 
 .cya-summary-list__key {
-    width: 50%;
+    width: 30%;
 }
 
 @media (max-width: 640px) {
@@ -311,6 +313,14 @@ h2#complete-header {
 
 .cya-summary-list__value {
     margin-bottom: 15px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+@media (min-width: 641px) {
+    .cya-summary-list__value {
+        width: 50%;
+    }
 }
 
 .cya-summary-list__value > :last-child {
