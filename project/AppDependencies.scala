@@ -5,11 +5,10 @@ object AppDependencies {
 
   val compile = Seq(
     play.sbt.PlayImport.ws,
-    "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-28"            % "0.73.0",
-    "uk.gov.hmrc"       %% "govuk-template"                 % "5.78.0-play-28",
-    "uk.gov.hmrc"       %% "play-ui"                        % "9.11.0-play-28",
+    "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-28"             % "0.73.0",
+    "uk.gov.hmrc"       %% "play-frontend-hmrc"             % "6.4.0-play-28",
     "uk.gov.hmrc"       %% "play-conditional-form-mapping"  % "1.9.0-play-28",
-    "uk.gov.hmrc"       %% "bootstrap-frontend-play-28"     % "6.4.0",
+    "uk.gov.hmrc"       %% "bootstrap-frontend-play-28"     % "7.13.0",
     compilerPlugin("com.github.ghik" % "silencer-plugin" % "1.7.5" cross CrossVersion.full),
     "com.github.ghik" % "silencer-lib" % "1.7.5" % Provided cross CrossVersion.full
   )
