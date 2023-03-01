@@ -16,20 +16,20 @@
 
 package connectors
 
-import java.time.{LocalDateTime, ZoneOffset}
 import base.SpecBase
 import models.EabServicesProvided.Auctioneering
 import models.{DateOfChangeResponse, UserAnswers}
-import org.mockito.Matchers.{any, eq => eqTo}
-import org.mockito.Mockito._
-import org.scalatestplus.mockito.MockitoSugar
+import org.mockito.ArgumentMatchers.any
+import org.mockito.ArgumentMatchersSugar.eqTo
+import org.mockito.MockitoSugar
 import pages.EabServicesProvidedPage
 import play.api.Configuration
 import play.api.libs.json.{JsObject, Json}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 
-import scala.concurrent.Future
+import java.time.{LocalDateTime, ZoneOffset}
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class AMLSConnectorSpec extends SpecBase with MockitoSugar {
 

@@ -19,13 +19,11 @@ package controllers.actions
 import base.SpecBase
 import models.UserAnswers
 import models.requests.{IdentifierRequest, OptionalDataRequest}
-import org.mockito.Mockito._
-import org.mockito.Matchers.any
-import org.mockito.Mockito.when
-import org.mockito.Matchers.{eq => eqTo}
+import org.mockito.ArgumentMatchers.any
+import org.mockito.ArgumentMatchersSugar.eqTo
+import org.mockito.MockitoSugar
 import org.scalatest.concurrent.ScalaFutures
-import org.scalatestplus.mockito.MockitoSugar
-import repositories.{AMLSFrontEndSessionRepository}
+import repositories.AMLSFrontEndSessionRepository
 import uk.gov.hmrc.auth.core.AffinityGroup
 
 import scala.concurrent.ExecutionContext.Implicits.global

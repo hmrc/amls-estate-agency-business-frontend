@@ -14,18 +14,8 @@
  * limitations under the License.
  *@
 
-@import viewmodels.AnswerRow
+@this()
 
-@(row: AnswerRow)(implicit messages: Messages)
+@(headingKey: String, headingSize: String = "govuk-heading-xl")(implicit messages: Messages)
 
-<div class="cya-summary-list__row">
-    <dt class="cya-summary-list__key">
-        <span class="bold">@row.label</span>
-    </dt>
-    <dd class="cya-summary-list__value">
-        @row.answer
-    </dd>
-    <dd class="cya-summary-list__actions">
-        <a id="@row.changeUrl.split('/').last" href='@row.changeUrl' class="change-answer">@messages("site.edit")<span class="visuallyhidden"> @row.label</span></a>
-    </dd>
-</div>
+<h1 class="@headingSize">@messages(headingKey)</h1>

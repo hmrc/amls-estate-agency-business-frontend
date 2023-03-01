@@ -18,9 +18,8 @@ package controllers.actions
 
 import com.google.inject.Inject
 import config.FrontendAppConfig
-import controllers.routes
 import models.requests.IdentifierRequest
-import play.api.{Logger, Logging}
+import play.api.Logging
 import play.api.mvc.Results._
 import play.api.mvc._
 import uk.gov.hmrc.auth.core._
@@ -45,17 +44,18 @@ class AuthenticatedIdentifierAction @Inject()(
                                              (implicit val executionContext: ExecutionContext)
   extends IdentifierAction with AuthorisedFunctions with ActionRefiner[Request, IdentifierRequest] with Logging {
 
-  private val amlsKey       = "HMRC-MLR-ORG"
+  private val amlsKey = "HMRC-MLR-ORG"
   private val amlsNumberKey = "MLRRefNumber"
-  private val saKey         = "IR-SA"
-  private val ctKey         = "IR-CT"
+  private val saKey = "IR-SA"
+  private val ctKey = "IR-CT"
 
-  def unauthorisedUrl= routes.UnauthorisedController.onPageLoad.url
+  def unauthorisedUrl = controllers.routes.UnauthorisedController.onPageLoad.url
 
   // $COVERAGE-OFF$
   def exceptionLogger(aex: AuthorisationException) = {
     logger.debug(s"AuthenticatedIdentifierAction:Refine - ${aex.getClass}:", aex)
   }
+
   def enrolmentMessage(message: String, parameters: Option[Enrolments]) = {
     logger.debug(message + parameters.getOrElse(""))
   }

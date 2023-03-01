@@ -14,17 +14,22 @@
  * limitations under the License.
  *@
 
+@import viewmodels._
+@import views.html._
+@import components.Heading
+
 @this(
-    main_template: MainTemplate
+    layout: template.Layout,
+    heading: Heading
 )
 
 @()(implicit request: Request[_], messages: Messages)
 
-@main_template(
-    title = s"${messages("index.title")}" + " - " + messages("eab.title.extension")
+@layout(
+pageTitle = s"${messages("index.title")}" + " - " + messages("eab.title.extension")
     ) {
 
-    @components.heading("index.heading")
+    @heading("index.heading")
 
     <p>@messages("index.guidance")</p>
 }

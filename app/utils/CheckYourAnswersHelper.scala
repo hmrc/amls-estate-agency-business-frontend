@@ -20,86 +20,145 @@ import controllers.routes
 import models.{CheckMode, UserAnswers}
 import pages._
 import play.api.i18n.Messages
-import play.twirl.api.{Html, HtmlFormat}
-import viewmodels.AnswerRow
+import uk.gov.hmrc.govukfrontend.views.Aliases.{Actions, HtmlContent, Key, Value}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{Content, Text}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{ActionItem, SummaryListRow}
+
+import scala.reflect.internal.util.NoSourceFile.content
 
 class CheckYourAnswersHelper(userAnswers: UserAnswers)(implicit messages: Messages) {
 
-  def clientMoneyProtectionScheme: Option[AnswerRow] = userAnswers.get(ClientMoneyProtectionSchemePage) map {
-    x =>
-      AnswerRow(
-        HtmlFormat.escape(messages("clientMoneyProtectionScheme.checkYourAnswersLabel")),
-        yesOrNo(x),
-        routes.ClientMoneyProtectionSchemeController.onPageLoad(CheckMode).url
-      )
-  }
+  def getAllRows: Seq[SummaryListRow] = Seq(
+    eabServicesProvided,
+    redressScheme,
+    clientMoneyProtectionScheme,
+    penalisedEstateAgentsAct,
+    penalisedEstateAgentsActDetail,
+    penalisedProfessionalBody,
+    penalisedProfessionalBodyDetail
+  ).flatten
 
-  def redressScheme: Option[AnswerRow] = userAnswers.get(RedressSchemePage) map {
-    x =>
-      AnswerRow(
-        HtmlFormat.escape(messages("redressScheme.checkYourAnswersLabel")),
-        HtmlFormat.escape(messages(s"redressScheme.$x")),
-        routes.RedressSchemeController.onPageLoad(CheckMode).url
-      )
-  }
+    def clientMoneyProtectionScheme: Option[SummaryListRow] = userAnswers.get(ClientMoneyProtectionSchemePage) map {
+      x =>
+        SummaryListRow(
+          key = Key(Text(messages("clientMoneyProtectionScheme.checkYourAnswersLabel"))),
+          value = Value(yesOrNo(x)),
+          actions = withChangeLink(routes.ClientMoneyProtectionSchemeController.onPageLoad(CheckMode).url)
+        )
+    }
 
-  def penalisedProfessionalBodyDetail: Option[AnswerRow] = userAnswers.get(PenalisedProfessionalBodyDetailPage) map {
-    x =>
-      AnswerRow(
-        HtmlFormat.escape(messages("penalisedProfessionalBodyDetail.checkYourAnswersLabel")),
-        HtmlFormat.escape(x),
-        routes.PenalisedProfessionalBodyDetailController.onPageLoad(CheckMode).url
-      )
-  }
+    def redressScheme: Option[SummaryListRow] = userAnswers.get(RedressSchemePage) map {
+      x =>
+        SummaryListRow(
+          key = Key(Text(messages("redressScheme.checkYourAnswersLabel"))),
+          value = Value(Text(messages(s"redressScheme.$x"))),
+          actions = Some(Actions(items = Seq(
+            ActionItem(
+              href = routes.RedressSchemeController.onPageLoad(CheckMode).url,
+              content = Text(messages("site.edit"))
+            )
+          )))
+        )
+    }
 
-  def penalisedProfessionalBody: Option[AnswerRow] = userAnswers.get(PenalisedProfessionalBodyPage) map {
-    x =>
-      AnswerRow(
-        HtmlFormat.escape(messages("penalisedProfessionalBody.checkYourAnswersLabel")),
-        yesOrNo(x),
-        routes.PenalisedProfessionalBodyController.onPageLoad(CheckMode).url
-      )
-  }
+    def penalisedProfessionalBodyDetail: Option[SummaryListRow] = userAnswers.get(PenalisedProfessionalBodyDetailPage) map {
+      x =>
+        SummaryListRow(
+          key = Key(Text(messages("penalisedProfessionalBodyDetail.checkYourAnswersLabel"))),
+          value = Value(Text(x)),
+          actions = Some(Actions(items = Seq(
+            ActionItem(
+              href = routes.PenalisedProfessionalBodyDetailController.onPageLoad(CheckMode).url,
+              content = Text(messages("site.edit")))
+          )
+          )))
+    }
 
-  def penalisedEstateAgentsActDetail: Option[AnswerRow] = userAnswers.get(PenalisedEstateAgentsActDetailPage) map {
-    x =>
-      AnswerRow(
-        HtmlFormat.escape(messages("penalisedEstateAgentsActDetail.checkYourAnswersLabel")),
-        HtmlFormat.escape(x),
-        routes.PenalisedEstateAgentsActDetailController.onPageLoad(CheckMode).url
-      )
-  }
+    def penalisedProfessionalBody: Option[SummaryListRow] = userAnswers.get(PenalisedProfessionalBodyPage) map {
+      x =>
+        SummaryListRow(
+          key = Key(Text(messages("penalisedProfessionalBody.checkYourAnswersLabel"))),
+          value = Value(yesOrNo(x)),
+          actions = Some(Actions(items = Seq(
+            ActionItem(
+              href = routes.PenalisedProfessionalBodyController.onPageLoad(CheckMode).url,
+              content = Text(messages("site.edit")))
+          )
+          )))
+    }
 
-  def penalisedEstateAgentsAct: Option[AnswerRow] = userAnswers.get(PenalisedEstateAgentsActPage) map {
-    x =>
-      AnswerRow(
-        HtmlFormat.escape(messages("penalisedEstateAgentsAct.checkYourAnswersLabel")),
-        yesOrNo(x),
-        routes.PenalisedEstateAgentsActController.onPageLoad(CheckMode).url
-      )
-  }
+    def penalisedEstateAgentsActDetail: Option[SummaryListRow] = userAnswers.get(PenalisedEstateAgentsActDetailPage) map {
+      x =>
+        SummaryListRow(
+          key = Key(Text(messages("penalisedEstateAgentsActDetail.checkYourAnswersLabel"))),
+          value = Value(Text(x)),
+          actions = Some(Actions(items = Seq(
+            ActionItem(
+              href = routes.PenalisedEstateAgentsActDetailController.onPageLoad(CheckMode).url,
+              content = Text(messages("site.edit"))
+            ))
+          )))
+    }
 
-  def eabServicesProvided: Option[AnswerRow] = userAnswers.get(EabServicesProvidedPage) map {
+    def penalisedEstateAgentsAct: Option[SummaryListRow] = userAnswers.get(PenalisedEstateAgentsActPage) map {
+      x =>
+        SummaryListRow(
+          key = Key(Text(messages("penalisedEstateAgentsAct.checkYourAnswersLabel"))),
+          value = Value(yesOrNo(x)),
+          actions = Some(Actions(items = Seq(
+            ActionItem(
+              href = routes.PenalisedEstateAgentsActController.onPageLoad(CheckMode).url,
+              content = Text(messages("site.edit"))
+            ))
+          )))
+    }
+
+  def eabServicesProvided: Option[SummaryListRow] = userAnswers.get(EabServicesProvidedPage) map {
     x =>
-      if(x.size == 1) {
-        AnswerRow(
-          HtmlFormat.escape(messages("eabServicesProvided.checkYourAnswersLabel")),
-          HtmlFormat.escape(messages(s"eabServicesProvided.${x.head}")),
-          routes.EabServicesProvidedController.onPageLoad(CheckMode).url
+      if (x.size == 1) {
+        SummaryListRow(
+          key = Key(Text(messages("eabServicesProvided.checkYourAnswersLabel"))),
+          value = Value(Text(messages(s"eabServicesProvided.${x.head}"))),
+          actions = Some(Actions(items = Seq(
+            ActionItem(
+              href = routes.EabServicesProvidedController.onPageLoad(CheckMode).url,
+              content = Text(messages("site.edit")))
+          ))
+          )
         )
       } else {
-        AnswerRow(
-          HtmlFormat.escape(messages("eabServicesProvided.checkYourAnswersLabel")),
-          Html("<ul class=\"list list-bullet\">" + x.map(value => "<li>" + HtmlFormat.escape(messages(s"eabServicesProvided.$value")).toString + "</li>").mkString + "</ul>"),
-          routes.EabServicesProvidedController.onPageLoad(CheckMode).url
+        SummaryListRow(
+          key = Key(Text(messages("eabServicesProvided.checkYourAnswersLabel"))),
+          value = Value(HtmlContent("<ul class=\"govuk-list govuk-list--bullet\">" + x.map(value => "<li>" + messages(s"eabServicesProvided.$value") + "</li>").mkString + "</ul>")),
+          actions = Some(Actions(items = Seq(
+            ActionItem(
+              href = routes.EabServicesProvidedController.onPageLoad(CheckMode).url,
+              content = Text(messages("site.edit")))
+          ))
+          )
         )
+
       }
   }
 
-  private def yesOrNo(answer: Boolean)(implicit messages: Messages): Html =
-    if (answer) {
-      HtmlFormat.escape(messages("site.yes"))
-    } else {
-      HtmlFormat.escape(messages("site.no"))
-    }
+    private def yesOrNo(answer: Boolean)(implicit messages: Messages): Content =
+      if (answer) {
+        Text(messages("site.yes"))
+      } else {
+        Text(messages("site.no"))
+      }
+
+
+  private def withChangeLink(url: String) =
+    Some(
+      Actions(
+        items =
+          Seq(
+            ActionItem(
+              href = url,
+              content = Text(messages("site.edit"))
+            )
+          )
+      )
+    )
 }

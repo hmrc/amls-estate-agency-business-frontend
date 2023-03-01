@@ -15,20 +15,16 @@
  *@
 
 @import config.FrontendAppConfig
+@import components.Heading
 
 @this(
-    govuk_wrapper: GovukWrapper,
-    appConfig: FrontendAppConfig
+layout: template.Layout,
+heading: Heading
 )
 
-@(pageTitle: String, heading: String, message: String)(implicit request: Request[_], messages: Messages)
+@(title: String, headingText: String, message: String)(implicit request: Request[_], messages: Messages)
 
-@contentHeader = {
-  @components.heading(heading)
+@layout(title, showBackLink = false) {
+@heading(headingText)
+<p class="govuk-body">@message</p>
 }
-
-@mainContent = {
-  <p>@message</p>
-}
-
-@govuk_wrapper(appConfig = appConfig, title = pageTitle, contentHeader = Some(contentHeader), mainContent = mainContent)

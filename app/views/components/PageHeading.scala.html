@@ -14,17 +14,15 @@
  * limitations under the License.
  *@
 
-@(errors: Seq[FormError], id: String)(implicit messages: Messages)
-@if(errors.nonEmpty) {
-    <div class="error-summary error-summary--show" role="alert" aria-labelledby="error-summary-heading" tabindex="-1">
+@import viewmodels._
+@import views.html._
 
-        <h2 class="heading-medium error-summary-heading" id="error-summary-heading">
-        @messages("error.summary.title")
-        </h2>
+@this()
 
-        <ul role="list" class="error-summary-list">
-            <li><a href="#@{id}">@messages(errors.head.message, errors.head.args:_*)</a></li>
-        </ul>
+@(pageHeadingKey: String)(implicit messages: Messages)
 
-    </div>
-}
+<div class="page-header">
+ <p class="heading-secondary">
+  <span class="govuk-caption-xl">@messages(pageHeadingKey)</span>
+ </p>
+</div>

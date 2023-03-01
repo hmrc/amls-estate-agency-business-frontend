@@ -14,11 +14,16 @@
  * limitations under the License.
  *@
 
-@(pageHeadingKey: String)(implicit messages: Messages)
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.hmrcfrontend.views.html.components.implicits._
 
-<div class="page-header">
- <p class="heading-secondary">
-  <span class="visuallyhidden">This section is </span>
-   @messages(pageHeadingKey)
- </p>
-</div>
+@this(govukNotificationBanner: GovukNotificationBanner)
+
+@(message: String)(implicit messages: Messages)
+
+@govukNotificationBanner(
+NotificationBanner(
+title = Text(messages("whatYouNeed.attention.title")),
+content = Text(message)
+)
+)

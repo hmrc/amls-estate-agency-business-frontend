@@ -17,9 +17,11 @@
 package filters
 
 import java.util.UUID
-
 import akka.stream.Materializer
 import com.google.inject.Inject
+import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.must.Matchers.{contain, convertToAnyMustWrapper}
+import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.{MustMatchers, OptionValues, WordSpec}
 import org.scalatestplus.play.components.OneAppPerSuiteWithComponents
 import play.api.{Application, BuiltInComponents, BuiltInComponentsFromContext, NoHttpFiltersComponents}
@@ -44,7 +46,7 @@ object SessionIdFilterSpec {
 
 }
 
-class SessionIdFilterSpec extends WordSpec with MustMatchers with OptionValues  with OneAppPerSuiteWithComponents {
+class SessionIdFilterSpec extends AnyWordSpec with Matchers with OptionValues  with OneAppPerSuiteWithComponents {
 
   override def components: BuiltInComponents = new BuiltInComponentsFromContext(context) with NoHttpFiltersComponents {
 

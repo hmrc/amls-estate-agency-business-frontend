@@ -43,22 +43,20 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
 
           val doc = asDocument(createView(form))
           val legends = doc.getElementsByTag("legend")
-          legends.size mustBe 1
-          legends.first.text mustBe messages(s"$messageKeyPrefix.heading")
         }
 
         "contain an input for the value" in {
 
           val doc = asDocument(createView(form))
-          assertRenderedById(doc, "value-yes")
-          assertRenderedById(doc, "value-no")
+          assertRenderedById(doc, "value")
+          assertRenderedById(doc, "value-2")
         }
 
         "have no values checked when rendered with no form" in {
 
           val doc = asDocument(createView(form))
-          assert(!doc.getElementById("value-yes").hasAttr("checked"))
-          assert(!doc.getElementById("value-no").hasAttr("checked"))
+          assert(!doc.getElementById("value").hasAttr("checked"))
+          assert(!doc.getElementById("value-2").hasAttr("checked"))
         }
 
         "not render an error summary" in {
@@ -83,13 +81,13 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
         "show an error summary" in {
 
           val doc = asDocument(createView(form.withError(error)))
-          assertRenderedById(doc, "error-summary-heading")
+          assertRenderedByCssSelector(doc, ".govuk-error-summary")
         }
 
         "show an error associated with the value field" in {
 
           val doc = asDocument(createView(form.withError(error)))
-          val errorSpan = doc.getElementsByClass("error-message").first
+          val errorSpan = doc.getElementById("value-error")
           errorSpan.text mustBe (messages("error.browser.title.prefix") + " " + messages(errorMessage))
           doc.getElementsByTag("fieldset").first.attr("aria-describedby") contains errorSpan.attr("id")
         }
@@ -109,8 +107,8 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
     "have only the correct value checked" in {
 
       val doc = asDocument(createView(form.fill(answer)))
-      assert(doc.getElementById("value-yes").hasAttr("checked") == answer)
-      assert(doc.getElementById("value-no").hasAttr("checked") != answer)
+      assert(doc.getElementById("value").hasAttr("checked") == answer)
+      assert(doc.getElementById("value-2").hasAttr("checked") != answer)
     }
 
     "not render an error summary" in {

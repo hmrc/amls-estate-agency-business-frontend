@@ -16,34 +16,29 @@
 
 @import controllers.routes.CheckYourAnswersController
 @import viewmodels.{AnswerSection, RepeaterAnswerSection, Section}
+@import components.{Button, PageHeading, Heading}
 
 @this(
-    main_template: MainTemplate,
-    formHelper: FormWithCSRF
+layout: template.Layout,
+formHelper: FormWithCSRF,
+heading: Heading,
+pageHeading: PageHeading,
+govukSummaryList: GovukSummaryList,
+button: Button
 )
 
-@(answerSections: Seq[Section])(implicit request: Request[_], messages: Messages)
+@(summaryList: SummaryList)(implicit request: Request[_], messages: Messages)
 
-@main_template(
-    title = s"${messages("checkYourAnswers.title")}" + " - " + messages("eab.title.extension")
-    ) {
+@layout(
+    pageTitle = s"""${messages("checkYourAnswers.title")} - ${messages("eab.title.extension")}"""){
 
-    <br/>
+    @pageHeading("eab.heading")
 
-    @components.page_heading("eab.heading")
+    @heading("checkYourAnswers.heading")
 
-    @components.heading("checkYourAnswers.heading")
-
-    @for(section <- answerSections){
-        @{
-            section match {
-                case a: AnswerSection => components.answer_section(a)
-                case r: RepeaterAnswerSection => components.repeater_answer_section(r)
-            }
-        }
-    }
+    @govukSummaryList(summaryList)
 
     @formHelper(action = CheckYourAnswersController.onSubmit) {
-        @components.submit_button("site.acceptandcomplete")
+    @button("site.acceptandcomplete")
     }
 }

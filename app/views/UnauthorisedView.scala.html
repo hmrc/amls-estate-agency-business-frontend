@@ -14,15 +14,18 @@
  * limitations under the License.
  *@
 
+@import components.Heading
+
 @this(
-    main_template: MainTemplate
+    layout: template.Layout,
+    heading: Heading
 )
 
 @()(implicit request: Request[_], messages: Messages)
 
-@main_template(
-    title = s"${messages("unauthorised.title")}" + " - " + messages("eab.title.extension")
+@layout(
+pageTitle = s"${messages("unauthorised.title")}" + " - " + messages("eab.title.extension")
     ) {
 
-    @components.heading("unauthorised.heading")
+    @heading("unauthorised.heading")
 }

@@ -16,7 +16,9 @@
 
 package models
 
-import viewmodels.RadioOption
+import play.api.i18n.Messages
+import uk.gov.hmrc.govukfrontend.views.Aliases.Text
+import uk.gov.hmrc.govukfrontend.views.viewmodels.checkboxes.CheckboxItem
 
 sealed trait EabServicesProvided
 
@@ -33,7 +35,7 @@ object EabServicesProvided extends Enumerable.Implicits {
   case object Residential extends WithName("residential") with EabServicesProvided
   case object SocialHousingProvision extends WithName("socialHousingProvision") with EabServicesProvided
 
-  val values: Seq[EabServicesProvided] = Seq(
+  def values: Seq[EabServicesProvided] = Seq(
     AssetManagement,
     Auctioneering,
     BusinessTransfer,
@@ -46,11 +48,17 @@ object EabServicesProvided extends Enumerable.Implicits {
     SocialHousingProvision
   )
 
-  val options: Seq[RadioOption] = values.map {
-    value =>
-      RadioOption("eabServicesProvided", value.toString)
+  def options(implicit messages: Messages): Seq[CheckboxItem] = values.zipWithIndex.map {
+    case (serviceValues, index) =>
+      CheckboxItem(
+        content = Text(messages(s"eabServicesProvided.${serviceValues.toString}")),
+        value = serviceValues.toString,
+        id = Some(s"value_$index"),
+        name = Some(s"value[$index]")
+      )
   }
 
-  implicit val enumerable: Enumerable[EabServicesProvided] =
-    Enumerable(values.map(v => v.toString -> v): _*)
-}
+      implicit val enumerable: Enumerable[EabServicesProvided] =
+        Enumerable(values.map(v => v.toString -> v): _*)
+  }
+

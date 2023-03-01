@@ -4,11 +4,10 @@
 
 @()(implicit request: Request[_], messages: Messages)
 
-@main_template(
-    title = messages("$className;format="decap"$.title")
+@layout(
+pageTitle = messages("$className;format="decap"$.title")
     ) {
 
-    @components.back_link()
 
     @components.heading("$className;format="decap"$.heading")
 }

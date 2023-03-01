@@ -18,11 +18,11 @@ package controllers
 
 import base.SpecBase
 import forms.RedressSchemeFormProvider
+import models.RedressScheme.PropertyRedressScheme
 import models.{NormalMode, RedressScheme, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
-import org.mockito.Matchers.any
-import org.mockito.Mockito.when
-import org.scalatestplus.mockito.MockitoSugar
+import org.mockito.ArgumentMatchers.any
+import org.mockito.MockitoSugar
 import pages.RedressSchemePage
 import play.api.inject.bind
 import play.api.mvc.Call
@@ -98,7 +98,7 @@ class RedressSchemeControllerSpec extends SpecBase with MockitoSugar {
 
       val request =
         FakeRequest(POST, redressSchemeRoute)
-          .withFormUrlEncodedBody(("value", RedressScheme.options.head.value))
+          .withFormUrlEncodedBody(("value", PropertyRedressScheme.toString))
 
       val result = route(application, request).value
 

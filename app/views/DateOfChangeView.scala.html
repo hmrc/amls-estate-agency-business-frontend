@@ -14,37 +14,53 @@
  * limitations under the License.
  *@
 
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.hmrcfrontend.views.html.components.implicits._
 @import config.FrontendAppConfig
+@import components.{Anchor, Button, FormErrorSummary, PageHeading, Heading}
+@import views.ViewUtils
 
 @this(
-    main_template: MainTemplate,
-    formHelper: FormWithCSRF,
-    appConfig: FrontendAppConfig
+layout: template.Layout,
+formHelper: FormWithCSRF,
+button: Button,
+errorSummary: FormErrorSummary,
+pageHeading: PageHeading,
+heading: Heading,
+appConfig: FrontendAppConfig,
+govukDateInput: GovukDateInput,
+anchor: Anchor
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@main_template(
-    title = s"${errorPrefix(form)} ${messages("dateOfChange.title")}" + " - " + messages("eab.title.extension")
+@layout(
+pageTitle = s"${errorPrefix(form)} ${messages("dateOfChange.title")}" + " - " + messages("eab.title.extension")
 ) {
 
     @formHelper(action = DateOfChangeController.onSubmit(mode), 'autoComplete -> "off") {
 
-        @components.back_link()
 
-        @components.error_summary(form.errors)
+        @errorSummary(form, Some(Map("value" -> "value-day")))
 
-        @components.page_heading("eab.heading")
+        @pageHeading("eab.heading")
 
-        @components.input_date(
-            field = form("value"),
-            legend = messages("dateOfChange.heading"),
-            hint = Some(messages("dateOfChange.hint")),
-            headingIsLegend = true
-        )()
+        @heading("dateOfChange.heading")
 
-        @components.submit_button()
+        @govukDateInput(
+        DateInput(
+            hint = Some(
+                Hint(
+                    content = Text(messages("dateOfChange.hint")),
+                )
+            ),
+            id = "value",
+            errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
 
-        @components.anchor(appConfig = appConfig)
+            ).withFormField(form("value")))
+
+        @button("site.save.continue", "submit")
+
+        @anchor()
     }
 }

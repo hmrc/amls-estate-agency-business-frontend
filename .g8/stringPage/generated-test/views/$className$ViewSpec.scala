@@ -5,8 +5,6 @@ import forms.$className$FormProvider
 import models.NormalMode
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
-import views.behaviours.StringViewBehaviours
-import views.html.$className$View
 
 class $className$ViewSpec extends StringViewBehaviours {
 

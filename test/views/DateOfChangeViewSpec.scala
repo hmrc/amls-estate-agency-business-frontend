@@ -16,14 +16,14 @@
 
 package views
 
-import java.time.LocalDate
-
 import forms.DateOfChangeFormProvider
 import models.{NormalMode, UserAnswers}
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
 import views.behaviours.QuestionViewBehaviours
 import views.html.DateOfChangeView
+
+import java.time.LocalDate
 
 class DateOfChangeViewSpec extends QuestionViewBehaviours[LocalDate] {
 

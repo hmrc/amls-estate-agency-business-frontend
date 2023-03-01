@@ -1,8 +1,5 @@
 package views
 
-import views.behaviours.ViewBehaviours
-import views.html.$className$View
-
 class $className$ViewSpec extends ViewBehaviours {
 
   "$className$ view" must {

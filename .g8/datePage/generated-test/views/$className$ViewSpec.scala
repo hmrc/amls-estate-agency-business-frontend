@@ -6,8 +6,6 @@ import forms.$className$FormProvider
 import models.{NormalMode, UserAnswers}
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
-import views.behaviours.QuestionViewBehaviours
-import views.html.$className$View
 
 class $className$ViewSpec extends QuestionViewBehaviours[LocalDate] {
 

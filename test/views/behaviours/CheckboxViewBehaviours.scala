@@ -18,14 +18,14 @@ package views.behaviours
 
 import play.api.data.{Form, FormError}
 import play.twirl.api.HtmlFormat
-import viewmodels.RadioOption
+import uk.gov.hmrc.govukfrontend.views.viewmodels.checkboxes.CheckboxItem
 
 trait CheckboxViewBehaviours[A] extends ViewBehaviours {
 
   def checkboxPage(form: Form[Seq[A]],
                    createView: Form[Seq[A]] => HtmlFormat.Appendable,
                    messageKeyPrefix: String,
-                   options: Seq[RadioOption],
+                   options: Seq[CheckboxItem],
                    fieldKey: String = "value",
                    legend: Option[String] = None): Unit = {
 
@@ -52,7 +52,7 @@ trait CheckboxViewBehaviours[A] extends ViewBehaviours {
           (option, i) <- options.zipWithIndex
         } yield {
           val id = form(fieldKey)(s"[$i]").id
-          doc.select(s"label[for=$id]").text mustEqual messages(option.messageKey)
+          doc.select(s"label[for=$id]").text mustEqual messages(s"eabServicesProvided.${option.value}")
         }
       }
 
@@ -94,17 +94,17 @@ trait CheckboxViewBehaviours[A] extends ViewBehaviours {
 
       "show error in the title" in {
         val doc = asDocument(createView(form.withError(FormError(fieldKey, "error.invalid"))))
-        doc.title.contains(messages("error.browser.title.prefix")) mustBe true
+        doc.title.contains("Error:") mustBe true
       }
 
       "show an error summary" in {
         val doc = asDocument(createView(form.withError(FormError(fieldKey, "error.invalid"))))
-        assertRenderedById(doc, "error-summary-heading")
+        assertRenderedByCssSelector(doc, ".govuk-error-summary")
       }
 
       "show an error associated with the value field" in {
         val doc = asDocument(createView(form.withError(FormError(fieldKey, "error.invalid"))))
-        val errorSpan = doc.getElementsByClass("error-message").first
+        val errorSpan = doc.getElementById("value-error")
         errorSpan.text mustBe (messages("error.browser.title.prefix") + " " + messages("error.invalid"))
         doc.getElementsByTag("fieldset").first.attr("aria-describedby") contains errorSpan.attr("id")
       }

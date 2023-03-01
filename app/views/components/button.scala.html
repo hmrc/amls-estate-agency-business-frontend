@@ -14,11 +14,21 @@
  * limitations under the License.
  *@
 
+@this(govukButton: GovukButton)
+
 @(
-messageKey: String = "",
-inputType: String = "button"
+msg: String = "button.saveandcontinue",
+id: String = "button",
+hrefOpt: Option[String] = None,
+startButton: Boolean = false,
+attributes: Map[String, String] = Map.empty
 )(implicit messages: Messages)
 
-<div class="section">
-    <input type="@inputType" class="button" value="@messages(messageKey)" />
-</div>
+@govukButton(Button(
+href = hrefOpt,
+content = Text(messages(msg)),
+isStartButton = startButton,
+attributes = attributes + ("id" -> id)
+))
+
+

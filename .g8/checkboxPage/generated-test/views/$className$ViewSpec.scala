@@ -5,7 +5,6 @@ import models.{$className$, NormalMode}
 import play.api.Application
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
-import views.behaviours.CheckboxViewBehaviours
 import views.html.$className$View
 
 class $className$ViewSpec extends CheckboxViewBehaviours[$className$] {

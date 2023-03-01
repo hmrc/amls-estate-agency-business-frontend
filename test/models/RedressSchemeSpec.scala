@@ -28,7 +28,7 @@ class RedressSchemeSpec extends WordSpec with MustMatchers with ScalaCheckProper
 
     "deserialise valid values" in {
 
-      val gen = Gen.oneOf(RedressScheme.values.toSeq)
+      val gen = Gen.oneOf(RedressScheme.values)
 
       forAll(gen) {
         redressScheme =>
@@ -50,7 +50,7 @@ class RedressSchemeSpec extends WordSpec with MustMatchers with ScalaCheckProper
 
     "serialise" in {
 
-      val gen = Gen.oneOf(RedressScheme.values.toSeq)
+      val gen = Gen.oneOf(RedressScheme.values)
 
       forAll(gen) {
         redressScheme =>

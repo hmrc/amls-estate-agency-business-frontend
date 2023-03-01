@@ -3,6 +3,7 @@ checkYourAnswers.heading = Check your answers
 checkYourAnswers.guidance = Guidance for check your answers
 
 eab.heading = Estate agency business
+eab.heading.manage = Manage your anti-money laundering supervision
 eab.title.extension = Estate agency business - Manage your anti-money laundering supervision - GOV.UK
 link.return.registration.progress = Return to about your business
 date.day = Day
@@ -84,6 +85,7 @@ penalisedEstateAgentsAct.error.required = Select yes if the business, or anyone 
 penalisedEstateAgentsAct.subtitle = Examples of a penalty include:
 penalisedEstateAgentsAct.warning = receiving a formal warning
 penalisedEstateAgentsAct.banned = being banned from taking part in estate agency activities
+penalisedEstateAgentsAct.continue = Continue
 
 penalisedEstateAgentsActDetail.title = Tell us about the penalty under the Estate Agents Act 1979 and when it happened
 penalisedEstateAgentsActDetail.heading = Tell us about the penalty under the Estate Agents Act 1979 and when it happened
@@ -121,7 +123,7 @@ redressScheme.error.required = Select which redress scheme your business is regi
 
 redressSchemeDetail.title = What other redress scheme is your business registered with?
 redressSchemeDetail.heading = What other redress scheme is your business registered with?
-redressSchemeDetail.content = A redress scheme is an independent service that resolves disputes between an estate agency business and its customers.
+redressSchemeDetail.content = A redress scheme is an independent service that resolves disputes between an estate agency business and its customers
 redressSchemeDetail.checkYourAnswersLabel = What other redress scheme is your business registered with?
 redressSchemeDetail.error.required = Enter a redress scheme
 redressSchemeDetail.error.length = RedressSchemeDetail must be 256 characters or less
@@ -134,7 +136,7 @@ clientMoneyProtectionScheme.content = A client money protection scheme makes sur
 
 dateOfChange.title = When did the change happen?
 dateOfChange.heading = When did the change happen?
-dateOfChange.hint = For example, 31 03 2017.
+dateOfChange.hint = For example, 31 03 2017
 dateOfChange.checkYourAnswersLabel = When did the change happen?
 dateOfChange.error.required.all = Enter the date the change happened
 dateOfChange.error.required.two = Date of the change must include a {0} and {1}

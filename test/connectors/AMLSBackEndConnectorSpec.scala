@@ -17,15 +17,15 @@
 package connectors
 
 import base.SpecBase
-import models.{ReadStatusResponse}
-import org.mockito.Matchers.{any, eq => eqTo}
-import org.mockito.Mockito._
-import org.scalatestplus.mockito.MockitoSugar
+import models.ReadStatusResponse
+import org.mockito.ArgumentMatchers.any
+import org.mockito.ArgumentMatchersSugar.eqTo
+import org.mockito.MockitoSugar
 import play.api.Configuration
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class AMLSBackEndConnectorSpec extends SpecBase with MockitoSugar {
 
