@@ -34,11 +34,11 @@ object RedressScheme extends Enumerable.Implicits {
   )
 
   def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map {
-    case (percentageExpectedTurnover, index) =>
+    case (redressScheme, index) =>
       RadioItem(
-        content = Text(messages(s"redressScheme.${percentageExpectedTurnover.toString}")),
+        content = Text(messages(s"redressScheme.${redressScheme.toString}")),
         id = Some(s"value_$index"),
-        value = Some(percentageExpectedTurnover.toString)
+        value = Some(redressScheme.toString)
       )
   }
 

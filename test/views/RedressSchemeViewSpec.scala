@@ -46,14 +46,11 @@ class RedressSchemeViewSpec extends ViewBehaviours {
 
     "rendered" must {
 
-      "contain radio buttons for the value" in {
+      "contain radio buttons for the value" when {
 
         val doc = asDocument(applyView(form))
         for (option <- RedressScheme.options) {
           assertContainsRadioButton(doc, option.id.value, "value", option.value.value, false)
-
-          RedressScheme.options.zipWithIndex.foreach { case (option: RadioItem, i: Int) =>
-          }
         }
 
         "contain supporting content for the question" in {

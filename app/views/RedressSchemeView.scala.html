@@ -64,7 +64,7 @@ pageTitle = s"${errorPrefix(form)} ${messages("redressScheme.title")}" + " - " +
             name = "value",
             items = RedressScheme.options,
             errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
-        )
+        ).withFormField(form("value"))
     )
         @button("site.save.continue", "submit")
 
