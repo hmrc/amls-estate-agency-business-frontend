@@ -85,7 +85,6 @@ penalisedEstateAgentsAct.error.required = Select yes if the business, or anyone 
 penalisedEstateAgentsAct.subtitle = Examples of a penalty include:
 penalisedEstateAgentsAct.warning = receiving a formal warning
 penalisedEstateAgentsAct.banned = being banned from taking part in estate agency activities
-penalisedEstateAgentsAct.continue = Continue
 
 penalisedEstateAgentsActDetail.title = Tell us about the penalty under the Estate Agents Act 1979 and when it happened
 penalisedEstateAgentsActDetail.heading = Tell us about the penalty under the Estate Agents Act 1979 and when it happened
