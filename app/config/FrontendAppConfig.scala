@@ -22,10 +22,12 @@ import play.api.Configuration
 @Singleton
 class FrontendAppConfig @Inject() (configuration: Configuration) {
 
-  val timeoutSeconds = configuration.get[String](s"timeout.seconds")
-  val timeoutCountdown = configuration.get[String](s"timeout.countdown")
+  val timeoutSeconds = configuration.get[Int](s"timeout.seconds")
+  val timeoutCountdown = configuration.get[Int](s"timeout.countdown")
 
   val amlsFrontendBaseUrl = configuration.get[String](s"microservice.services.amls-frontend.url")
+
+  val registrationProgressUrl = s"${amlsFrontendBaseUrl}/registration-progress"
 
   lazy val loginUrl: String = configuration.get[String]("urls.login.url")
   lazy val logoutUrl: String = configuration.get[String]("urls.logout.url")

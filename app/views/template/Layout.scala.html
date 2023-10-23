@@ -45,7 +45,9 @@ fullWidthLayout: Boolean = false
 @headScripts = {
 @if(timeoutEnabled) {
 @hmrcTimeoutDialogHelper(
-signOutUrl = routes.UnauthorisedController.onPageLoad.url
+signOutUrl = routes.UnauthorisedController.onPageLoad.url,
+timeout = Some(appConfig.timeoutSeconds),
+countdown = Some(appConfig.timeoutCountdown)
 )
 }
 }
