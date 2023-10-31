@@ -1,5 +1,5 @@
 @*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 @import play.twirl.api.HtmlFormat
 @import views.html.layouts.GovUkTemplate
+@import views.html.components.report_a_problem_link
 
 @this(
     header_nav: HeaderNav,
@@ -26,7 +27,7 @@
     main_content_header: MainContentHeader,
     footer_links: FooterLinks,
     main_content: MainContent,
-    reportAProblemLink: ReportAProblemLink,
+    reportAProblemLink: report_a_problem_link,
     hmrcGovUkTemplate: GovUkTemplate
 )
 
@@ -86,7 +87,7 @@
     }
 }
 
-@getHelpForm = @{reportAProblemLink(appConfig.reportAProblemPartialUrl, appConfig.reportAProblemNonJSUrl)}
+@getHelpForm = @{reportAProblemLink(appConfig.reportAProblemNonJSUrl)}
 
 @content = {
     @main_content(

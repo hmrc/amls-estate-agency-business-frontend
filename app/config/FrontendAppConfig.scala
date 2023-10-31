@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,15 +18,19 @@ package config
 
 import com.google.inject.{Inject, Singleton}
 import play.api.Configuration
+import play.api.mvc.Request
+
+import java.net.URLEncoder
 
 @Singleton
 class FrontendAppConfig @Inject() (configuration: Configuration) {
 
   val timeoutSeconds = configuration.get[String](s"timeout.seconds")
   val timeoutCountdown = configuration.get[String](s"timeout.countdown")
-
-  val reportAProblemPartialUrl = configuration.get[String]("microservice.services.contact-frontend.report-problem-url.with-js")
-  val reportAProblemNonJSUrl = configuration.get[String]("microservice.services.contact-frontend.report-problem-url.non-js")
+  def reportAProblemNonJSUrl(implicit request: Request[_]): String = {
+    configuration.get[String]("microservice.services.contact-frontend.report-problem-url.non-js") +
+    "&referrerUrl=" + URLEncoder.encode(request.host + request.uri, "utf-8")
+  }
   val betaFeedbackUrl = configuration.get[String]("microservice.services.contact-frontend.beta-feedback-url.authenticated")
   val betaFeedbackUnauthenticatedUrl = configuration.get[String]("microservice.services.contact-frontend.beta-feedback-url.unauthenticated")
 

@@ -1,4 +1,4 @@
-/*
+@*
  * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,20 +12,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package forms
+@this()
 
-import javax.inject.Inject
+@(reportAProblemNonJSUrl: String)(implicit messages: Messages)
 
-import forms.mappings.Mappings
-import play.api.data.Form
-import models.RedressScheme
-
-class RedressSchemeFormProvider @Inject() extends Mappings {
-
-  def apply(): Form[RedressScheme] =
-    Form(
-      "value" -> enumerable[RedressScheme]("redressScheme.error.required")
-    )
-}
+<div class="report-error">
+    <a class="report-error__toggle" href="@reportAProblemNonJSUrl" target="_blank">
+        @messages("report.a.problem.link")
+    </a>
+</div>
