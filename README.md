@@ -9,4 +9,4 @@ This is the repository for the Anti-Money Laundering Supervision Estate Agency B
 
 To run the project clone the repository and in terminal $sbt "run $PORT" 
 
-To be run in conjunction with AMLS Frontend.
+To be run in conjunction with AMLS Frontend
