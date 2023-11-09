@@ -18,23 +18,12 @@ package config
 
 import com.google.inject.{Inject, Singleton}
 import play.api.Configuration
-import play.api.mvc.Request
-
-import java.net.URLEncoder
 
 @Singleton
 class FrontendAppConfig @Inject() (configuration: Configuration) {
 
-  val timeoutSeconds = configuration.get[String](s"timeout.seconds")
-  val timeoutCountdown = configuration.get[String](s"timeout.countdown")
-  def reportAProblemNonJSUrl(implicit request: Request[_]): String = {
-    configuration.get[String]("microservice.services.contact-frontend.report-problem-url.non-js") +
-    "&referrerUrl=" +
-    URLEncoder.encode(
-      configuration.get[String](s"microservice.services.amls-estate-agency-business-frontend.url") + request.uri,
-      "utf-8"
-    )
-  }
+  val timeoutSeconds = configuration.get[Int](s"timeout.seconds")
+  val timeoutCountdown = configuration.get[Int](s"timeout.countdown")
 
   val amlsFrontendBaseUrl = configuration.get[String](s"microservice.services.amls-frontend.url")
 
