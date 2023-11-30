@@ -18,43 +18,44 @@
 @import models.Mode
 @import config.FrontendAppConfig
 @import views.ViewUtils
+@import components.{Anchor, InputYesNo, FormErrorSummary, Button, Heading, PageHeading}
 
 @this(
-        main_template: MainTemplate,
-        formHelper: FormWithCSRF,
-        appConfig: FrontendAppConfig
+layout: template.Layout,
+formHelper: FormWithCSRF,
+errorSummary: FormErrorSummary,
+appConfig: FrontendAppConfig,
+anchor: Anchor,
+inputYesNo: InputYesNo,
+button: Button,
+heading: Heading,
+pageHeading: PageHeading
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@supportingContent = {
-    <p>@Messages("penalisedEstateAgentsAct.subtitle")</p>
-        <ul class="list list-bullet">
-            <li>@Messages("penalisedEstateAgentsAct.warning")</li>
-            <li>@Messages("penalisedEstateAgentsAct.banned")</li>
-        </ul>
-}
+    @layout(
+    pageTitle = s"${errorPrefix(form)} ${messages("penalisedEstateAgentsAct.title")}" + " - " + messages("eab.title.extension")
+        ) {
 
-@main_template(
-    title = s"${errorPrefix(form)} ${messages("penalisedEstateAgentsAct.title")}" + " - " + messages("eab.title.extension")
-    ) {
+        @formHelper(action = PenalisedEstateAgentsActController.onSubmit(mode), 'autoComplete -> "off") {
 
-    @formHelper(action = PenalisedEstateAgentsActController.onSubmit(mode), 'autoComplete -> "off") {
+        @errorSummary(form)
 
-        @components.back_link()
+             @pageHeading("eab.heading")
 
-        @components.error_summary_with_id(form.errors, ViewUtils.genericYesNoErrorId)
+            @heading("penalisedEstateAgentsAct.heading")
 
-        @components.page_heading("eab.heading")
+            <p class="govuk-body">@messages("penalisedEstateAgentsAct.subtitle")</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>@Messages("penalisedEstateAgentsAct.warning")</li>
+                <li>@Messages("penalisedEstateAgentsAct.banned")</li>
+            </ul>
 
-        @components.input_yes_no(
-            field = form("value"),
-            legend = messages("penalisedEstateAgentsAct.heading"),
-            headingIsLegend = true
-        )(supportingContent = supportingContent)
+            @inputYesNo(form, "")
 
-        @components.submit_button()
+            @button("site.save.continue", "submit")
 
-        @components.anchor(appConfig = appConfig)
+            @anchor()
     }
 }

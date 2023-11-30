@@ -18,7 +18,6 @@ package controllers
 
 import controllers.actions._
 import forms.EabServicesProvidedFormProvider
-import javax.inject.Inject
 import models.{Mode, UserAnswers}
 import navigation.Navigator
 import pages.EabServicesProvidedPage
@@ -29,6 +28,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import utils.ControllerHelper
 import views.html.EabServicesProvidedView
 
+import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class EabServicesProvidedController @Inject()(

@@ -1,4 +1,4 @@
-/*
+@*
  * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,21 +12,23 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package views
+@this(govukButton: GovukButton)
 
-import play.api.data.Form
-import play.api.i18n.Messages
+@(
+msg: String,
+id: String = "button",
+hrefOpt: Option[String] = None,
+startButton: Boolean = false,
+attributes: Map[String, String] = Map.empty
+)(implicit messages: Messages)
 
-object ViewUtils {
+@govukButton(Button(
+href = hrefOpt,
+content = Text(messages(msg)),
+isStartButton = startButton,
+attributes = attributes + ("id" -> id)
+))
 
-  def errorPrefix(form: Form[_])(implicit messages: Messages): String = {
-    if (form.hasErrors || form.hasGlobalErrors) messages("error.browser.title.prefix") else ""
-  }
-
-  val genericYesNoErrorId = "value-yes"
-  val redressSchemeErrorId = "redressScheme.notRegistered"
-  val genericCheckboxErrorId = "value_0"
-}
 

@@ -45,7 +45,7 @@ class CheckYourAnswersHelperSpec extends SpecBase {
         "must return single answer row with un-bulleted content" in {
 
           val checkYourAnswersHelper = new CheckYourAnswersHelper(userAnswersSingleService)(messages)
-          val answers = checkYourAnswersHelper.eabServicesProvided.value.answer
+          val answers = checkYourAnswersHelper.eabServicesProvided.value
           val doc = Jsoup.parse(answers.toString())
 
           doc.getElementsByClass("list list-bullet").size() mustBe 0
@@ -58,11 +58,11 @@ class CheckYourAnswersHelperSpec extends SpecBase {
         "must return multiple answer row with bulleted content" in {
 
           val checkYourAnswersHelper = new CheckYourAnswersHelper(userAnswersMultipleServices)(messages)
-          val answers = checkYourAnswersHelper.eabServicesProvided.value.answer
+          val answers = checkYourAnswersHelper.eabServicesProvided.value
           val doc = Jsoup.parse(answers.toString())
 
-          doc.getElementsByClass("list list-bullet").size() mustBe 1
-          doc.getElementsByClass("list list-bullet").toString must (include("Auctioneering") and include("Business transfer"))
+          doc.getElementsByClass("govuk-list govuk-list--bullet").size() mustBe 1
+          doc.getElementsByClass("govuk-list govuk-list--bullet").toString must (include("Auctioneering") and include("Business transfer"))
         }
       }
     }

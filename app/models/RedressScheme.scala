@@ -16,7 +16,8 @@
 
 package models
 
-import viewmodels.RadioOption
+import play.api.i18n.Messages
+import uk.gov.hmrc.govukfrontend.views.Aliases.{RadioItem, Text}
 
 sealed trait RedressScheme
 
@@ -32,9 +33,13 @@ object RedressScheme extends Enumerable.Implicits {
     ThePropertyOmbudsman
   )
 
-  val options: Seq[RadioOption] = values.map {
-    value =>
-      RadioOption("redressScheme", value.toString)
+  def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map {
+    case (redressScheme, index) =>
+      RadioItem(
+        content = Text(messages(s"redressScheme.${redressScheme.toString}")),
+        id = Some(s"value_$index"),
+        value = Some(redressScheme.toString)
+      )
   }
 
   implicit val enumerable: Enumerable[RedressScheme] =

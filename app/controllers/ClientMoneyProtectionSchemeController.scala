@@ -18,16 +18,16 @@ package controllers
 
 import controllers.actions._
 import forms.ClientMoneyProtectionSchemeFormProvider
-import javax.inject.Inject
 import models.Mode
 import navigation.Navigator
 import pages.ClientMoneyProtectionSchemePage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import repositories.{AMLSFrontEndSessionRepository}
+import repositories.AMLSFrontEndSessionRepository
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.ClientMoneyProtectionSchemeView
 
+import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class ClientMoneyProtectionSchemeController @Inject()(

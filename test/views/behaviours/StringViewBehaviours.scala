@@ -16,7 +16,7 @@
 
 package views.behaviours
 
-import play.api.data.Form
+import  play.api.data.Form
 import play.twirl.api.HtmlFormat
 
 trait StringViewBehaviours extends QuestionViewBehaviours[String] {
@@ -26,7 +26,6 @@ trait StringViewBehaviours extends QuestionViewBehaviours[String] {
   def stringPage(form: Form[String],
                  createView: Form[String] => HtmlFormat.Appendable,
                  messageKeyPrefix: String,
-                 expectedFormAction: String,
                  expectedHintKey: Option[String] = None) = {
 
     "behave like a page with a string value field" when {
@@ -48,12 +47,12 @@ trait StringViewBehaviours extends QuestionViewBehaviours[String] {
       "rendered with an error" must {
         "show an error summary" in {
           val doc = asDocument(createView(form.withError(error)))
-          assertRenderedById(doc, "error-summary-heading")
+          assertRenderedByCssSelector(doc, ".govuk-error-summary")
         }
 
         "show an error associated to the value field" in {
           val doc = asDocument(createView(form.withError(error)))
-          val errorSpan = doc.getElementsByClass("error-message").first
+          val errorSpan = doc.getElementById("value-error")
           errorSpan.text mustBe (messages("error.browser.title.prefix") + " " + messages(errorMessage))
         }
 
@@ -71,7 +70,7 @@ trait StringViewBehaviours extends QuestionViewBehaviours[String] {
                    expectedFormAction: String,
                    expectedHintKey: Option[String] = None) = {
 
-    stringPage(form, createView, messageKeyPrefix, expectedFormAction, expectedHintKey)
+    stringPage(form, createView, messageKeyPrefix, expectedHintKey)
 
     "behave like a page with a text area" when {
       "rendered with a valid form" must {
@@ -89,13 +88,13 @@ trait StringViewBehaviours extends QuestionViewBehaviours[String] {
                     expectedFormAction: String,
                     expectedHintKey: Option[String] = None) = {
 
-    stringPage(form, createView, messageKeyPrefix, expectedFormAction, expectedHintKey)
+    stringPage(form, createView, messageKeyPrefix, expectedHintKey)
 
     "behave like a page with a text field" when {
       "rendered with a valid form" must {
         "include the form's value in the value input" in {
           val doc = asDocument(createView(form.fill(answer)))
-          doc.getElementById("value").attr("value") mustBe answer
+          doc.getElementById("value").text mustBe answer
         }
       }
     }

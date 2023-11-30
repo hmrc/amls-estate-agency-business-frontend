@@ -38,6 +38,6 @@ class DateOfChangeFormProvider @Inject() extends Mappings {
 }
 object DateOfChangeFormProvider {
 
-  def pastDate   = LocalDate.of(1900, 1, 1)
+  def pastDate = LocalDate.of(1900, 1, 1)
   def futureDate = LocalDate.now(ZoneOffset.UTC)
 }

@@ -16,17 +16,17 @@
 
 package views
 
-import controllers.routes
 import forms.PenalisedEstateAgentsActDetailFormProvider
 import models.NormalMode
 import play.api.data.Form
+import play.api.routing.Router.empty.routes
 import play.twirl.api.HtmlFormat
 import views.behaviours.StringViewBehaviours
 import views.html.PenalisedEstateAgentsActDetailView
 
 class PenalisedEstateAgentsActDetailViewSpec extends StringViewBehaviours {
 
-  val messageKeyPrefix = "penalisedEstateAgentsActDetail"
+  val `messageKeyPrefix` = "penalisedEstateAgentsActDetail"
 
   val form = new PenalisedEstateAgentsActDetailFormProvider()()
 
@@ -41,6 +41,6 @@ class PenalisedEstateAgentsActDetailViewSpec extends StringViewBehaviours {
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like textareaPage(form, applyView, messageKeyPrefix, routes.PenalisedEstateAgentsActDetailController.onSubmit(NormalMode).url)
+    behave like textareaPage(form, applyView, messageKeyPrefix, controllers.routes.PenalisedEstateAgentsActDetailController.onSubmit(NormalMode).url)
   }
 }

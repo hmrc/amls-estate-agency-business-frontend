@@ -14,43 +14,56 @@
  * limitations under the License.
  *@
 
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.hmrcfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.charactercount.CharacterCount
 @import controllers.routes._
+@import uk.gov.hmrc.govukfrontend.views.Implicits.RichCharacterCount
 @import models.Mode
 @import config.FrontendAppConfig
+@import views.ViewUtils
+@import components.{Anchor, Button, FormErrorSummary, Heading, PageHeading}
 
 @this(
-        main_template: MainTemplate,
-        formHelper: FormWithCSRF,
-        appConfig: FrontendAppConfig
+layout: template.Layout,
+formHelper: FormWithCSRF,
+errorSummary: FormErrorSummary,
+govukCharacterCount: GovukCharacterCount,
+appConfig: FrontendAppConfig,
+anchor: Anchor,
+button: Button,
+heading: Heading,
+pageHeading: PageHeading
 )
 
-@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+    @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@main_template(
-    title = s"${errorPrefix(form)} ${messages("penalisedEstateAgentsActDetail.title")}" + " - " + messages("eab.title.extension")
-    ) {
+    @layout(
+    pageTitle = s"${errorPrefix(form)} ${messages("penalisedEstateAgentsActDetail.title")}" + " - " + messages("eab.title.extension")
+        ) {
 
     @formHelper(action = PenalisedEstateAgentsActDetailController.onSubmit(mode), 'autoComplete -> "off") {
 
-        @components.back_link()
+        @errorSummary(form)
 
-        @components.error_summary(form.errors)
+        @pageHeading("eab.heading")
 
-        @components.page_heading("eab.heading")
+        @heading("penalisedEstateAgentsActDetail.heading")
 
-        @components.input_textarea(
-          field = form("value"),
-          label = messages("penalisedEstateAgentsActDetail.heading"),
-          hint = Some(Messages("site.255.hint")),
-          headingIsLabel = true,
-          charCount = 255,
-          cols = "30",
-          rows = "6"
+        @govukCharacterCount(
+        CharacterCount(
+        id = "value",
+        name = "value",
+        rows = (6),
+        errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*)))),
+        maxLength = Some(255),
+        label = Label(content = Text(messages("penalisedEstateAgentsActDetail.title")))
+        ).withFormField(form("value"))
+        )
 
-        )()
+        @button("site.save.continue", "submit")
 
-        @components.submit_button()
+        @anchor()
 
-        @components.anchor(appConfig = appConfig)
     }
 }

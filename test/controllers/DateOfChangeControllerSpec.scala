@@ -16,15 +16,12 @@
 
 package controllers
 
-import java.time.{LocalDate, ZoneOffset}
-
 import base.SpecBase
 import forms.DateOfChangeFormProvider
 import models.{NormalMode, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
-import org.mockito.Matchers.any
-import org.mockito.Mockito.when
-import org.scalatestplus.mockito.MockitoSugar
+import org.mockito.ArgumentMatchers.any
+import org.mockito.MockitoSugar
 import pages.DateOfChangePage
 import play.api.inject.bind
 import play.api.mvc.{AnyContentAsEmpty, AnyContentAsFormUrlEncoded, Call}
@@ -33,6 +30,7 @@ import play.api.test.Helpers._
 import repositories.AMLSFrontEndSessionRepository
 import views.html.DateOfChangeView
 
+import java.time.{LocalDate, ZoneOffset}
 import scala.concurrent.Future
 
 class DateOfChangeControllerSpec extends SpecBase with MockitoSugar {

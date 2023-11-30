@@ -16,7 +16,6 @@
 
 package views
 
-import controllers.routes
 import forms.ClientMoneyProtectionSchemeFormProvider
 import models.NormalMode
 import play.api.data.Form
@@ -41,6 +40,6 @@ class ClientMoneyProtectionSchemeViewSpec extends YesNoViewBehaviours {
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like yesNoPage(form, applyView, messageKeyPrefix, routes.ClientMoneyProtectionSchemeController.onSubmit(NormalMode).url, None)
+    behave like yesNoPage(form, applyView, messageKeyPrefix, controllers.routes.ClientMoneyProtectionSchemeController.onSubmit(NormalMode).url, None)
   }
 }

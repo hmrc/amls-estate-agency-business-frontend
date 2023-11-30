@@ -21,9 +21,9 @@ import config.FrontendAppConfig
 import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierAction}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, Call, MessagesControllerComponents}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import utils.CheckYourAnswersHelper
-import viewmodels.AnswerSection
 import views.html.CheckYourAnswersView
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -41,19 +41,11 @@ class CheckYourAnswersController @Inject()(
   def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val checkYourAnswersHelper = new CheckYourAnswersHelper(request.userAnswers)
+      val summaryList = SummaryList(
+        rows = new CheckYourAnswersHelper(request.userAnswers).getAllRows
+      )
 
-      val sections = Seq(AnswerSection(None, Seq(
-        checkYourAnswersHelper.eabServicesProvided,
-        checkYourAnswersHelper.redressScheme,
-        checkYourAnswersHelper.clientMoneyProtectionScheme,
-        checkYourAnswersHelper.penalisedEstateAgentsAct,
-        checkYourAnswersHelper.penalisedEstateAgentsActDetail,
-        checkYourAnswersHelper.penalisedProfessionalBody,
-        checkYourAnswersHelper.penalisedProfessionalBodyDetail
-      ).flatten))
-
-      Ok(view(sections))
+      Ok(view(summaryList))
   }
 
   def onSubmit(): Action[AnyContent] = (identify andThen getData andThen requireData).async {

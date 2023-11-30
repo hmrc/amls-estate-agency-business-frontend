@@ -18,39 +18,40 @@
 @import models.Mode
 @import config.FrontendAppConfig
 @import views.ViewUtils
+@import components.{Anchor, Button, FormErrorSummary, InputYesNo, Heading, PageHeading}
 
 @this(
-    main_template: MainTemplate,
-    formHelper: FormWithCSRF,
-    appConfig: FrontendAppConfig
+layout: template.Layout,
+formHelper: FormWithCSRF,
+button: Button,
+errorSummary: FormErrorSummary,
+appConfig: FrontendAppConfig,
+heading: Heading,
+pageHeading: PageHeading,
+anchor: Anchor,
+inputYesNo: InputYesNo
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@supportingContent = {
-    <p>@messages("clientMoneyProtectionScheme.content")</p>
-}
-
-@main_template(
-    title = s"${errorPrefix(form)} ${messages("clientMoneyProtectionScheme.title")}" + " - " + messages("eab.title.extension")
+@layout(
+pageTitle = s"${errorPrefix(form)} ${messages("clientMoneyProtectionScheme.title")}" + " - " + messages("eab.title.extension")
     ) {
 
     @formHelper(action = ClientMoneyProtectionSchemeController.onSubmit(mode), 'autoComplete -> "off") {
 
-        @components.back_link()
+        @errorSummary(form)
 
-        @components.error_summary_with_id(form.errors, ViewUtils.genericYesNoErrorId)
+        @pageHeading("eab.heading")
 
-        @components.page_heading("eab.heading")
+        @heading("clientMoneyProtectionScheme.heading")
 
-        @components.input_yes_no(
-            field = form("value"),
-            legend = messages("clientMoneyProtectionScheme.heading"),
-            headingIsLegend = true
-        )(supportingContent = supportingContent)
+        <p class="govuk-body">@messages("clientMoneyProtectionScheme.content")</p>
 
-        @components.submit_button()
+        @inputYesNo(form, "")
 
-        @components.anchor(appConfig = appConfig)
+        @button("site.save.continue", "submit")
+
+        @anchor()
     }
 }

@@ -11,7 +11,6 @@ lazy val root = (project in file("."))
   .settings(DefaultBuildSettings.scalaSettings: _*)
   .settings(DefaultBuildSettings.defaultSettings(): _*)
   .settings(scalaVersion := "2.12.13")
-  .settings(SbtDistributablesPlugin.publishingSettings: _*)
   .settings(inConfig(Test)(testSettings): _*)
   .settings(majorVersion := 1)
   .settings(
@@ -20,11 +19,12 @@ lazy val root = (project in file("."))
     TwirlKeys.templateImports ++= Seq(
       "play.twirl.api.HtmlFormat",
       "play.twirl.api.HtmlFormat._",
-      "uk.gov.hmrc.play.views.html.helpers._",
-      "uk.gov.hmrc.play.views.html.layouts._",
+      "uk.gov.hmrc.govukfrontend.views.html.components._",
+      "uk.gov.hmrc.hmrcfrontend.views.html.components._",
       "views.ViewUtils._",
       "models.Mode",
-      "controllers.routes._"
+      "controllers.routes._",
+      "viewmodels._"
     ),
     PlayKeys.playDefaultPort := 9224,
     ScoverageKeys.coverageExcludedFiles := "<empty>;Reverse.*;.*filters.*;.*handlers.*;.*components.*;.*repositories.*;" +
@@ -35,7 +35,7 @@ lazy val root = (project in file("."))
     ScoverageKeys.coverageHighlighting := true,
     scalacOptions ++= Seq("-feature"),
     libraryDependencies ++= AppDependencies(),
-    dependencyOverrides += "commons-codec" % "commons-codec" % "1.12",
+    dependencyOverrides += "commons-codec" % "commons-codec" % "1.16.0",
     retrieveManaged := true,
     // concatenate js
     Concat.groups := Seq(

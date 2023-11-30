@@ -18,7 +18,6 @@ package controllers
 
 import controllers.actions._
 import forms.DateOfChangeFormProvider
-import javax.inject.Inject
 import models.{Mode, UserAnswers}
 import navigation.Navigator
 import pages.DateOfChangePage
@@ -28,6 +27,7 @@ import repositories.AMLSFrontEndSessionRepository
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.DateOfChangeView
 
+import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class DateOfChangeController @Inject()(

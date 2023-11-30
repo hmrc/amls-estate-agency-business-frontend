@@ -33,6 +33,8 @@ trait SpecBase extends PlaySpec with GuiceOneAppPerSuite with TryValues with Sca
 
   def emptyUserAnswers = UserAnswers(Json.obj())
 
+  def amls = "Anti money laundering supervision"
+
   def injector: Injector = app.injector
 
   def frontendAppConfig: FrontendAppConfig = injector.instanceOf[FrontendAppConfig]

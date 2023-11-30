@@ -16,10 +16,10 @@
 
 package views
 
-import controllers.routes
 import forms.PenalisedProfessionalBodyFormProvider
 import models.NormalMode
 import play.api.data.Form
+import play.api.routing.Router.empty.routes
 import play.twirl.api.HtmlFormat
 import views.behaviours.YesNoViewBehaviours
 import views.html.PenalisedProfessionalBodyView
@@ -43,6 +43,6 @@ class PenalisedProfessionalBodyViewSpec extends YesNoViewBehaviours {
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like yesNoPage(form, applyView, messageKeyPrefix, routes.PenalisedProfessionalBodyController.onSubmit(NormalMode).url, Some(supportingContent))
+    behave like yesNoPage(form, applyView, messageKeyPrefix, controllers.routes.PenalisedProfessionalBodyController.onSubmit(NormalMode).url, Some(supportingContent))
   }
 }

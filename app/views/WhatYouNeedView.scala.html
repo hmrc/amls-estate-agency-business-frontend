@@ -15,41 +15,45 @@
  *@
 
 @import config.FrontendAppConfig
+@import components.{Anchor, Button, Heading, PageHeading, NotificationBanner}
 
 @this(
-    main_template: MainTemplate,
-    appConfig: FrontendAppConfig
+    layout: template.Layout,
+    button: Button,
+    heading: Heading,
+    pageHeading: PageHeading,
+    notificationBanner: NotificationBanner,
+    appConfig: FrontendAppConfig,
+    anchor: Anchor
 )
 
 @()(implicit request: Request[_], messages: Messages)
 
-@main_template(
-    title = s"${messages("whatYouNeed.title")} - Estate agency business - Manage your anti-money laundering supervision - GOV.UK"
-    ) {
+@layout(
+pageTitle = s"""${messages("whatYouNeed.title")} - ${messages("eab.title.extension")}"""){
 
-    @components.back_link()
+    @pageHeading("eab.heading")
 
-    @components.page_heading("eab.heading")
+    @heading("whatYouNeed.heading")
 
-    @components.heading("whatYouNeed.heading")
+    @notificationBanner(messages("whatYouNeed.attention.information"))
 
-    @components.user_attention_saving()
+    <p class="govuk-body">@Messages("whatYouNeed.heading2")</p>
 
-    <p>@Messages("whatYouNeed.heading2")</p>
+<ul class="govuk-list govuk-list--bullet">
+    <li>@Messages("whatYouNeed.line_1")</li>
+    <li>@Messages("whatYouNeed.line_2")</li>
+</ul>
 
-    <ul class="list list-bullet">
-        <li>@Messages("whatYouNeed.line_1")</li>
-        <li>@Messages("whatYouNeed.line_2")</li>
-    </ul>
+    <p class="govuk-body">@Messages("whatYouNeed.heading3")</p>
 
-    <p>@Messages("whatYouNeed.heading3")</p>
+<ul class="govuk-list govuk-list--bullet">
+    <li>@Messages("whatYouNeed.line_3")</li>
+    <li>@Messages("whatYouNeed.line_4")</li>
+</ul>
 
-    <ul class="list list-bullet">
-        <li>@Messages("whatYouNeed.line_3")</li>
-        <li>@Messages("whatYouNeed.line_4")</li>
-    </ul>
+    @button("whatYouNeed.continue", "eabwhatyouneed-button", Some("services"))
 
-    @components.button_link_with_id("whatYouNeed.continue", "services", "eabwhatyouneed-button")
-
-    @components.anchor(appConfig = appConfig)
+    @anchor()
 }
+

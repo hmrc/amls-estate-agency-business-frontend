@@ -16,10 +16,10 @@
 
 package views
 
-import controllers.routes
 import forms.PenalisedProfessionalBodyDetailFormProvider
 import models.NormalMode
 import play.api.data.Form
+import play.api.routing.Router.empty.routes
 import play.twirl.api.HtmlFormat
 import views.behaviours.StringViewBehaviours
 import views.html.PenalisedProfessionalBodyDetailView
@@ -41,6 +41,6 @@ class PenalisedProfessionalBodyDetailViewSpec extends StringViewBehaviours {
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like textareaPage(form, applyView, messageKeyPrefix, routes.PenalisedProfessionalBodyDetailController.onSubmit(NormalMode).url)
+    behave like textareaPage(form, applyView, messageKeyPrefix, controllers.routes.PenalisedProfessionalBodyDetailController.onSubmit(NormalMode).url)
   }
 }

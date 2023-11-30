@@ -18,46 +18,47 @@
 @import models.Mode
 @import config.FrontendAppConfig
 @import views.ViewUtils
+@import components.{Anchor, InputYesNo, FormErrorSummary, Button, Heading, PageHeading}
 
 @this(
-        main_template: MainTemplate,
-        formHelper: FormWithCSRF,
-        appConfig: FrontendAppConfig
+layout: template.Layout,
+formHelper: FormWithCSRF,
+errorSummary: FormErrorSummary,
+appConfig: FrontendAppConfig,
+anchor: Anchor,
+inputYesNo: InputYesNo,
+button: Button,
+heading: Heading,
+pageHeading: PageHeading
 )
 
-@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+    @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@supportingContent = {
-    <p>@Messages("penalisedProfessionalBody.subtitle")</p>
-        <ul class="list list-bullet">
+    @layout(
+    pageTitle = s"${errorPrefix(form)} ${messages("penalisedProfessionalBody.title")}" + " - " + messages("eab.title.extension")
+    ) {
+
+    @formHelper(action = PenalisedProfessionalBodyController.onSubmit(mode), 'autoComplete -> "off") {
+
+        @errorSummary(form)
+
+        @pageHeading("eab.heading")
+
+        @heading("penalisedProfessionalBody.heading")
+
+        <p class="govuk-body">@messages("penalisedProfessionalBody.subtitle")</p>
+        <ul class="govuk-list govuk-list--bullet">
             <li>@Messages("penalisedProfessionalBody.fine")</li>
             <li>@Messages("penalisedProfessionalBody.warning")</li>
             <li>@Messages("penalisedProfessionalBody.suspension")</li>
             <li>@Messages("penalisedProfessionalBody.expulsion")</li>
             <li>@Messages("penalisedProfessionalBody.special")</li>
         </ul>
-}
 
-@main_template(
-    title = s"${errorPrefix(form)} ${messages("penalisedProfessionalBody.title")}" + " - " + messages("eab.title.extension")
-    ) {
+        @inputYesNo(form, "")
 
-    @formHelper(action = PenalisedProfessionalBodyController.onSubmit(mode), 'autoComplete -> "off") {
+        @button("site.save.continue", "submit")
 
-        @components.back_link()
-
-        @components.error_summary_with_id(form.errors, ViewUtils.genericYesNoErrorId)
-
-        @components.page_heading("eab.heading")
-
-        @components.input_yes_no(
-            field = form("value"),
-            legend = messages("penalisedProfessionalBody.heading"),
-            headingIsLegend = true
-        )(supportingContent = supportingContent)
-
-        @components.submit_button()
-
-        @components.anchor(appConfig = appConfig)
+        @anchor()
     }
 }

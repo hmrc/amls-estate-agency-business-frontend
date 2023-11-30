@@ -14,41 +14,60 @@
  * limitations under the License.
  *@
 
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.hmrcfrontend.views.html.components.implicits._
 @import controllers.routes._
 @import models.Mode
 @import config.FrontendAppConfig
 @import views.ViewUtils
+@import components.{Anchor, Button, FormErrorSummary, PageHeading}
 
 @this(
-        main_template: MainTemplate,
-        formHelper: FormWithCSRF,
-        appConfig: FrontendAppConfig
+layout: template.Layout,
+formHelper: FormWithCSRF,
+errorSummary: FormErrorSummary,
+pageHeading: PageHeading,
+govukCheckboxes: GovukCheckboxes,
+button: Button,
+anchor: Anchor,
+appConfig: FrontendAppConfig
 )
 
 @(form: Form[Seq[EabServicesProvided]], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@main_template(
-    title = s"${errorPrefix(form)} ${messages("eabServicesProvided.title")}" + " - " + messages("eab.title.extension")
-    ) {
-
+@layout(
+    pageTitle = s"${errorPrefix(form)} ${messages("eabServicesProvided.title")} - ${messages("eab.title.extension")}"){
     @formHelper(action = EabServicesProvidedController.onSubmit(mode), 'autoComplete -> "off") {
 
-        @components.back_link()
+        @errorSummary(form, Some(Map("value" -> "value_0")))
 
-        @components.error_summary_with_id(form.errors, ViewUtils.genericCheckboxErrorId)
+        @pageHeading("eab.heading")
 
-        @components.page_heading("eab.heading")
+        @govukCheckboxes(
+            Checkboxes(
+                fieldset = Some(Fieldset(
+                    legend = Some(
+                        Legend(
+                            content = Text(messages("eabServicesProvided.heading")),
+                            classes = "govuk-fieldset__legend--xl",
+                            isPageHeading = true
+                        )
+                    )
+                )),
+                hint = Some(
+                    Hint(
+                        content = Text(messages("site.selectAll.hint"))
+                )
+            ),
+                name = "value",
+                items = EabServicesProvided.options
+            )
+            .withFormField(form("value"))
+        )
 
-        @components.input_checkboxes(
-            field = form("value"),
-            legend = messages("eabServicesProvided.heading"),
-            hint = Some(Messages("site.selectAll.hint")),
-            headingIsLegend = true,
-            inputs = EabServicesProvided.options
-        )()
+        @button("site.save.continue", "submit")
 
-        @components.submit_button()
-
-        @components.anchor(appConfig = appConfig)
+        @anchor()
     }
 }
+

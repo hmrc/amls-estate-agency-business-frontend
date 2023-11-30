@@ -21,8 +21,10 @@ import config.Service
 import javax.inject.Inject
 import models.ReadStatusResponse
 import play.api.libs.json.{Json, Writes}
-import play.api.{Configuration, Logger, Logging}
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
+import play.api.{Configuration, Logging}
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.{HttpClient}
+import uk.gov.hmrc.http.HttpReads.Implicits.{readFromJson}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -40,7 +42,6 @@ class AMLSBackEndConnector @Inject()(config: Configuration,
 
     val getUrl = s"$statusUrl/$accountType/$accountId/$amlsRegistrationNumber/status"
 
-    import uk.gov.hmrc.http.HttpReads.Implicits._
     httpClient.GET[ReadStatusResponse](getUrl) map {
       response =>
         // $COVERAGE-OFF$

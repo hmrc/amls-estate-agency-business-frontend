@@ -19,13 +19,12 @@ package utils
 import base.SpecBase
 import connectors.{AMLSBackEndConnector, AMLSConnector}
 import models.{DateOfChangeResponse, ReadStatusResponse, UserAnswers}
-import org.scalatestplus.mockito.MockitoSugar
+import org.mockito.MockitoSugar
 import play.api.inject.bind
 import uk.gov.hmrc.http.HeaderCarrier
-import org.mockito.Mockito._
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class ControllerHelperSpec extends SpecBase with MockitoSugar {
 

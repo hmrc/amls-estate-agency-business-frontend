@@ -20,6 +20,7 @@ import forms.RedressSchemeFormProvider
 import models.{NormalMode, RedressScheme}
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
+import uk.gov.hmrc.govukfrontend.views.Aliases.RadioItem
 import views.behaviours.ViewBehaviours
 import views.html.RedressSchemeView
 
@@ -31,7 +32,7 @@ class RedressSchemeViewSpec extends ViewBehaviours {
 
   val view = viewFor[RedressSchemeView](Some(emptyUserAnswers))
 
-  def applyView(form: Form[_]): HtmlFormat.Appendable =
+  def applyView(form: Form[RedressScheme]): HtmlFormat.Appendable =
     view.apply(form, NormalMode)(fakeRequest, messages)
 
   "RedressSchemeView" must {
@@ -45,37 +46,39 @@ class RedressSchemeViewSpec extends ViewBehaviours {
 
     "rendered" must {
 
-      "contain radio buttons for the value" in {
+      "contain radio buttons for the value" when {
 
         val doc = asDocument(applyView(form))
-
         for (option <- RedressScheme.options) {
-          assertContainsRadioButton(doc, option.id, "value", option.value, false)
+          assertContainsRadioButton(doc, option.id.value, "value", option.value.value, false)
         }
-      }
 
-      "contain supporting content for the question" in {
+        "contain supporting content for the question" in {
           val doc = asDocument(applyView(form))
           val supportingContent = doc.getElementsContainingOwnText(messages("redressSchemeDetail.content"))
           supportingContent.size mustBe 1
+        }
       }
-    }
 
-    for (option <- RedressScheme.options) {
+      RedressScheme.options.zipWithIndex.foreach { case (option: RadioItem, i: Int) =>
 
-      s"rendered with a value of '${option.value}'" must {
+        s"rendered with a value of '${option.value.value}'" must {
 
-        s"have the '${option.value}' radio button selected" in {
+          s"have the '${option.value.value}' radio button selected" in {
 
-          val doc = asDocument(applyView(form.bind(Map("value" -> s"${option.value}"))))
+            val formWithRadioSelected = form.fill(RedressScheme.values(i))
 
-          assertContainsRadioButton(doc, option.id, "value", option.value, true)
+            def doc = asDocument(applyView(formWithRadioSelected))
 
-          for (unselectedOption <- RedressScheme.options.filterNot(o => o == option)) {
-            assertContainsRadioButton(doc, unselectedOption.id, "value", unselectedOption.value, false)
+            assertContainsRadioButton(doc, option.id.value, "value", option.value.value, isChecked = true)
+
+            for (unselectedOption <- RedressScheme.options.filterNot(o => o == option)) {
+              assertContainsRadioButton(doc, unselectedOption.id.value, "value", unselectedOption.value.value, isChecked = false)
+            }
           }
         }
       }
     }
   }
 }
+
