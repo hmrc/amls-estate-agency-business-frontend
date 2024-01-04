@@ -29,7 +29,7 @@ import scala.concurrent.Future
 
 class AMLSBackEndConnectorSpec extends SpecBase with MockitoSugar {
 
-  implicit val hc          = HeaderCarrier()
+  implicit val hc: HeaderCarrier = HeaderCarrier()
   val amlsBackEndConnector = new AMLSBackEndConnector(config = mock[Configuration], httpClient = mock[HttpClient])
   val amlsRefNo            = "refNo"
   val accountTypeId        = ("foo", "bar")

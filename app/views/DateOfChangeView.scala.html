@@ -38,7 +38,7 @@ anchor: Anchor
 pageTitle = s"${errorPrefix(form)} ${messages("dateOfChange.title")}" + " - " + messages("eab.title.extension")
 ) {
 
-    @formHelper(action = DateOfChangeController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = DateOfChangeController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
 
         @errorSummary(form, Some(Map("value" -> "value-day")))

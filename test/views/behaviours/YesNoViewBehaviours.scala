@@ -39,12 +39,6 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
           }
         }
 
-        "contain a legend for the question" in {
-
-          val doc = asDocument(createView(form))
-          val legends = doc.getElementsByTag("legend")
-        }
-
         "contain an input for the value" in {
 
           val doc = asDocument(createView(form))

@@ -37,7 +37,7 @@ appConfig: FrontendAppConfig
 
 @layout(
     pageTitle = s"${errorPrefix(form)} ${messages("eabServicesProvided.title")} - ${messages("eab.title.extension")}"){
-    @formHelper(action = EabServicesProvidedController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = EabServicesProvidedController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @errorSummary(form, Some(Map("value" -> "value_0")))
 

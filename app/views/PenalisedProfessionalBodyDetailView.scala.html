@@ -42,7 +42,7 @@ button: Button
 pageTitle = s"${errorPrefix(form)} ${messages("penalisedProfessionalBodyDetail.title")}" + " - " + messages("eab.title.extension")
     ) {
 
-    @formHelper(action = PenalisedProfessionalBodyDetailController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = PenalisedProfessionalBodyDetailController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @errorSummary(form)
 

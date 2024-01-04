@@ -16,10 +16,18 @@
 
 package models
 
-import play.api.libs.json._
+import org.scalatest.matchers.must.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-case class DateOfChangeResponse(requireDateOfChange: Boolean)
+class ModeSpec extends AnyWordSpec with Matchers {
 
-object DateOfChangeResponse {
-  implicit val format: OFormat[DateOfChangeResponse] = Json.format[DateOfChangeResponse]
+  "Mode" must {
+    "return a normal type" in {
+      Mode.jsLiteral.to(NormalMode) mustBe "NormalMode"
+    }
+    "return a check mode type" in {
+      Mode.jsLiteral.to(CheckMode) mustBe "CheckMode"
+    }
+  }
+
 }

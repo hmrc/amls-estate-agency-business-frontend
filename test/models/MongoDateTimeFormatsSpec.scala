@@ -16,12 +16,14 @@
 
 package models
 
-import java.time.{LocalDate, LocalDateTime}
-
-import org.scalatest.{FreeSpec, MustMatchers, OptionValues}
+import org.scalatest.OptionValues
+import org.scalatest.freespec.AnyFreeSpec
+import org.scalatest.matchers.must.Matchers
 import play.api.libs.json.Json
 
-class MongoDateTimeFormatsSpec extends FreeSpec with MustMatchers with OptionValues with MongoDateTimeFormats {
+import java.time.{LocalDate, LocalDateTime}
+
+class MongoDateTimeFormatsSpec extends AnyFreeSpec with Matchers with OptionValues with MongoDateTimeFormats {
 
   "a LocalDateTime" - {
 
@@ -30,7 +32,7 @@ class MongoDateTimeFormatsSpec extends FreeSpec with MustMatchers with OptionVal
     val dateMillis = 1517443200000L
 
     val json = Json.obj(
-      "$date" -> dateMillis
+      s"$$date" -> dateMillis
     )
 
     "must serialise to json" in {

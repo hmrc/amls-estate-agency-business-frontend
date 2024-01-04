@@ -19,7 +19,6 @@ package views
 import forms.PenalisedProfessionalBodyFormProvider
 import models.NormalMode
 import play.api.data.Form
-import play.api.routing.Router.empty.routes
 import play.twirl.api.HtmlFormat
 import views.behaviours.YesNoViewBehaviours
 import views.html.PenalisedProfessionalBodyView

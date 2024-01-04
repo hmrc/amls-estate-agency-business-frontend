@@ -38,7 +38,7 @@ pageHeading: PageHeading
     pageTitle = s"${errorPrefix(form)} ${messages("penalisedProfessionalBody.title")}" + " - " + messages("eab.title.extension")
     ) {
 
-    @formHelper(action = PenalisedProfessionalBodyController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = PenalisedProfessionalBodyController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @errorSummary(form)
 

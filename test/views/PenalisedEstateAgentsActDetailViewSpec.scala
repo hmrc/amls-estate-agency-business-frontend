@@ -19,7 +19,6 @@ package views
 import forms.PenalisedEstateAgentsActDetailFormProvider
 import models.NormalMode
 import play.api.data.Form
-import play.api.routing.Router.empty.routes
 import play.twirl.api.HtmlFormat
 import views.behaviours.StringViewBehaviours
 import views.html.PenalisedEstateAgentsActDetailView

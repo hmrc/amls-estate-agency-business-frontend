@@ -34,6 +34,6 @@ case class ReadStatusResponse(
                              )
 
 object ReadStatusResponse {
-  implicit val format = Json.format[ReadStatusResponse]
+  implicit val format: OFormat[ReadStatusResponse] = Json.format[ReadStatusResponse]
 }
 

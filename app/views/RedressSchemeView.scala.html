@@ -40,7 +40,7 @@ heading: Heading
 pageTitle = s"${errorPrefix(form)} ${messages("redressScheme.title")}" + " - " + messages("eab.title.extension")
     ) {
 
-    @formHelper(action = RedressSchemeController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = RedressSchemeController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @errorSummary(form, Some(Map("value" -> "value_0")))
 

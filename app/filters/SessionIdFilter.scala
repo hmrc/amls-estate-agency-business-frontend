@@ -34,7 +34,7 @@ class SessionIdFilter(
                      ) extends Filter {
 
   @Inject
-  def this(mat: Materializer, ec: ExecutionContext, sessionCookieBaker: SessionCookieBaker) {
+  def this(mat: Materializer, ec: ExecutionContext, sessionCookieBaker: SessionCookieBaker) = {
     this(mat, UUID.randomUUID(), sessionCookieBaker, ec)
   }
 

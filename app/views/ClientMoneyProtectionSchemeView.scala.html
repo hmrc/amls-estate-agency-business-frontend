@@ -38,7 +38,7 @@ inputYesNo: InputYesNo
 pageTitle = s"${errorPrefix(form)} ${messages("clientMoneyProtectionScheme.title")}" + " - " + messages("eab.title.extension")
     ) {
 
-    @formHelper(action = ClientMoneyProtectionSchemeController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = ClientMoneyProtectionSchemeController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @errorSummary(form)
 

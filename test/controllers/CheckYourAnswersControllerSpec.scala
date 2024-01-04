@@ -17,12 +17,17 @@
 package controllers
 
 import base.SpecBase
+import models.UserAnswers
+import pages.ClientMoneyProtectionSchemePage
+import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
 import views.html.CheckYourAnswersView
 
 class CheckYourAnswersControllerSpec extends SpecBase {
+
+  def onwardRoute: Call = Call("POST", "http://localhost:9222/anti-money-laundering/eab/accept")
 
   "Check Your Answers Controller" must {
 
@@ -57,6 +62,21 @@ class CheckYourAnswersControllerSpec extends SpecBase {
       }
 
       exception.getMessage must include("Required data not found")
+
+      application.stop()
+    }
+
+    "submit and redirect successfully" in {
+
+      val userAnswers = UserAnswers().set(ClientMoneyProtectionSchemePage, true).success.value
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      val request = FakeRequest(POST, routes.CheckYourAnswersController.onSubmit.url)
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual onwardRoute.url
 
       application.stop()
     }

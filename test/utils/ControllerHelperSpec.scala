@@ -28,7 +28,7 @@ import scala.concurrent.Future
 
 class ControllerHelperSpec extends SpecBase with MockitoSugar {
 
-  implicit val hc              = HeaderCarrier()
+  implicit val hc: HeaderCarrier = HeaderCarrier()
   val mockAMLSConnector        = mock[AMLSConnector]
   val mockAMLSBackEndConnector = mock[AMLSBackEndConnector]
   val amlsRefNo                = "refNo"

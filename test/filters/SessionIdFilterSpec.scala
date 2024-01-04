@@ -16,22 +16,21 @@
 
 package filters
 
-import java.util.UUID
 import akka.stream.Materializer
 import com.google.inject.Inject
+import org.scalatest.OptionValues
 import org.scalatest.matchers.must.Matchers
-import org.scalatest.matchers.must.Matchers.{contain, convertToAnyMustWrapper}
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatest.{MustMatchers, OptionValues, WordSpec}
 import org.scalatestplus.play.components.OneAppPerSuiteWithComponents
-import play.api.{Application, BuiltInComponents, BuiltInComponentsFromContext, NoHttpFiltersComponents}
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.json.Json
 import play.api.mvc.SessionCookieBaker
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import play.api.{Application, BuiltInComponents, BuiltInComponentsFromContext, NoHttpFiltersComponents}
 import uk.gov.hmrc.http.{HeaderNames, SessionKeys}
 
+import java.util.UUID
 import scala.concurrent.ExecutionContext
 
 object SessionIdFilterSpec {

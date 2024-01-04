@@ -24,8 +24,6 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.{Actions, HtmlContent, Key, Value
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{Content, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{ActionItem, SummaryListRow}
 
-import scala.reflect.internal.util.NoSourceFile.content
-
 class CheckYourAnswersHelper(userAnswers: UserAnswers)(implicit messages: Messages) {
 
   def getAllRows: Seq[SummaryListRow] = Seq(
