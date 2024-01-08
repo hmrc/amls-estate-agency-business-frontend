@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ import scala.concurrent.Future
 
 class AMLSConnectorSpec extends SpecBase with MockitoSugar {
 
-  implicit val hc   = HeaderCarrier()
+  implicit val hc: HeaderCarrier = HeaderCarrier()
   val amlsConnector = new AMLSConnector(config = mock[Configuration], httpClient = mock[HttpClient])
   val dateVal       = LocalDateTime.now
   val answers       = UserAnswers().set(EabServicesProvidedPage,  Seq(Auctioneering)).success.value

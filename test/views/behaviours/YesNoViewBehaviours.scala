@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,12 +37,6 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
             val supportingContent = doc.getElementsContainingOwnText(messages(expectedSupportingContent.get))
             supportingContent.size mustBe 1
           }
-        }
-
-        "contain a legend for the question" in {
-
-          val doc = asDocument(createView(form))
-          val legends = doc.getElementsByTag("legend")
         }
 
         "contain an input for the value" in {

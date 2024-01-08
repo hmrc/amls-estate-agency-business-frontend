@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ package views
 import forms.PenalisedEstateAgentsActFormProvider
 import models.NormalMode
 import play.api.data.Form
-import play.api.routing.Router.empty.routes
 import play.twirl.api.HtmlFormat
 import views.behaviours.YesNoViewBehaviours
 import views.html.PenalisedEstateAgentsActView

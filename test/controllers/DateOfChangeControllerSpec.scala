@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,14 +63,14 @@ class DateOfChangeControllerSpec extends SpecBase with MockitoSugar {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result = route(application, getRequest).value
+      val result = route(application, getRequest()).value
 
       val view = application.injector.instanceOf[DateOfChangeView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode)(getRequest, messages).toString
+        view(form, NormalMode)(getRequest(), messages).toString
 
       application.stop()
     }
@@ -83,12 +83,12 @@ class DateOfChangeControllerSpec extends SpecBase with MockitoSugar {
 
       val view = application.injector.instanceOf[DateOfChangeView]
 
-      val result = route(application, getRequest).value
+      val result = route(application, getRequest()).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), NormalMode)(getRequest, messages).toString
+        view(form.fill(validAnswer), NormalMode)(getRequest(), messages).toString
 
       application.stop()
     }
@@ -107,7 +107,7 @@ class DateOfChangeControllerSpec extends SpecBase with MockitoSugar {
           )
           .build()
 
-      val result = route(application, postRequest).value
+      val result = route(application, postRequest()).value
 
       status(result) mustEqual SEE_OTHER
 

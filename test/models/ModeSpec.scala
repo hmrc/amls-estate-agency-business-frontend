@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package forms
+package models
 
-import javax.inject.Inject
+import org.scalatest.matchers.must.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-import forms.mappings.Mappings
-import play.api.data.Form
-import play.api.data.Forms._
-import models.EabServicesProvided
+class ModeSpec extends AnyWordSpec with Matchers {
 
-class EabServicesProvidedFormProvider @Inject() extends Mappings {
+  "Mode" must {
+    "return a normal type" in {
+      Mode.jsLiteral.to(NormalMode) mustBe "NormalMode"
+    }
+    "return a check mode type" in {
+      Mode.jsLiteral.to(CheckMode) mustBe "CheckMode"
+    }
+  }
 
-  def apply(): Form[Seq[EabServicesProvided]] =
-    Form(
-      "value" -> seq(enumerable[EabServicesProvided]("eabServicesProvided.error.required")).verifying(nonEmptySeq("eabServicesProvided.error.required"))
-    )
 }
