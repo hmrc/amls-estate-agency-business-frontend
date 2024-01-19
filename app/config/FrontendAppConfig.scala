@@ -19,17 +19,21 @@ package config
 import com.google.inject.{Inject, Singleton}
 import play.api.Configuration
 
+import java.net.URLEncoder
+
 @Singleton
 class FrontendAppConfig @Inject() (configuration: Configuration) {
 
   val timeoutSeconds = configuration.get[Int](s"timeout.seconds")
   val timeoutCountdown = configuration.get[Int](s"timeout.countdown")
+  lazy val feedbackFrontendUrl = configuration.get[String]("urls.feedback-frontend.url")
 
   val amlsFrontendBaseUrl = configuration.get[String](s"microservice.services.amls-frontend.url")
 
   val registrationProgressUrl = s"${amlsFrontendBaseUrl}/registration-progress"
 
   lazy val loginUrl: String = configuration.get[String]("urls.login.url")
-  lazy val logoutUrl: String = configuration.get[String]("urls.logout.url")
+  def logoutUrl: String = configuration.get[String]("urls.logout.url") + URLEncoder.encode(feedbackFrontendUrl, "utf-8")
+
 
 }
