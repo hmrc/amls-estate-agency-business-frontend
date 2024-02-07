@@ -21,7 +21,8 @@ import forms.PenalisedEstateAgentsActDetailFormProvider
 import models.{NormalMode, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
 import org.mockito.ArgumentMatchers.any
-import org.mockito.MockitoSugar
+import org.mockito.Mockito.when
+import org.scalatestplus.mockito.MockitoSugar
 import pages.PenalisedEstateAgentsActDetailPage
 import play.api.inject.bind
 import play.api.mvc.Call

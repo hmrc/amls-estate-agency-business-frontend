@@ -19,7 +19,8 @@ package utils
 import base.SpecBase
 import connectors.{AMLSBackEndConnector, AMLSConnector}
 import models.{DateOfChangeResponse, ReadStatusResponse, UserAnswers}
-import org.mockito.MockitoSugar
+import org.mockito.Mockito.when
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.inject.bind
 import uk.gov.hmrc.http.HeaderCarrier
 
