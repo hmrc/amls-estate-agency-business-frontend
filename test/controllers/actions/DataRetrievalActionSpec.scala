@@ -19,10 +19,11 @@ package controllers.actions
 import base.SpecBase
 import models.UserAnswers
 import models.requests.{IdentifierRequest, OptionalDataRequest}
+import org.mockito.ArgumentMatchers
 import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchersSugar.eqTo
-import org.mockito.MockitoSugar
+import org.mockito.Mockito.when
 import org.scalatest.concurrent.ScalaFutures
+import org.scalatestplus.mockito.MockitoSugar
 import repositories.AMLSFrontEndSessionRepository
 import uk.gov.hmrc.auth.core.AffinityGroup
 
@@ -42,7 +43,7 @@ class DataRetrievalActionSpec extends SpecBase with MockitoSugar with ScalaFutur
       "set userAnswers to 'None' in the request" in {
 
         val sessionRepository = mock[AMLSFrontEndSessionRepository]
-        when(sessionRepository.get(eqTo("CredId"))(any())) thenReturn Future(None)
+        when(sessionRepository.get(ArgumentMatchers.eq("CredId"))(any())) thenReturn Future(None)
         val action = new Harness(sessionRepository)
 
         val futureResult = action.callTransform(new IdentifierRequest(
@@ -63,7 +64,7 @@ class DataRetrievalActionSpec extends SpecBase with MockitoSugar with ScalaFutur
       "build a userAnswers object and add it to the request" in {
 
         val sessionRepository = mock[AMLSFrontEndSessionRepository]
-        when(sessionRepository.get(eqTo("CredId"))(any())) thenReturn Future(Some(new UserAnswers()))
+        when(sessionRepository.get(ArgumentMatchers.eq("CredId"))(any())) thenReturn Future(Some(new UserAnswers()))
         val action = new Harness(sessionRepository)
 
         val futureResult = action.callTransform(new IdentifierRequest(

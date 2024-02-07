@@ -19,9 +19,10 @@ package connectors
 import base.SpecBase
 import models.EabServicesProvided.Auctioneering
 import models.{DateOfChangeResponse, UserAnswers}
+import org.mockito.ArgumentMatchers
 import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchersSugar.eqTo
-import org.mockito.MockitoSugar
+import org.mockito.Mockito.{verify, when}
+import org.scalatestplus.mockito.MockitoSugar
 import pages.EabServicesProvidedPage
 import play.api.Configuration
 import play.api.libs.json.{JsObject, Json}
@@ -57,7 +58,7 @@ class AMLSConnectorSpec extends SpecBase with MockitoSugar {
       val getUrl = s"${amlsConnector.url}/get/someid"
 
       when {
-        amlsConnector.httpClient.GET[Option[JsObject]](eqTo(getUrl), any(), any())(any(), any(), any())
+        amlsConnector.httpClient.GET[Option[JsObject]](ArgumentMatchers.eq(getUrl), any(), any())(any(), any(), any())
       } thenReturn Future.successful(Some(completeJson))
 
       whenReady(amlsConnector.get("someid")) {
@@ -71,7 +72,7 @@ class AMLSConnectorSpec extends SpecBase with MockitoSugar {
       val putUrl = s"${amlsConnector.url}/set/someid"
 
       amlsConnector.set("someid", answers)
-      verify(amlsConnector.httpClient).PUT(eqTo(putUrl), eqTo(answers), any())(any(), any(), any(), any())
+      verify(amlsConnector.httpClient).PUT(ArgumentMatchers.eq(putUrl), ArgumentMatchers.eq(answers), any())(any(), any(), any(), any())
     }
   }
 
@@ -84,14 +85,12 @@ class AMLSConnectorSpec extends SpecBase with MockitoSugar {
       val url = s"${amlsConnector.url}/require-date-change/$credId/$submissionStatus"
 
       when(
-        amlsConnector.httpClient.POST[UserAnswers, DateOfChangeResponse](
-          eqTo(url), eqTo(answers), any()
+        amlsConnector.httpClient.POST[UserAnswers, DateOfChangeResponse](ArgumentMatchers.eq(url), ArgumentMatchers.eq(answers), any()
         )(any(), any(), any(), any())).thenReturn(Future.successful(mockDateOfChangeResponse))
 
       amlsConnector.requireDateOfChange(credId, submissionStatus, answers)
 
-      verify(amlsConnector.httpClient).POST[UserAnswers, DateOfChangeResponse](
-        eqTo(url), eqTo(answers), any()
+      verify(amlsConnector.httpClient).POST[UserAnswers, DateOfChangeResponse](ArgumentMatchers.eq(url), ArgumentMatchers.eq(answers), any()
       )(any(), any(), any(), any())
     }
   }

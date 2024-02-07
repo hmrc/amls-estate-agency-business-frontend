@@ -18,9 +18,10 @@ package connectors
 
 import base.SpecBase
 import models.ReadStatusResponse
+import org.mockito.ArgumentMatchers
 import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchersSugar.eqTo
-import org.mockito.MockitoSugar
+import org.mockito.Mockito.when
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.Configuration
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 
@@ -42,7 +43,7 @@ class AMLSBackEndConnectorSpec extends SpecBase with MockitoSugar {
       val getUrl = s"${amlsBackEndConnector.statusUrl}/$accountType/$accountId/$amlsRefNo/status"
 
       when {
-        amlsBackEndConnector.httpClient.GET[ReadStatusResponse](eqTo(getUrl), any(), any())(any(), any(), any())
+        amlsBackEndConnector.httpClient.GET[ReadStatusResponse](ArgumentMatchers.eq(getUrl), any(), any())(any(), any(), any())
       } thenReturn Future.successful(statusResponse)
 
       whenReady(amlsBackEndConnector.status(amlsRefNo, accountTypeId)) {

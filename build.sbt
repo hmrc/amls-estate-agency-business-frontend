@@ -39,9 +39,7 @@ lazy val root = (project in file("."))
     libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always,
     libraryDependencies ++= AppDependencies(),
     dependencyOverrides += "commons-codec" % "commons-codec" % "1.16.0",
-    retrieveManaged := true,
-    // prevent removal of unused code which generates warning errors due to use of third-party libs
-    pipelineStages := Seq(digest)
+    retrieveManaged := true
   )
   .disablePlugins(JUnitXmlReportPlugin)
 
