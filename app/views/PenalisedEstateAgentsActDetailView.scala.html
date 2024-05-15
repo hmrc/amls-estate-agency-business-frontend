@@ -48,8 +48,6 @@ pageHeading: PageHeading
 
         @pageHeading("eab.heading")
 
-        @heading("penalisedEstateAgentsActDetail.heading")
-
         @govukCharacterCount(
         CharacterCount(
         id = "value",
@@ -57,10 +55,12 @@ pageHeading: PageHeading
         rows = (6),
         errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*)))),
         maxLength = Some(255),
-        label = Label(content = Text(messages("penalisedEstateAgentsActDetail.title")))
-        ).withFormField(form("value"))
-        )
-
+        label = Label(
+            content = Text(messages("penalisedEstateAgentsActDetail.heading")),
+            classes = "govuk-label--xl",
+            isPageHeading = true
+            )).withFormField(form("value")),
+    )
         @button("site.save.continue", "submit")
 
         @anchor()
