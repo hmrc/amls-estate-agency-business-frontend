@@ -48,8 +48,6 @@ pageTitle = s"${errorPrefix(form)} ${messages("penalisedProfessionalBodyDetail.t
 
         @pageHeading("eab.heading")
 
-        @heading("penalisedProfessionalBodyDetail.heading")
-
         @govukCharacterCount(
         CharacterCount(
         id = "value",
@@ -57,9 +55,12 @@ pageTitle = s"${errorPrefix(form)} ${messages("penalisedProfessionalBodyDetail.t
         rows = (6),
         errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*)))),
         maxLength = Some(255),
-        label = Label(content = Text(messages("penalisedProfessionalBodyDetail.title")))
-        ).withFormField(form("value"))
-        )
+        label = Label(
+            content = Text(messages("penalisedProfessionalBodyDetail.heading")),
+            classes = "govuk-label--xl",
+            isPageHeading = true
+            )).withFormField(form("value")),
+    )
 
         @button("site.save.continue", "submit")
 
