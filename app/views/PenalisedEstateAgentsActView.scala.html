@@ -14,6 +14,9 @@
  * limitations under the License.
  *@
 
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.hmrcfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.hmrcfrontend.views.config.HmrcYesNoRadioItems
 @import controllers.routes._
 @import models.Mode
 @import config.FrontendAppConfig
@@ -26,6 +29,7 @@ formHelper: FormWithCSRF,
 errorSummary: FormErrorSummary,
 appConfig: FrontendAppConfig,
 anchor: Anchor,
+govukRadios: GovukRadios,
 inputYesNo: InputYesNo,
 button: Button,
 heading: Heading,
@@ -44,15 +48,26 @@ pageHeading: PageHeading
 
              @pageHeading("eab.heading")
 
-            @heading("penalisedEstateAgentsAct.heading")
-
-            <p class="govuk-body">@messages("penalisedEstateAgentsAct.subtitle")</p>
-            <ul class="govuk-list govuk-list--bullet">
-                <li>@Messages("penalisedEstateAgentsAct.warning")</li>
-                <li>@Messages("penalisedEstateAgentsAct.banned")</li>
-            </ul>
-
-            @inputYesNo(form, "")
+        @govukRadios(
+            Radios(
+                fieldset = Some(Fieldset(
+                    legend = Some(
+                        Legend(
+                            content = Text(messages("penalisedEstateAgentsAct.heading")),
+                            classes = "govuk-fieldset__legend--xl",
+                            isPageHeading = true
+                        ))
+                )),
+                hint = Some(
+                    Hint(
+                        content = Text(messages("penalisedEstateAgentsAct.legend")),
+                )
+            ),
+            name = "value",
+            items = HmrcYesNoRadioItems(),
+            classes = "govuk-radios--inline"
+        ).withFormField(form("value"))
+    )
 
             @button("site.save.continue", "submit")
 
