@@ -27,7 +27,7 @@ class PenalisedEstateAgentsActViewSpec extends YesNoViewBehaviours {
 
   val messageKeyPrefix = "penalisedEstateAgentsAct"
 
-  val supportingContent = messages("penalisedEstateAgentsAct.subtitle")
+  val supportingContent = messages("penalisedEstateAgentsAct.legend")
 
   val form = new PenalisedEstateAgentsActFormProvider()()
 
