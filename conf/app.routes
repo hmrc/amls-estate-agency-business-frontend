@@ -47,5 +47,5 @@ POST       /change-client-money-protection-scheme               controllers.Clie
 
 GET        /dateOfChange                                        controllers.DateOfChangeController.onPageLoad(mode: Mode = NormalMode)
 POST       /dateOfChange                                        controllers.DateOfChangeController.onSubmit(mode: Mode = NormalMode)
-GET        /changeDateOfChange                                  controllers.DateOfChangeController.onPageLoad(mode: Mode = CheckMode)
-POST       /changeDateOfChange                                  controllers.DateOfChangeController.onSubmit(mode: Mode = CheckMode)
+GET        /date-of-change                                      controllers.DateOfChangeController.onPageLoad(mode: Mode = CheckMode)
+POST       /change-date-of-change                               controllers.DateOfChangeController.onSubmit(mode: Mode = CheckMode)
