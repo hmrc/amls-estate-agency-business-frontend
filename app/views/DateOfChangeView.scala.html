@@ -41,11 +41,7 @@ pageTitle = s"${errorPrefix(form)} ${messages("dateOfChange.title")}" + " - " + 
     @formHelper(action = DateOfChangeController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
 
-        @errorSummary(form, Some(Map(
-        "value.day" -> "value-day",
-        "value.month" -> "value-month",
-        "value.year" -> "value-year"
-        )))
+        @errorSummary(form, Some(Map("value" -> "value-day")))
 
         @pageHeading("eab.heading")
 
@@ -53,20 +49,15 @@ pageTitle = s"${errorPrefix(form)} ${messages("dateOfChange.title")}" + " - " + 
 
         @govukDateInput(
         DateInput(
-        hint = Some(
-        Hint(
-        content = Text(messages("dateOfChange.hint")),
-        )
-        ),
-        id = "value", // This is the prefix for the entire date input
-        items = Seq(
-        DateInputItem(id = "value-day", name = "value.day"),
-        DateInputItem(id = "value-month", name = "value.month"),
-        DateInputItem(id = "value-year", name = "value.year")
-        ),
-        errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
-        ).withFormField(form("value"))
-        )
+            hint = Some(
+                Hint(
+                    content = Text(messages("dateOfChange.hint")),
+                )
+            ),
+            id = "value",
+            errorMessage = form("value").error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
+
+            ).withFormField(form("value")))
 
         @button("site.save.continue", "submit")
 
