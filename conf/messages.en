@@ -109,6 +109,14 @@ penalisedProfessionalBody.suspension = suspension
 penalisedProfessionalBody.expulsion = expulsion
 penalisedProfessionalBody.special = special terms of conditions imposed on your business
 
+error.date.hvd.one = The date of the first payment must include a {0}
+error.date.hvd.two = The date of the first payment must include a {0} and {1}
+error.date.hvd.all = Enter the date of the first payment
+error.date.hvd.future = The date of the first payment must be today or in the past
+error.date.hvd.real = Enter a real date for the date of the first payment
+error.date.hvd.past = The date of the first payment must be after 1900
+error.date.hvd.invalid.one = Enter the {0} of the first payment in the correct format
+error.date.hvd.invalid.multiple = The date of the first payment must only contain the numbers 0-9
 
 penalisedProfessionalBodyDetail.title = Tell us about the penalty from a professional body and when it happened
 penalisedProfessionalBodyDetail.heading = Tell us about the penalty from a professional body and when it happened
@@ -151,6 +159,8 @@ dateOfChange.error.required = Date of the change must include a {0}
 dateOfChange.error.invalid = Enter a real date for when this change happened
 dateOfChange.error.past = Date of the change must be after 1900
 dateOfChange.error.future = Date of the change must be today or in the past
+dateOfChange.error.invalid = The date of the change must only contain the numbers 0-9
+dateOfChange.error.invalid.one = Enter the {0} of the change in the correct format
 
 ############################### Footer ###############################
 footer.links.accessibility.text = Accessibility statement
