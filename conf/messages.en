@@ -161,6 +161,7 @@ dateOfChange.error.past = Date of the change must be after 1900
 dateOfChange.error.future = Date of the change must be today or in the past
 dateOfChange.error.invalid = The date of the change must only contain the numbers 0-9
 dateOfChange.error.invalid.one = Enter the {0} of the change in the correct format
+dateOfChange.error.real = Enter a real date for the date of change
 
 ############################### Footer ###############################
 footer.links.accessibility.text = Accessibility statement
