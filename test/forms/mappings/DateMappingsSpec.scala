@@ -107,9 +107,6 @@ class DateMappingsSpec extends AnyFreeSpec with Matchers with ScalaCheckProperty
 
         val result = form.bind(data)
 
-//        result.errors must contain(
-//          FormError("value.day", "dateOfChange.error.invalid", List.empty)
-//        )
         val formError = List(
           FormError("value.day", "dateOfChange.error.invalid.one", List("day"))
         )
