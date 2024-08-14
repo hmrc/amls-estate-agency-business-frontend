@@ -39,7 +39,7 @@ class DateOfChangeFormProviderSpec extends DateBehaviours {
 
     "fail to bind a date with a missing value" in {
 
-      val formError = FormError("value", "dateOfChange.error.required", List("month"))
+      val formError = FormError("value.month", "dateOfChange.error.required", List("month"))
 
       val validDate = DateOfChangeFormProvider.pastDate
 
@@ -55,7 +55,10 @@ class DateOfChangeFormProviderSpec extends DateBehaviours {
 
     "fail to bind a date with two missing values" in {
 
-      val formError = FormError("value", "dateOfChange.error.required.two", List("month", "year"))
+      val formError = List(
+        FormError("value.month", "dateOfChange.error.required.two", List("month", "year")),
+        FormError("value.year", "dateOfChange.error.required.two", List("month", "year"))
+      )
 
       val validDate = DateOfChangeFormProvider.pastDate
 
@@ -65,8 +68,10 @@ class DateOfChangeFormProviderSpec extends DateBehaviours {
         "value.year"  -> ""
       )
 
+
+
       val result = form.bind(data)
-      result.errors should contain only formError
+      result.errors should contain theSameElementsAs  formError
     }
   }
 }

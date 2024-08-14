@@ -27,10 +27,12 @@ class DateOfChangeFormProvider @Inject() extends Mappings {
   def apply(): Form[LocalDate] =
     Form(
       "value" -> localDate(
-        invalidKey = "dateOfChange.error.invalid",
-        allRequiredKey = "dateOfChange.error.required.all",
+        oneInvalidKey = "dateOfChange.error.invalid",
+        multipleInvalidKey = "dateOfChange.error.invalid",
+        oneRequiredKey = "dateOfChange.error.required",
         twoRequiredKey = "dateOfChange.error.required.two",
-        requiredKey = "dateOfChange.error.required"
+        allRequiredKey = "dateOfChange.error.required.all",
+        realDateKey = "dateOfChange.error.invalid"
       ).verifying(
         minDate(DateOfChangeFormProvider.pastDate, "dateOfChange.error.past"),
         maxDate(DateOfChangeFormProvider.futureDate, "dateOfChange.error.future"))
