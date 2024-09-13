@@ -18,7 +18,7 @@ package connectors
 
 import base.SpecBase
 import models.EabServicesProvided.Auctioneering
-import models.{DateOfChangeResponse, UserAnswers}
+import models.{DateOfChangeResponse, ReadStatusResponse, UserAnswers}
 import org.mockito.ArgumentMatchers
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{verify, when}
@@ -26,7 +26,8 @@ import org.scalatestplus.mockito.MockitoSugar
 import pages.EabServicesProvidedPage
 import play.api.Configuration
 import play.api.libs.json.{JsObject, Json}
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
+import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
+import uk.gov.hmrc.http.client.{HttpClientV2, RequestBuilder}
 
 import java.time.{LocalDateTime, ZoneOffset}
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -35,9 +36,13 @@ import scala.concurrent.Future
 class AMLSConnectorSpec extends SpecBase with MockitoSugar {
 
   implicit val hc: HeaderCarrier = HeaderCarrier()
-  val amlsConnector = new AMLSConnector(config = mock[Configuration], httpClient = mock[HttpClient])
+
   val dateVal       = LocalDateTime.now
   val answers       = UserAnswers().set(EabServicesProvidedPage,  Seq(Auctioneering)).success.value
+
+  val mockHttpClient: HttpClientV2 = mock[HttpClientV2]
+  val requestBuilder: RequestBuilder = mock[RequestBuilder]
+  val amlsConnector = new AMLSConnector(config = app.injector.instanceOf[Configuration], mockHttpClient)
 
   val completeData  = Json.obj(
     "eabServicesProvided"       -> Seq("businessTransfer"),
@@ -55,24 +60,24 @@ class AMLSConnectorSpec extends SpecBase with MockitoSugar {
 
   "GET" must {
     "successfully fetch cache" in {
-      val getUrl = s"${amlsConnector.url}/get/someid"
 
-      when {
-        amlsConnector.httpClient.GET[Option[JsObject]](ArgumentMatchers.eq(getUrl), any(), any())(any(), any(), any())
-      } thenReturn Future.successful(Some(completeJson))
+        when(mockHttpClient.get(any())(any())).thenReturn(requestBuilder)
+        when(requestBuilder.execute[Option[JsObject]](any(), any())).thenReturn(Future.successful(Some(completeJson)))
 
-      whenReady(amlsConnector.get("someid")) {
-        _ mustBe Some(completeJson)
+        amlsConnector.get("someid").futureValue mustBe Some(completeJson)
       }
-    }
   }
 
   "POST" must {
     "successfully write cache" in {
-      val putUrl = s"${amlsConnector.url}/set/someid"
+      val response = HttpResponse(200)
 
-      amlsConnector.set("someid", answers)
-      verify(amlsConnector.httpClient).PUT(ArgumentMatchers.eq(putUrl), ArgumentMatchers.eq(answers), any())(any(), any(), any(), any())
+      when(requestBuilder.withBody(any())(any(), any(), any())).thenReturn(requestBuilder)
+      when(requestBuilder.execute[HttpResponse](any(), any())).thenReturn(Future.successful(response))
+      when(mockHttpClient.put(any())(any())).thenReturn(requestBuilder)
+
+      amlsConnector.set("someid", answers).futureValue mustBe response
+
     }
   }
 
@@ -82,16 +87,12 @@ class AMLSConnectorSpec extends SpecBase with MockitoSugar {
     val mockDateOfChangeResponse = mock[DateOfChangeResponse]
 
     "make a request to amls frontend to find out if date of change is required" in {
-      val url = s"${amlsConnector.url}/require-date-change/$credId/$submissionStatus"
 
-      when(
-        amlsConnector.httpClient.POST[UserAnswers, DateOfChangeResponse](ArgumentMatchers.eq(url), ArgumentMatchers.eq(answers), any()
-        )(any(), any(), any(), any())).thenReturn(Future.successful(mockDateOfChangeResponse))
+      when(requestBuilder.withBody(any())(any(), any(), any())).thenReturn(requestBuilder)
+      when(requestBuilder.execute[DateOfChangeResponse](any(), any())).thenReturn(Future.successful(mockDateOfChangeResponse))
+      when(mockHttpClient.post(any())(any())).thenReturn(requestBuilder)
 
-      amlsConnector.requireDateOfChange(credId, submissionStatus, answers)
-
-      verify(amlsConnector.httpClient).POST[UserAnswers, DateOfChangeResponse](ArgumentMatchers.eq(url), ArgumentMatchers.eq(answers), any()
-      )(any(), any(), any(), any())
+      amlsConnector.requireDateOfChange(credId, submissionStatus, answers).futureValue mustBe mockDateOfChangeResponse
     }
   }
 }
