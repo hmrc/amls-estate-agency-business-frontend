@@ -21,16 +21,17 @@ import config.Service
 import javax.inject.Inject
 import models.{DateOfChangeResponse, UserAnswers}
 import play.api.{Configuration, Logging}
-import play.api.libs.json.{JsObject, Writes}
+import play.api.libs.json.{JsObject, Json}
 import uk.gov.hmrc.http.HttpReads.Implicits._
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient, HttpReads, HttpResponse}
+import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse, StringContextOps}
 import uk.gov.hmrc.http.HttpReads.Implicits.{readFromJson, readRaw}
+import uk.gov.hmrc.http.client.HttpClientV2
 
 
 import scala.concurrent.{ExecutionContext, Future}
 
 class AMLSConnector @Inject()(config: Configuration,
-                              implicit val httpClient: HttpClient)
+                              implicit val httpClientV2: HttpClientV2)
                              (implicit ec: ExecutionContext) extends Logging {
 
   private val baseUrl                 = config.get[Service]("microservice.services.amls-frontend")
@@ -39,37 +40,27 @@ class AMLSConnector @Inject()(config: Configuration,
   def get(credId: String)(implicit hc: HeaderCarrier): Future[Option[JsObject]] = {
     val getUrl = s"$url/get/$credId"
 
-    httpClient.GET[Option[JsObject]](getUrl)
+    httpClientV2.get(url"$getUrl").execute[Option[JsObject]]
   }
 
-  def set(credId: String, userAnswers: UserAnswers)(implicit hc: HeaderCarrier)= {
+  def set(credId: String, userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[HttpResponse] = {
     val putUrl = s"$url/set/$credId"
+    val hcWithExtra: HeaderCarrier = hc.withExtraHeaders("Csrf-Token" -> "nocheck")
 
-    httpClient.PUT(putUrl, userAnswers)(
-      implicitly[Writes[UserAnswers]],
-      implicitly[HttpReads[HttpResponse]],
-      hc.withExtraHeaders("Csrf-Token" -> "nocheck"),
-      implicitly
-    )
+    httpClientV2.put(url"$putUrl")(hcWithExtra)
+      .withBody(Json.toJson(userAnswers))
+      .execute[HttpResponse]
   }
 
   def requireDateOfChange(credId: String,
                           submissionStatus: String,
-                          userAnswers: UserAnswers)(implicit hc: HeaderCarrier) = {
+                          userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[DateOfChangeResponse] = {
 
     val postUrl = s"$url/require-date-change/$credId/$submissionStatus"
+    val hcWithExtra: HeaderCarrier = hc.withExtraHeaders("Csrf-Token" -> "nocheck")
 
-    httpClient.POST[UserAnswers, DateOfChangeResponse](postUrl, userAnswers)(
-      implicitly[Writes[UserAnswers]],
-      implicitly[HttpReads[DateOfChangeResponse]],
-      hc.withExtraHeaders("Csrf-Token" -> "nocheck"),
-      implicitly
-    ) map {
-      response =>
-        // $COVERAGE-OFF$
-        logger.debug(s"AMLSConnector:requireDateOfChange - Response: ${response}")
-        // $COVERAGE-ON$
-        response
-    }
+    httpClientV2.post(url"$postUrl")(hcWithExtra)
+      .withBody(Json.toJson(userAnswers))
+      .execute[DateOfChangeResponse]
   }
 }

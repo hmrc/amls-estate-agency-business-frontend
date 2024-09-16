@@ -18,12 +18,12 @@ package connectors
 
 import base.SpecBase
 import models.ReadStatusResponse
-import org.mockito.ArgumentMatchers
-import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
+import org.mockito.ArgumentMatchers.any
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.Configuration
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.client.{HttpClientV2, RequestBuilder}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -31,24 +31,24 @@ import scala.concurrent.Future
 class AMLSBackEndConnectorSpec extends SpecBase with MockitoSugar {
 
   implicit val hc: HeaderCarrier = HeaderCarrier()
-  val amlsBackEndConnector = new AMLSBackEndConnector(config = mock[Configuration], httpClient = mock[HttpClient])
+
   val amlsRefNo            = "refNo"
   val accountTypeId        = ("foo", "bar")
   val accountType          = accountTypeId._1
   val accountId            = accountTypeId._2
   val statusResponse       = mock[ReadStatusResponse]
 
+  val mockHttpClient: HttpClientV2 = mock[HttpClientV2]
+  val requestBuilder: RequestBuilder = mock[RequestBuilder]
+  val amlsBackEndConnector = new AMLSBackEndConnector(config = app.injector.instanceOf[Configuration], mockHttpClient)
+
   "status" must {
     "successfully return a status" in {
-      val getUrl = s"${amlsBackEndConnector.statusUrl}/$accountType/$accountId/$amlsRefNo/status"
 
-      when {
-        amlsBackEndConnector.httpClient.GET[ReadStatusResponse](ArgumentMatchers.eq(getUrl), any(), any())(any(), any(), any())
-      } thenReturn Future.successful(statusResponse)
+      when(mockHttpClient.get(any())(any())).thenReturn(requestBuilder)
+      when(requestBuilder.execute[ReadStatusResponse](any(), any())).thenReturn(Future.successful(statusResponse))
 
-      whenReady(amlsBackEndConnector.status(amlsRefNo, accountTypeId)) {
-        _ mustBe statusResponse
-      }
+      amlsBackEndConnector.status("someid", ("accounttype", "type")).futureValue mustBe statusResponse
     }
   }
 }

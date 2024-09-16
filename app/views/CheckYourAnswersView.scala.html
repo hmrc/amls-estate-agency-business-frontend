@@ -27,7 +27,7 @@ govukSummaryList: GovukSummaryList,
 button: Button
 )
 
-@(summaryList: SummaryList)(implicit request: Request[_], messages: Messages)
+@(summaryList: SummaryList)(implicit request: RequestHeader, messages: Messages)
 
 @layout(
     pageTitle = s"""${messages("checkYourAnswers.title")} - ${messages("eab.title.extension")}"""){
