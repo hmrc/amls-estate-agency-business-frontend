@@ -40,13 +40,7 @@ class AMLSConnector @Inject()(config: Configuration,
   def get(credId: String)(implicit hc: HeaderCarrier): Future[Option[JsObject]] = {
     val getUrl = s"$url/get/$credId"
 
-    httpClientV2.get(url"$getUrl").execute[Option[JsObject]] map {
-      response =>
-        // $COVERAGE-OFF$
-        logger.debug(s"AmlsConnector:status - Response Body: ${Json.toJson(response)}")
-        // $COVERAGE-ON$
-        response
-    }
+    httpClientV2.get(url"$getUrl").execute[Option[JsObject]]
   }
 
   def set(credId: String, userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[HttpResponse] = {
@@ -55,13 +49,7 @@ class AMLSConnector @Inject()(config: Configuration,
 
     httpClientV2.put(url"$putUrl")(hcWithExtra)
       .withBody(Json.toJson(userAnswers))
-      .execute[HttpResponse] map {
-      response =>
-        // $COVERAGE-OFF$
-        logger.debug(s"AMLSConnector:set - Response: ${response}")
-        // $COVERAGE-ON$
-        response
-    }
+      .execute[HttpResponse]
   }
 
   def requireDateOfChange(credId: String,
@@ -73,12 +61,6 @@ class AMLSConnector @Inject()(config: Configuration,
 
     httpClientV2.post(url"$postUrl")(hcWithExtra)
       .withBody(Json.toJson(userAnswers))
-      .execute[DateOfChangeResponse] map {
-      response =>
-        // $COVERAGE-OFF$
-        logger.debug(s"AMLSConnector:requireDateOfChange - Response: ${response}")
-        // $COVERAGE-ON$
-        response
-    }
+      .execute[DateOfChangeResponse]
   }
 }

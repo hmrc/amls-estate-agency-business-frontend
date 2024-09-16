@@ -42,12 +42,6 @@ class AMLSBackEndConnector @Inject()(config: Configuration,
 
     val getUrl = s"$statusUrl/$accountType/$accountId/$amlsRegistrationNumber/status"
 
-    httpClientV2.get(url"$getUrl").execute[ReadStatusResponse] map {
-      response =>
-        // $COVERAGE-OFF$
-        logger.debug(s"AmlsConnector:status - Response Body: ${Json.toJson(response)}")
-        // $COVERAGE-ON$
-        response
-    }
+    httpClientV2.get(url"$getUrl").execute[ReadStatusResponse]
   }
 }
