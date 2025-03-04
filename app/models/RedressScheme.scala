@@ -33,13 +33,12 @@ object RedressScheme extends Enumerable.Implicits {
     ThePropertyOmbudsman
   )
 
-  def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map {
-    case (redressScheme, index) =>
-      RadioItem(
-        content = Text(messages(s"redressScheme.${redressScheme.toString}")),
-        id = Some(s"value_$index"),
-        value = Some(redressScheme.toString)
-      )
+  def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map { case (redressScheme, index) =>
+    RadioItem(
+      content = Text(messages(s"redressScheme.${redressScheme.toString}")),
+      id = Some(s"value_$index"),
+      value = Some(redressScheme.toString)
+    )
   }
 
   implicit val enumerable: Enumerable[RedressScheme] =

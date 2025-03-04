@@ -38,12 +38,18 @@ class WhatYouNeedViewSpec extends ViewBehaviours {
       assertPageTitleEqualsMessage(document, "What you need")
 
       assertContainsText(document, "Automatic saving")
-      assertContainsText(document, "Information is saved automatically. If you sign out, you’ll have 28 days to complete your application.")
+      assertContainsText(
+        document,
+        "Information is saved automatically. If you sign out, you’ll have 28 days to complete your application."
+      )
 
       assertContainsText(document, "In this section you’ll need to tell us:")
       assertContainsText(document, "You may need to tell us:")
       assertContainsText(document, "which services your business provides")
-      assertContainsText(document, "if your business has been penalised under the Estate Agents Act or by a professional body")
+      assertContainsText(
+        document,
+        "if your business has been penalised under the Estate Agents Act or by a professional body"
+      )
       assertContainsText(document, "your redress scheme")
       assertContainsText(document, "if your business is registered with a client money protection scheme")
     }

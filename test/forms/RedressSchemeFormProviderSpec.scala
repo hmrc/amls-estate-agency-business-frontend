@@ -26,13 +26,13 @@ class RedressSchemeFormProviderSpec extends OptionFieldBehaviours {
 
   ".value" must {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "redressScheme.error.required"
 
     behave like optionsField[RedressScheme](
       form,
       fieldName,
-      validValues  = RedressScheme.values,
+      validValues = RedressScheme.values,
       invalidError = FormError(fieldName, "error.invalid")
     )
 

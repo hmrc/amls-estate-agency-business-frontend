@@ -22,21 +22,23 @@ import javax.inject.Inject
 import models.ReadStatusResponse
 import play.api.libs.json.{Json, Writes}
 import play.api.{Configuration, Logging}
-import uk.gov.hmrc.http.{HeaderCarrier,StringContextOps}
+import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps}
 import uk.gov.hmrc.http.client.HttpClientV2
 import uk.gov.hmrc.http.HttpReads.Implicits.readFromJson
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AMLSBackEndConnector @Inject()(config: Configuration,
-                                     implicit val httpClientV2: HttpClientV2) extends Logging {
+class AMLSBackEndConnector @Inject() (config: Configuration, implicit val httpClientV2: HttpClientV2) extends Logging {
 
-  private val baseUrl = config.get[Service]("microservice.services.amls")
+  private val baseUrl               = config.get[Service]("microservice.services.amls")
   private[connectors] val statusUrl = s"$baseUrl/amls/subscription"
 
   // GET status (API9)
-  def status(amlsRegistrationNumber: String, accountTypeId: (String, String))
-            (implicit headerCarrier: HeaderCarrier, ec: ExecutionContext, reqW: Writes[ReadStatusResponse]): Future[ReadStatusResponse] = {
+  def status(amlsRegistrationNumber: String, accountTypeId: (String, String))(implicit
+    headerCarrier: HeaderCarrier,
+    ec: ExecutionContext,
+    reqW: Writes[ReadStatusResponse]
+  ): Future[ReadStatusResponse] = {
 
     val (accountType, accountId) = accountTypeId
 

@@ -38,7 +38,7 @@ class ClientMoneyProtectionSchemeControllerSpec extends SpecBase with MockitoSug
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new ClientMoneyProtectionSchemeFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val clientMoneyProtectionSchemeRoute = routes.ClientMoneyProtectionSchemeController.onPageLoad(NormalMode).url
 

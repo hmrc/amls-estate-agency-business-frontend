@@ -38,9 +38,10 @@ class PenalisedEstateAgentsActDetailControllerSpec extends SpecBase with Mockito
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new PenalisedEstateAgentsActDetailFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
-  lazy val penalisedEstateAgentsActDetailRoute = routes.PenalisedEstateAgentsActDetailController.onPageLoad(NormalMode).url
+  lazy val penalisedEstateAgentsActDetailRoute =
+    routes.PenalisedEstateAgentsActDetailController.onPageLoad(NormalMode).url
 
   "PenalisedEstateAgentsActDetail Controller" must {
 

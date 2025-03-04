@@ -32,13 +32,13 @@ case object EabServicesProvidedPage extends QuestionPage[Seq[EabServicesProvided
     value map { ans =>
       val cleanupResidential = ans.contains(Residential) match {
         case true => super.cleanup(value, userAnswers)
-        case _ => userAnswers.remove(RedressSchemePage)
+        case _    => userAnswers.remove(RedressSchemePage)
       }
 
       ans.contains(Lettings) match {
         case true => super.cleanup(value, userAnswers)
-        case _ => cleanupResidential.flatMap(_.remove(ClientMoneyProtectionSchemePage))
+        case _    => cleanupResidential.flatMap(_.remove(ClientMoneyProtectionSchemePage))
       }
     }
-    }.getOrElse(super.cleanup(value, userAnswers))
+  }.getOrElse(super.cleanup(value, userAnswers))
 }

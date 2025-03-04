@@ -31,42 +31,41 @@ import views.html.EabServicesProvidedView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class EabServicesProvidedController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        sessionRepository: AMLSFrontEndSessionRepository,
-                                        navigator: Navigator,
-                                        identify: IdentifierAction,
-                                        getData: DataRetrievalAction,
-                                        requireData: DataRequiredAction,
-                                        formProvider: EabServicesProvidedFormProvider,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: EabServicesProvidedView,
-                                        val controllerHelper: ControllerHelper
-                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class EabServicesProvidedController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionRepository: AMLSFrontEndSessionRepository,
+  navigator: Navigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: EabServicesProvidedFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: EabServicesProvidedView,
+  val controllerHelper: ControllerHelper
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData) { implicit request =>
+    val preparedForm = request.userAnswers.getOrElse(UserAnswers()).get(EabServicesProvidedPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.getOrElse(UserAnswers()).get(EabServicesProvidedPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, mode))
+    Ok(view(preparedForm, mode))
   }
 
-  def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData).async {
-    implicit request =>
-
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
-
+  def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData).async { implicit request =>
+    form
+      .bindFromRequest()
+      .fold(
+        formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode))),
         value =>
           for {
-            updatedAnswers       <- Future.fromTry(request.userAnswers.getOrElse(UserAnswers()).set(EabServicesProvidedPage, value))
+            updatedAnswers       <-
+              Future.fromTry(request.userAnswers.getOrElse(UserAnswers()).set(EabServicesProvidedPage, value))
             status               <- controllerHelper.getApplicationStatus(request.amlsRefNumber, request.accountTypeId)
             dateOfChangeRequired <- controllerHelper.requireDateOfChange(request.credId, updatedAnswers, status)
             _                    <- sessionRepository.set(request.credId, updatedAnswers)

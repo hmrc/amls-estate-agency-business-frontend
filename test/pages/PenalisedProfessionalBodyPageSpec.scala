@@ -41,6 +41,6 @@ class PenalisedProfessionalBodyPageSpec extends PageBehaviours {
     val answerQuestion = UserAnswers().set(PenalisedProfessionalBodyDetailPage, "sometext").success.value
     val updatedAnswers = answerQuestion.set(PenalisedProfessionalBodyPage, true).success.value
 
-    updatedAnswers.get(PenalisedProfessionalBodyDetailPage) must not be(empty)
+    updatedAnswers.get(PenalisedProfessionalBodyDetailPage) must not be empty
   }
 }

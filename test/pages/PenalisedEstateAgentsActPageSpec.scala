@@ -41,6 +41,6 @@ class PenalisedEstateAgentsActPageSpec extends PageBehaviours {
     val answerQuestion = UserAnswers().set(PenalisedEstateAgentsActDetailPage, "sometext").success.value
     val updatedAnswers = answerQuestion.set(PenalisedEstateAgentsActPage, true).success.value
 
-    updatedAnswers.get(PenalisedEstateAgentsActDetailPage) must not be(empty)
+    updatedAnswers.get(PenalisedEstateAgentsActDetailPage) must not be empty
   }
 }

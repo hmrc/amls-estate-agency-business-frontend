@@ -30,40 +30,38 @@ import views.html.DateOfChangeView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class DateOfChangeController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        sessionRepository: AMLSFrontEndSessionRepository,
-                                        navigator: Navigator,
-                                        identify: IdentifierAction,
-                                        getData: DataRetrievalAction,
-                                        requireData: DataRequiredAction,
-                                        formProvider: DateOfChangeFormProvider,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: DateOfChangeView
-                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class DateOfChangeController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionRepository: AMLSFrontEndSessionRepository,
+  navigator: Navigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: DateOfChangeFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: DateOfChangeView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData) { implicit request =>
+    val form = formProvider()
 
-      val form = formProvider()
+    val preparedForm = request.userAnswers.getOrElse(UserAnswers()).get(DateOfChangePage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.getOrElse(UserAnswers()).get(DateOfChangePage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, mode))
+    Ok(view(preparedForm, mode))
   }
 
-  def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData).async {
-    implicit request =>
+  def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData).async { implicit request =>
+    val form = formProvider()
 
-      val form = formProvider()
-
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
-
+    form
+      .bindFromRequest()
+      .fold(
+        formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode))),
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.getOrElse(UserAnswers()).set(DateOfChangePage, value))

@@ -32,10 +32,8 @@ class RedressSchemeSpec extends AnyWordSpec with Matchers with ScalaCheckPropert
 
       val gen = Gen.oneOf(RedressScheme.values)
 
-      forAll(gen) {
-        redressScheme =>
-
-          JsString(redressScheme.toString).validate[RedressScheme].asOpt.value mustEqual redressScheme
+      forAll(gen) { redressScheme =>
+        JsString(redressScheme.toString).validate[RedressScheme].asOpt.value mustEqual redressScheme
       }
     }
 
@@ -43,10 +41,8 @@ class RedressSchemeSpec extends AnyWordSpec with Matchers with ScalaCheckPropert
 
       val gen = arbitrary[String] suchThat (!RedressScheme.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[RedressScheme] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[RedressScheme] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +50,8 @@ class RedressSchemeSpec extends AnyWordSpec with Matchers with ScalaCheckPropert
 
       val gen = Gen.oneOf(RedressScheme.values)
 
-      forAll(gen) {
-        redressScheme =>
-
-          Json.toJson(redressScheme) mustEqual JsString(redressScheme.toString)
+      forAll(gen) { redressScheme =>
+        Json.toJson(redressScheme) mustEqual JsString(redressScheme.toString)
       }
     }
   }

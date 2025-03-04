@@ -24,7 +24,7 @@ import pages._
 import models._
 
 @Singleton
-class Navigator @Inject()() {
+class Navigator @Inject() () {
 
   /*
   EAB Flow
@@ -40,15 +40,15 @@ class Navigator @Inject()() {
   Penalised by Professional Body =>
     (If penalised) Penalised by Professional Body Details =>
   Check your answers
-  */
+   */
 
   private val normalRoutes: Page => UserAnswers => Call = {
-    case EabServicesProvidedPage             =>      redressSchemeRoute
-    case RedressSchemePage                   =>      redressSchemeDetailRoute
+    case EabServicesProvidedPage             => redressSchemeRoute
+    case RedressSchemePage                   => redressSchemeDetailRoute
     case ClientMoneyProtectionSchemePage     => _ => routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode)
-    case PenalisedEstateAgentsActPage        =>      penalisedEstateAgentsActDetailsRoute
+    case PenalisedEstateAgentsActPage        => penalisedEstateAgentsActDetailsRoute
     case PenalisedEstateAgentsActDetailPage  => _ => routes.PenalisedProfessionalBodyController.onPageLoad(NormalMode)
-    case PenalisedProfessionalBodyPage       =>      penalisedProfessionalBodyDetailsRoute
+    case PenalisedProfessionalBodyPage       => penalisedProfessionalBodyDetailsRoute
     case PenalisedProfessionalBodyDetailPage => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
@@ -61,47 +61,44 @@ class Navigator @Inject()() {
     }
   }.getOrElse(throw new Exception("Unable to navigate to page"))
 
-  private def penalisedEstateAgentsActDetailsRoute(answers: UserAnswers): Call = {
+  private def penalisedEstateAgentsActDetailsRoute(answers: UserAnswers): Call =
     answers.get(PenalisedEstateAgentsActPage) match {
       case Some(true)  => routes.PenalisedEstateAgentsActDetailController.onPageLoad(NormalMode)
       case Some(false) => routes.PenalisedProfessionalBodyController.onPageLoad(NormalMode)
       case None        => throw new Exception("Unable to navigate to page")
     }
-  }
 
-  private def penalisedProfessionalBodyDetailsRoute(answers: UserAnswers): Call = {
+  private def penalisedProfessionalBodyDetailsRoute(answers: UserAnswers): Call =
     answers.get(PenalisedProfessionalBodyPage) match {
       case Some(true)  => routes.PenalisedProfessionalBodyDetailController.onPageLoad(NormalMode)
       case Some(false) => routes.CheckYourAnswersController.onPageLoad
       case None        => throw new Exception("Unable to navigate to page")
     }
-  }
 
-  private def redressSchemeDetailRoute(answers: UserAnswers): Call = {
+  private def redressSchemeDetailRoute(answers: UserAnswers): Call =
     (answers.get(RedressSchemePage), answers.get(EabServicesProvidedPage)) match {
-      case (_, Some(services)) if services.contains(Lettings) => routes.ClientMoneyProtectionSchemeController.onPageLoad(NormalMode)
-      case _ => routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode)
+      case (_, Some(services)) if services.contains(Lettings) =>
+        routes.ClientMoneyProtectionSchemeController.onPageLoad(NormalMode)
+      case _                                                  => routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode)
     }
-  }
 
   private val checkRouteMap: Page => UserAnswers => Call = {
     case EabServicesProvidedPage             => _ => routes.DateOfChangeController.onPageLoad(CheckMode)
-    case DateOfChangePage                    =>      redressSchemeRouteCheckMode
-    case RedressSchemePage                   =>      redressSchemeDetailRouteCheckMode
-    case PenalisedEstateAgentsActPage        =>      penalisedEstateAgentsActDetailsRouteCheckMode
+    case DateOfChangePage                    => redressSchemeRouteCheckMode
+    case RedressSchemePage                   => redressSchemeDetailRouteCheckMode
+    case PenalisedEstateAgentsActPage        => penalisedEstateAgentsActDetailsRouteCheckMode
     case ClientMoneyProtectionSchemePage     => _ => routes.CheckYourAnswersController.onPageLoad
     case PenalisedEstateAgentsActDetailPage  => _ => routes.CheckYourAnswersController.onPageLoad
-    case PenalisedProfessionalBodyPage       =>      penalisedProfessionalBodyDetailsRouteCheckMode
+    case PenalisedProfessionalBodyPage       => penalisedProfessionalBodyDetailsRouteCheckMode
     case PenalisedProfessionalBodyDetailPage => _ => routes.CheckYourAnswersController.onPageLoad
     case _                                   => _ => routes.CheckYourAnswersController.onPageLoad
   }
 
-  private def requireDateOfChange(answers: UserAnswers, dateOfChangeRequired: Boolean): Call = {
+  private def requireDateOfChange(answers: UserAnswers, dateOfChangeRequired: Boolean): Call =
     dateOfChangeRequired match {
       case true => routes.DateOfChangeController.onPageLoad(CheckMode)
       case _    => redressSchemeRouteCheckMode(answers)
     }
-  }
 
   private def redressSchemeRouteCheckMode(answers: UserAnswers): Call = {
     answers.get(EabServicesProvidedPage) map { ans =>
@@ -128,30 +125,29 @@ class Navigator @Inject()() {
   private def isCmpQuestionNotAnswered(ans: Seq[EabServicesProvided], answers: UserAnswers) =
     ans.contains(Lettings) && answers.get(ClientMoneyProtectionSchemePage).isEmpty
 
-  private def penalisedEstateAgentsActDetailsRouteCheckMode(answers: UserAnswers): Call = {
+  private def penalisedEstateAgentsActDetailsRouteCheckMode(answers: UserAnswers): Call =
     answers.get(PenalisedEstateAgentsActPage) match {
       case Some(true)  => routes.PenalisedEstateAgentsActDetailController.onPageLoad(CheckMode)
       case Some(false) => routes.CheckYourAnswersController.onPageLoad
       case None        => throw new Exception("Unable to navigate to page")
     }
-  }
 
-  private def penalisedProfessionalBodyDetailsRouteCheckMode(answers: UserAnswers): Call = {
+  private def penalisedProfessionalBodyDetailsRouteCheckMode(answers: UserAnswers): Call =
     answers.get(PenalisedProfessionalBodyPage) match {
       case Some(true)  => routes.PenalisedProfessionalBodyDetailController.onPageLoad(CheckMode)
       case Some(false) => routes.CheckYourAnswersController.onPageLoad
       case None        => throw new Exception("Unable to navigate to page")
     }
-  }
 
-  def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, dateOfChangeRequired: Option[Boolean] = None): Call = mode match {
-    case NormalMode =>
-      normalRoutes(page)(userAnswers)
-    case CheckMode =>
-      if(dateOfChangeRequired.isDefined) {
-        requireDateOfChange(userAnswers, dateOfChangeRequired.getOrElse(false))
-      } else {
-        checkRouteMap(page)(userAnswers)
-      }
-  }
+  def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, dateOfChangeRequired: Option[Boolean] = None): Call =
+    mode match {
+      case NormalMode =>
+        normalRoutes(page)(userAnswers)
+      case CheckMode  =>
+        if (dateOfChangeRequired.isDefined) {
+          requireDateOfChange(userAnswers, dateOfChangeRequired.getOrElse(false))
+        } else {
+          checkRouteMap(page)(userAnswers)
+        }
+    }
 }

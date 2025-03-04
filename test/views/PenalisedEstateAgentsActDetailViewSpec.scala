@@ -40,6 +40,11 @@ class PenalisedEstateAgentsActDetailViewSpec extends StringViewBehaviours {
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like textareaPage(form, applyView, messageKeyPrefix, controllers.routes.PenalisedEstateAgentsActDetailController.onSubmit(NormalMode).url)
+    behave like textareaPage(
+      form,
+      applyView,
+      messageKeyPrefix,
+      controllers.routes.PenalisedEstateAgentsActDetailController.onSubmit(NormalMode).url
+    )
   }
 }

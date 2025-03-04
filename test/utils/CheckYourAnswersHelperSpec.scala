@@ -23,25 +23,29 @@ import play.api.libs.json.Json
 
 class CheckYourAnswersHelperSpec extends SpecBase {
 
-  val userAnswersSingleService: UserAnswers = UserAnswers(Json.obj(
-    "eabServicesProvided"       -> Seq("businessTransfer"),
-    "redressScheme"             -> "propertyRedressScheme",
-    "clientMoneyProtectionScheme" -> false,
-    "penalisedEstateAgentsAct"  -> true,
-    "penalisedEstateAgentsActDetail" -> "other eab details",
-    "penalisedProfessionalBody" -> false,
-    "penalisedProfessionalBodyDetail" -> "other pb details"
-  ))
+  val userAnswersSingleService: UserAnswers = UserAnswers(
+    Json.obj(
+      "eabServicesProvided"             -> Seq("businessTransfer"),
+      "redressScheme"                   -> "propertyRedressScheme",
+      "clientMoneyProtectionScheme"     -> false,
+      "penalisedEstateAgentsAct"        -> true,
+      "penalisedEstateAgentsActDetail"  -> "other eab details",
+      "penalisedProfessionalBody"       -> false,
+      "penalisedProfessionalBodyDetail" -> "other pb details"
+    )
+  )
 
-  val userAnswersMultipleServices: UserAnswers = UserAnswers(Json.obj(
-    "eabServicesProvided"       -> Seq("auctioneering", "businessTransfer"),
-    "redressScheme"             -> "propertyRedressScheme",
-    "clientMoneyProtectionScheme" -> false,
-    "penalisedEstateAgentsAct"  -> true,
-    "penalisedEstateAgentsActDetail" -> "other eab details",
-    "penalisedProfessionalBody" -> false,
-    "penalisedProfessionalBodyDetail" -> "other pb details"
-  ))
+  val userAnswersMultipleServices: UserAnswers = UserAnswers(
+    Json.obj(
+      "eabServicesProvided"             -> Seq("auctioneering", "businessTransfer"),
+      "redressScheme"                   -> "propertyRedressScheme",
+      "clientMoneyProtectionScheme"     -> false,
+      "penalisedEstateAgentsAct"        -> true,
+      "penalisedEstateAgentsActDetail"  -> "other eab details",
+      "penalisedProfessionalBody"       -> false,
+      "penalisedProfessionalBodyDetail" -> "other pb details"
+    )
+  )
 
   "CheckYourAnswersHelper" must {
     "have eabServicesProvided method which" when {
@@ -49,8 +53,8 @@ class CheckYourAnswersHelperSpec extends SpecBase {
         "return single answer row with un-bulleted content" in {
 
           val checkYourAnswersHelper = new CheckYourAnswersHelper(userAnswersSingleService)(messages)
-          val answers = checkYourAnswersHelper.eabServicesProvided.value
-          val doc = Jsoup.parse(answers.toString)
+          val answers                = checkYourAnswersHelper.eabServicesProvided.value
+          val doc                    = Jsoup.parse(answers.toString)
 
           doc.getElementsByClass("list list-bullet").size() mustBe 0
           doc.toString must include("Business transfer")
@@ -62,11 +66,13 @@ class CheckYourAnswersHelperSpec extends SpecBase {
         "return multiple answer row with bulleted content" in {
 
           val checkYourAnswersHelper = new CheckYourAnswersHelper(userAnswersMultipleServices)(messages)
-          val answers = checkYourAnswersHelper.eabServicesProvided.value
-          val doc = Jsoup.parse(answers.toString)
+          val answers                = checkYourAnswersHelper.eabServicesProvided.value
+          val doc                    = Jsoup.parse(answers.toString)
 
           doc.getElementsByClass("govuk-list govuk-list--bullet").size() mustBe 1
-          doc.getElementsByClass("govuk-list govuk-list--bullet").toString must (include("Auctioneering") and include("Business transfer"))
+          doc.getElementsByClass("govuk-list govuk-list--bullet").toString must (include("Auctioneering") and include(
+            "Business transfer"
+          ))
         }
       }
     }
@@ -76,8 +82,8 @@ class CheckYourAnswersHelperSpec extends SpecBase {
         "return single answer row with un-bulleted content" in {
 
           val checkYourAnswersHelper = new CheckYourAnswersHelper(userAnswersSingleService)(messages)
-          val answers = checkYourAnswersHelper.clientMoneyProtectionScheme.value
-          val doc = Jsoup.parse(answers.toString)
+          val answers                = checkYourAnswersHelper.clientMoneyProtectionScheme.value
+          val doc                    = Jsoup.parse(answers.toString)
 
           doc.getElementsByClass("list list-bullet").size() mustBe 0
           doc.toString must include("No")
@@ -90,8 +96,8 @@ class CheckYourAnswersHelperSpec extends SpecBase {
         "return single answer row with un-bulleted content" in {
 
           val checkYourAnswersHelper = new CheckYourAnswersHelper(userAnswersSingleService)(messages)
-          val answers = checkYourAnswersHelper.redressScheme.value
-          val doc = Jsoup.parse(answers.toString)
+          val answers                = checkYourAnswersHelper.redressScheme.value
+          val doc                    = Jsoup.parse(answers.toString)
 
           doc.getElementsByClass("list list-bullet").size() mustBe 0
           doc.toString must include("Property Redress Scheme")
@@ -104,8 +110,8 @@ class CheckYourAnswersHelperSpec extends SpecBase {
         "return single answer row with un-bulleted content" in {
 
           val checkYourAnswersHelper = new CheckYourAnswersHelper(userAnswersSingleService)(messages)
-          val answers = checkYourAnswersHelper.penalisedEstateAgentsAct.value
-          val doc = Jsoup.parse(answers.toString)
+          val answers                = checkYourAnswersHelper.penalisedEstateAgentsAct.value
+          val doc                    = Jsoup.parse(answers.toString)
 
           doc.getElementsByClass("list list-bullet").size() mustBe 0
           doc.toString must include("Yes")
@@ -118,8 +124,8 @@ class CheckYourAnswersHelperSpec extends SpecBase {
         "return single answer row with un-bulleted content" in {
 
           val checkYourAnswersHelper = new CheckYourAnswersHelper(userAnswersSingleService)(messages)
-          val answers = checkYourAnswersHelper.penalisedEstateAgentsActDetail.value
-          val doc = Jsoup.parse(answers.toString)
+          val answers                = checkYourAnswersHelper.penalisedEstateAgentsActDetail.value
+          val doc                    = Jsoup.parse(answers.toString)
 
           doc.getElementsByClass("list list-bullet").size() mustBe 0
           doc.toString must include("other eab details")
@@ -132,8 +138,8 @@ class CheckYourAnswersHelperSpec extends SpecBase {
         "return single answer row with un-bulleted content" in {
 
           val checkYourAnswersHelper = new CheckYourAnswersHelper(userAnswersSingleService)(messages)
-          val answers = checkYourAnswersHelper.penalisedProfessionalBody.value
-          val doc = Jsoup.parse(answers.toString)
+          val answers                = checkYourAnswersHelper.penalisedProfessionalBody.value
+          val doc                    = Jsoup.parse(answers.toString)
 
           doc.getElementsByClass("list list-bullet").size() mustBe 0
           doc.toString must include("No")
@@ -146,8 +152,8 @@ class CheckYourAnswersHelperSpec extends SpecBase {
         "return single answer row with un-bulleted content" in {
 
           val checkYourAnswersHelper = new CheckYourAnswersHelper(userAnswersSingleService)(messages)
-          val answers = checkYourAnswersHelper.penalisedProfessionalBodyDetail.value
-          val doc = Jsoup.parse(answers.toString)
+          val answers                = checkYourAnswersHelper.penalisedProfessionalBodyDetail.value
+          val doc                    = Jsoup.parse(answers.toString)
 
           doc.getElementsByClass("list list-bullet").size() mustBe 0
           doc.toString must include("other pb details")

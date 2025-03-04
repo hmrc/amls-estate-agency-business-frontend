@@ -42,6 +42,12 @@ class PenalisedEstateAgentsActViewSpec extends YesNoViewBehaviours {
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like yesNoPage(form, applyView, messageKeyPrefix, controllers.routes.PenalisedEstateAgentsActController.onSubmit(NormalMode).url, Some(supportingContent))
+    behave like yesNoPage(
+      form,
+      applyView,
+      messageKeyPrefix,
+      controllers.routes.PenalisedEstateAgentsActController.onSubmit(NormalMode).url,
+      Some(supportingContent)
+    )
   }
 }

@@ -27,10 +27,9 @@ case object PenalisedProfessionalBodyPage extends QuestionPage[Boolean] {
 
   override def toString: String = "penalisedProfessionalBody"
 
-  override def cleanup(value: Option[Boolean], userAnswers: UserAnswers): Try[UserAnswers] = {
-    value match  {
+  override def cleanup(value: Option[Boolean], userAnswers: UserAnswers): Try[UserAnswers] =
+    value match {
       case Some(false) => userAnswers.remove(PenalisedProfessionalBodyDetailPage)
       case _           => super.cleanup(value, userAnswers)
     }
-  }
 }

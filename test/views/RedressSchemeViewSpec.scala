@@ -49,19 +49,17 @@ class RedressSchemeViewSpec extends ViewBehaviours {
       "contain radio buttons for the value" when {
 
         val doc = asDocument(applyView(form))
-        for (option <- RedressScheme.options) {
+        for (option <- RedressScheme.options)
           assertContainsRadioButton(doc, option.id.value, "value", option.value.value, false)
-        }
 
         "contain supporting content for the question" in {
-          val doc = asDocument(applyView(form))
+          val doc               = asDocument(applyView(form))
           val supportingContent = doc.getElementsContainingOwnText(messages("redressSchemeDetail.content"))
           supportingContent.size mustBe 1
         }
       }
 
       RedressScheme.options.zipWithIndex.foreach { case (option: RadioItem, i: Int) =>
-
         s"rendered with a value of '${option.value.value}'" must {
 
           s"have the '${option.value.value}' radio button selected" in {
@@ -72,13 +70,17 @@ class RedressSchemeViewSpec extends ViewBehaviours {
 
             assertContainsRadioButton(doc, option.id.value, "value", option.value.value, isChecked = true)
 
-            for (unselectedOption <- RedressScheme.options.filterNot(o => o == option)) {
-              assertContainsRadioButton(doc, unselectedOption.id.value, "value", unselectedOption.value.value, isChecked = false)
-            }
+            for (unselectedOption <- RedressScheme.options.filterNot(o => o == option))
+              assertContainsRadioButton(
+                doc,
+                unselectedOption.id.value,
+                "value",
+                unselectedOption.value.value,
+                isChecked = false
+              )
           }
         }
       }
     }
   }
 }
-

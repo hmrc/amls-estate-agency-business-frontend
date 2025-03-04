@@ -38,9 +38,10 @@ class PenalisedProfessionalBodyDetailControllerSpec extends SpecBase with Mockit
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new PenalisedProfessionalBodyDetailFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
-  lazy val penalisedProfessionalBodyDetailRoute = routes.PenalisedProfessionalBodyDetailController.onPageLoad(NormalMode).url
+  lazy val penalisedProfessionalBodyDetailRoute =
+    routes.PenalisedProfessionalBodyDetailController.onPageLoad(NormalMode).url
 
   "PenalisedProfessionalBodyDetail Controller" must {
 

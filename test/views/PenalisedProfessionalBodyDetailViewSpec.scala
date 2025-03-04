@@ -40,6 +40,11 @@ class PenalisedProfessionalBodyDetailViewSpec extends StringViewBehaviours {
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like textareaPage(form, applyView, messageKeyPrefix, controllers.routes.PenalisedProfessionalBodyDetailController.onSubmit(NormalMode).url)
+    behave like textareaPage(
+      form,
+      applyView,
+      messageKeyPrefix,
+      controllers.routes.PenalisedProfessionalBodyDetailController.onSubmit(NormalMode).url
+    )
   }
 }

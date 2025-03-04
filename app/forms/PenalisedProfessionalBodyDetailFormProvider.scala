@@ -30,6 +30,7 @@ class PenalisedProfessionalBodyDetailFormProvider @Inject() extends Mappings {
       "value" -> text("penalisedProfessionalBodyDetail.error.required")
         .verifying(
           maxLength(maxLength, "penalisedProfessionalBodyDetail.error.length"),
-          basicPunctuation("penalisedProfessionalBodyDetail.error.punctuation"))
+          basicPunctuation("penalisedProfessionalBodyDetail.error.punctuation")
+        )
     )
 }

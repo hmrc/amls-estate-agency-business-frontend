@@ -41,7 +41,7 @@ class RedressSchemeControllerSpec extends SpecBase with MockitoSugar {
   lazy val redressSchemeRoute = routes.RedressSchemeController.onPageLoad(NormalMode).url
 
   val formProvider = new RedressSchemeFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   "RedressScheme Controller" must {
 

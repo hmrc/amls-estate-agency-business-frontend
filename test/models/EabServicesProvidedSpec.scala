@@ -24,7 +24,12 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.libs.json.{JsError, JsString, Json}
 
-class EabServicesProvidedSpec extends AnyWordSpec with Matchers with ScalaCheckPropertyChecks with OptionValues with ModelGenerators {
+class EabServicesProvidedSpec
+    extends AnyWordSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with OptionValues
+    with ModelGenerators {
 
   "EabServicesProvided" must {
 
@@ -32,10 +37,8 @@ class EabServicesProvidedSpec extends AnyWordSpec with Matchers with ScalaCheckP
 
       val gen = arbitrary[EabServicesProvided]
 
-      forAll(gen) {
-        eabServicesProvided =>
-
-          JsString(eabServicesProvided.toString).validate[EabServicesProvided].asOpt.value mustEqual eabServicesProvided
+      forAll(gen) { eabServicesProvided =>
+        JsString(eabServicesProvided.toString).validate[EabServicesProvided].asOpt.value mustEqual eabServicesProvided
       }
     }
 
@@ -43,10 +46,8 @@ class EabServicesProvidedSpec extends AnyWordSpec with Matchers with ScalaCheckP
 
       val gen = arbitrary[String] suchThat (!EabServicesProvided.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[EabServicesProvided] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[EabServicesProvided] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +55,8 @@ class EabServicesProvidedSpec extends AnyWordSpec with Matchers with ScalaCheckP
 
       val gen = arbitrary[EabServicesProvided]
 
-      forAll(gen) {
-        eabServicesProvided =>
-
-          Json.toJson(eabServicesProvided) mustEqual JsString(eabServicesProvided.toString)
+      forAll(gen) { eabServicesProvided =>
+        Json.toJson(eabServicesProvided) mustEqual JsString(eabServicesProvided.toString)
       }
     }
   }

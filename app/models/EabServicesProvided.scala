@@ -48,17 +48,15 @@ object EabServicesProvided extends Enumerable.Implicits {
     SocialHousingProvision
   )
 
-  def options(implicit messages: Messages): Seq[CheckboxItem] = values.zipWithIndex.map {
-    case (serviceValues, index) =>
-      CheckboxItem(
-        content = Text(messages(s"eabServicesProvided.${serviceValues.toString}")),
-        value = serviceValues.toString,
-        id = Some(s"value_$index"),
-        name = Some(s"value[$index]")
-      )
+  def options(implicit messages: Messages): Seq[CheckboxItem] = values.zipWithIndex.map { case (serviceValues, index) =>
+    CheckboxItem(
+      content = Text(messages(s"eabServicesProvided.${serviceValues.toString}")),
+      value = serviceValues.toString,
+      id = Some(s"value_$index"),
+      name = Some(s"value[$index]")
+    )
   }
 
-      implicit val enumerable: Enumerable[EabServicesProvided] =
-        Enumerable(values.map(v => v.toString -> v): _*)
-  }
-
+  implicit val enumerable: Enumerable[EabServicesProvided] =
+    Enumerable(values.map(v => v.toString -> v): _*)
+}

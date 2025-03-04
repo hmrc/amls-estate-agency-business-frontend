@@ -68,10 +68,8 @@ class DateOfChangeFormProviderSpec extends DateBehaviours {
         "value.year"  -> ""
       )
 
-
-
       val result = form.bind(data)
-      result.errors should contain theSameElementsAs  formError
+      result.errors should contain theSameElementsAs formError
     }
   }
 }

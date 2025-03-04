@@ -24,17 +24,17 @@ import views.html.WhatYouNeedView
 
 import javax.inject.Inject
 
-class WhatYouNeedController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: WhatYouNeedView
-                                     ) extends FrontendBaseController with I18nSupport {
+class WhatYouNeedController @Inject() (
+  override val messagesApi: MessagesApi,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  val controllerComponents: MessagesControllerComponents,
+  view: WhatYouNeedView
+) extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad: Action[AnyContent] = (identify andThen getData) {
-    implicit request =>
-      Ok(view())
+  def onPageLoad: Action[AnyContent] = (identify andThen getData) { implicit request =>
+    Ok(view())
   }
 
 }

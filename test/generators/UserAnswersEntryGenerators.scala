@@ -32,7 +32,8 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
       } yield (page, value)
     }
 
-  implicit lazy val arbitraryClientMoneyProtectionSchemeUserAnswersEntry: Arbitrary[(ClientMoneyProtectionSchemePage.type, JsValue)] =
+  implicit lazy val arbitraryClientMoneyProtectionSchemeUserAnswersEntry
+    : Arbitrary[(ClientMoneyProtectionSchemePage.type, JsValue)] =
     Arbitrary {
       for {
         page  <- arbitrary[ClientMoneyProtectionSchemePage.type]
@@ -48,7 +49,8 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
       } yield (page, value)
     }
 
-  implicit lazy val arbitraryPenalisedProfessionalBodyDetailUserAnswersEntry: Arbitrary[(PenalisedProfessionalBodyDetailPage.type, JsValue)] =
+  implicit lazy val arbitraryPenalisedProfessionalBodyDetailUserAnswersEntry
+    : Arbitrary[(PenalisedProfessionalBodyDetailPage.type, JsValue)] =
     Arbitrary {
       for {
         page  <- arbitrary[PenalisedProfessionalBodyDetailPage.type]
@@ -56,7 +58,8 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
       } yield (page, value)
     }
 
-  implicit lazy val arbitraryPenalisedProfessionalBodyUserAnswersEntry: Arbitrary[(PenalisedProfessionalBodyPage.type, JsValue)] =
+  implicit lazy val arbitraryPenalisedProfessionalBodyUserAnswersEntry
+    : Arbitrary[(PenalisedProfessionalBodyPage.type, JsValue)] =
     Arbitrary {
       for {
         page  <- arbitrary[PenalisedProfessionalBodyPage.type]
@@ -64,7 +67,8 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
       } yield (page, value)
     }
 
-  implicit lazy val arbitraryPenalisedEstateAgentsActDetailUserAnswersEntry: Arbitrary[(PenalisedEstateAgentsActDetailPage.type, JsValue)] =
+  implicit lazy val arbitraryPenalisedEstateAgentsActDetailUserAnswersEntry
+    : Arbitrary[(PenalisedEstateAgentsActDetailPage.type, JsValue)] =
     Arbitrary {
       for {
         page  <- arbitrary[PenalisedEstateAgentsActDetailPage.type]
@@ -72,7 +76,8 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
       } yield (page, value)
     }
 
-  implicit lazy val arbitraryPenalisedEstateAgentsActUserAnswersEntry: Arbitrary[(PenalisedEstateAgentsActPage.type, JsValue)] =
+  implicit lazy val arbitraryPenalisedEstateAgentsActUserAnswersEntry
+    : Arbitrary[(PenalisedEstateAgentsActPage.type, JsValue)] =
     Arbitrary {
       for {
         page  <- arbitrary[PenalisedEstateAgentsActPage.type]

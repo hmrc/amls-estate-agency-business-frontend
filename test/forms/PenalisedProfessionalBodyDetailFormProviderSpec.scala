@@ -21,10 +21,10 @@ import play.api.data.FormError
 
 class PenalisedProfessionalBodyDetailFormProviderSpec extends StringFieldBehaviours {
 
-  val requiredKey = "penalisedProfessionalBodyDetail.error.required"
-  val lengthKey = "penalisedProfessionalBodyDetail.error.length"
+  val requiredKey    = "penalisedProfessionalBodyDetail.error.required"
+  val lengthKey      = "penalisedProfessionalBodyDetail.error.length"
   val punctuationKey = "penalisedProfessionalBodyDetail.error.punctuation"
-  val maxLength = 255
+  val maxLength      = 255
 
   val form = new PenalisedProfessionalBodyDetailFormProvider()()
 
