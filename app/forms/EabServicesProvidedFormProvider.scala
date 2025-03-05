@@ -27,6 +27,7 @@ class EabServicesProvidedFormProvider @Inject() extends Mappings {
 
   def apply(): Form[Seq[EabServicesProvided]] =
     Form(
-      "value" -> seq(enumerable[EabServicesProvided]("eabServicesProvided.error.required")).verifying(nonEmptySeq("eabServicesProvided.error.required"))
+      "value" -> seq(enumerable[EabServicesProvided]("eabServicesProvided.error.required"))
+        .verifying(nonEmptySeq("eabServicesProvided.error.required"))
     )
 }

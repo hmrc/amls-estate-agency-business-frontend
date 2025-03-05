@@ -33,7 +33,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class IdentifierActionSpec extends SpecBase {
 
   class Harness(authAction: IdentifierAction) {
-    def onPageLoad() = authAction { _ => Results.Ok }
+    def onPageLoad() = authAction(_ => Results.Ok)
   }
 
   "Auth Action" when {
@@ -46,9 +46,13 @@ class IdentifierActionSpec extends SpecBase {
 
         val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
 
-        val authAction = new AuthenticatedIdentifierAction(new FakeFailingAuthConnector(new MissingBearerToken), frontendAppConfig, bodyParsers)
+        val authAction = new AuthenticatedIdentifierAction(
+          new FakeFailingAuthConnector(new MissingBearerToken),
+          frontendAppConfig,
+          bodyParsers
+        )
         val controller = new Harness(authAction)
-        val result = controller.onPageLoad()(fakeRequest)
+        val result     = controller.onPageLoad()(fakeRequest)
 
         status(result) mustBe SEE_OTHER
 
@@ -64,9 +68,13 @@ class IdentifierActionSpec extends SpecBase {
 
         val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
 
-        val authAction = new AuthenticatedIdentifierAction(new FakeFailingAuthConnector(new BearerTokenExpired), frontendAppConfig, bodyParsers)
+        val authAction = new AuthenticatedIdentifierAction(
+          new FakeFailingAuthConnector(new BearerTokenExpired),
+          frontendAppConfig,
+          bodyParsers
+        )
         val controller = new Harness(authAction)
-        val result = controller.onPageLoad()(fakeRequest)
+        val result     = controller.onPageLoad()(fakeRequest)
 
         status(result) mustBe SEE_OTHER
 
@@ -82,9 +90,13 @@ class IdentifierActionSpec extends SpecBase {
 
         val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
 
-        val authAction = new AuthenticatedIdentifierAction(new FakeFailingAuthConnector(new InsufficientEnrolments), frontendAppConfig, bodyParsers)
+        val authAction = new AuthenticatedIdentifierAction(
+          new FakeFailingAuthConnector(new InsufficientEnrolments),
+          frontendAppConfig,
+          bodyParsers
+        )
         val controller = new Harness(authAction)
-        val result = controller.onPageLoad()(fakeRequest)
+        val result     = controller.onPageLoad()(fakeRequest)
 
         status(result) mustBe SEE_OTHER
 
@@ -100,9 +112,13 @@ class IdentifierActionSpec extends SpecBase {
 
         val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
 
-        val authAction = new AuthenticatedIdentifierAction(new FakeFailingAuthConnector(new InsufficientConfidenceLevel), frontendAppConfig, bodyParsers)
+        val authAction = new AuthenticatedIdentifierAction(
+          new FakeFailingAuthConnector(new InsufficientConfidenceLevel),
+          frontendAppConfig,
+          bodyParsers
+        )
         val controller = new Harness(authAction)
-        val result = controller.onPageLoad()(fakeRequest)
+        val result     = controller.onPageLoad()(fakeRequest)
 
         status(result) mustBe SEE_OTHER
 
@@ -118,9 +134,13 @@ class IdentifierActionSpec extends SpecBase {
 
         val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
 
-        val authAction = new AuthenticatedIdentifierAction(new FakeFailingAuthConnector(new UnsupportedAuthProvider), frontendAppConfig, bodyParsers)
+        val authAction = new AuthenticatedIdentifierAction(
+          new FakeFailingAuthConnector(new UnsupportedAuthProvider),
+          frontendAppConfig,
+          bodyParsers
+        )
         val controller = new Harness(authAction)
-        val result = controller.onPageLoad()(fakeRequest)
+        val result     = controller.onPageLoad()(fakeRequest)
 
         status(result) mustBe SEE_OTHER
 
@@ -136,9 +156,13 @@ class IdentifierActionSpec extends SpecBase {
 
         val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
 
-        val authAction = new AuthenticatedIdentifierAction(new FakeFailingAuthConnector(new UnsupportedAffinityGroup), frontendAppConfig, bodyParsers)
+        val authAction = new AuthenticatedIdentifierAction(
+          new FakeFailingAuthConnector(new UnsupportedAffinityGroup),
+          frontendAppConfig,
+          bodyParsers
+        )
         val controller = new Harness(authAction)
-        val result = controller.onPageLoad()(fakeRequest)
+        val result     = controller.onPageLoad()(fakeRequest)
 
         status(result) mustBe SEE_OTHER
 
@@ -154,9 +178,13 @@ class IdentifierActionSpec extends SpecBase {
 
         val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
 
-        val authAction = new AuthenticatedIdentifierAction(new FakeFailingAuthConnector(new UnsupportedCredentialRole), frontendAppConfig, bodyParsers)
+        val authAction = new AuthenticatedIdentifierAction(
+          new FakeFailingAuthConnector(new UnsupportedCredentialRole),
+          frontendAppConfig,
+          bodyParsers
+        )
         val controller = new Harness(authAction)
-        val result = controller.onPageLoad()(fakeRequest)
+        val result     = controller.onPageLoad()(fakeRequest)
 
         status(result) mustBe SEE_OTHER
 
@@ -171,9 +199,10 @@ class IdentifierActionSpec extends SpecBase {
 
           val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
 
-          val authAction = new AuthenticatedIdentifierAction(fakeAuthConnector(orgAuthRetrievals), frontendAppConfig, bodyParsers)
+          val authAction =
+            new AuthenticatedIdentifierAction(fakeAuthConnector(orgAuthRetrievals), frontendAppConfig, bodyParsers)
           val controller = new Harness(authAction)
-          val result = controller.onPageLoad()(fakeRequest)
+          val result     = controller.onPageLoad()(fakeRequest)
 
           status(result) mustBe OK
         }
@@ -187,9 +216,10 @@ class IdentifierActionSpec extends SpecBase {
 
           val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
 
-          val authAction = new AuthenticatedIdentifierAction(fakeAuthConnector(agentSaAuthRetrievals), frontendAppConfig, bodyParsers)
+          val authAction =
+            new AuthenticatedIdentifierAction(fakeAuthConnector(agentSaAuthRetrievals), frontendAppConfig, bodyParsers)
           val controller = new Harness(authAction)
-          val result = controller.onPageLoad()(fakeRequest)
+          val result     = controller.onPageLoad()(fakeRequest)
 
           status(result) mustBe OK
         }
@@ -201,9 +231,10 @@ class IdentifierActionSpec extends SpecBase {
 
           val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
 
-          val authAction = new AuthenticatedIdentifierAction(fakeAuthConnector(agentCtAuthRetrievals), frontendAppConfig, bodyParsers)
+          val authAction =
+            new AuthenticatedIdentifierAction(fakeAuthConnector(agentCtAuthRetrievals), frontendAppConfig, bodyParsers)
           val controller = new Harness(authAction)
-          val result = controller.onPageLoad()(fakeRequest)
+          val result     = controller.onPageLoad()(fakeRequest)
 
           status(result) mustBe OK
         }
@@ -215,9 +246,10 @@ class IdentifierActionSpec extends SpecBase {
 
           val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
 
-          val authAction = new AuthenticatedIdentifierAction(fakeAuthConnector(emptyAuthRetrievals), frontendAppConfig, bodyParsers)
+          val authAction =
+            new AuthenticatedIdentifierAction(fakeAuthConnector(emptyAuthRetrievals), frontendAppConfig, bodyParsers)
           val controller = new Harness(authAction)
-          val result = controller.onPageLoad()(fakeRequest)
+          val result     = controller.onPageLoad()(fakeRequest)
 
           status(result) mustBe SEE_OTHER
 
@@ -231,9 +263,13 @@ class IdentifierActionSpec extends SpecBase {
 
           val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
 
-          val authAction = new AuthenticatedIdentifierAction(new FakeFailingAuthConnector(new enrolmentNotFound), frontendAppConfig, bodyParsers)
+          val authAction = new AuthenticatedIdentifierAction(
+            new FakeFailingAuthConnector(new enrolmentNotFound),
+            frontendAppConfig,
+            bodyParsers
+          )
           val controller = new Harness(authAction)
-          val result = controller.onPageLoad()(fakeRequest)
+          val result     = controller.onPageLoad()(fakeRequest)
 
           status(result) mustBe SEE_OTHER
 
@@ -250,9 +286,13 @@ class IdentifierActionSpec extends SpecBase {
 
           val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
 
-          val authAction = new AuthenticatedIdentifierAction(new FakeFailingAuthConnector(new OtherException()), frontendAppConfig, bodyParsers)
+          val authAction = new AuthenticatedIdentifierAction(
+            new FakeFailingAuthConnector(new OtherException()),
+            frontendAppConfig,
+            bodyParsers
+          )
           val controller = new Harness(authAction)
-          val result = controller.onPageLoad()(fakeRequest)
+          val result     = controller.onPageLoad()(fakeRequest)
 
           status(result) mustBe SEE_OTHER
 
@@ -263,48 +303,58 @@ class IdentifierActionSpec extends SpecBase {
   }
 }
 
-class FakeFailingAuthConnector @Inject()(exceptionToReturn: Throwable) extends AuthConnector {
+class FakeFailingAuthConnector @Inject() (exceptionToReturn: Throwable) extends AuthConnector {
   val serviceUrl: String = ""
 
-  override def authorise[A](predicate: Predicate, retrieval: Retrieval[A])(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[A] =
+  override def authorise[A](predicate: Predicate, retrieval: Retrieval[A])(implicit
+    hc: HeaderCarrier,
+    ec: ExecutionContext
+  ): Future[A] =
     Future.failed(exceptionToReturn)
 }
 
 object IdentifierActionSpec {
   private def fakeAuthConnector(stubbedRetrievalResult: Future[_]) = new AuthConnector {
 
-    def authorise[A](predicate: Predicate, retrieval: Retrieval[A])
-                    (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[A] = {
+    def authorise[A](predicate: Predicate, retrieval: Retrieval[A])(implicit
+      hc: HeaderCarrier,
+      ec: ExecutionContext
+    ): Future[A] =
       stubbedRetrievalResult.asInstanceOf[Future[A]]
-    }
   }
 
   val amlsRegistrationNumber = "XAML0000123456789"
 
-  val enrolments = Enrolments(Set(
-    Enrolment("HMCE-VATVAR-ORG", Seq(EnrolmentIdentifier("VATRegNo", "000000000")), "Activated"),
-    Enrolment("HMRC-MLR-ORG", Seq(EnrolmentIdentifier("MLRRefNumber", amlsRegistrationNumber)), "Activated")
-  ))
+  val enrolments                = Enrolments(
+    Set(
+      Enrolment("HMCE-VATVAR-ORG", Seq(EnrolmentIdentifier("VATRegNo", "000000000")), "Activated"),
+      Enrolment("HMRC-MLR-ORG", Seq(EnrolmentIdentifier("MLRRefNumber", amlsRegistrationNumber)), "Activated")
+    )
+  )
   private def orgAuthRetrievals = Future.successful(
-    new ~ (new ~(enrolments, Some(Credentials("gg", "cred-1234"))), Some(AffinityGroup.Organisation))
+    new ~(new ~(enrolments, Some(Credentials("gg", "cred-1234"))), Some(AffinityGroup.Organisation))
   )
 
-  val enrolmentsSa = Enrolments(Set(
-    Enrolment("HMCE-VATVAR-ORG", Seq(EnrolmentIdentifier("VATRegNo", "000000000")), "Activated"),
-    Enrolment("HMRC-MLR-ORG", Seq(EnrolmentIdentifier("MLRRefNumber", amlsRegistrationNumber)), "Activated"),
-    Enrolment("IR-SA", Seq(EnrolmentIdentifier("UTR", "saRef")), "Activated")
-  ))
+  val enrolmentsSa                  = Enrolments(
+    Set(
+      Enrolment("HMCE-VATVAR-ORG", Seq(EnrolmentIdentifier("VATRegNo", "000000000")), "Activated"),
+      Enrolment("HMRC-MLR-ORG", Seq(EnrolmentIdentifier("MLRRefNumber", amlsRegistrationNumber)), "Activated"),
+      Enrolment("IR-SA", Seq(EnrolmentIdentifier("UTR", "saRef")), "Activated")
+    )
+  )
   private def agentSaAuthRetrievals = Future.successful(
-    new ~ (new~(enrolmentsSa, Some(Credentials("gg", "cred-1234"))), Some(AffinityGroup.Agent))
+    new ~(new ~(enrolmentsSa, Some(Credentials("gg", "cred-1234"))), Some(AffinityGroup.Agent))
   )
 
-  val enrolmentsCt = Enrolments(Set(
-    Enrolment("HMCE-VATVAR-ORG", Seq(EnrolmentIdentifier("VATRegNo", "000000000")), "Activated"),
-    Enrolment("HMRC-MLR-ORG", Seq(EnrolmentIdentifier("MLRRefNumber", amlsRegistrationNumber)), "Activated"),
-    Enrolment("IR-CT", Seq(EnrolmentIdentifier("UTR", "ctRef")), "Activated")
-  ))
+  val enrolmentsCt                  = Enrolments(
+    Set(
+      Enrolment("HMCE-VATVAR-ORG", Seq(EnrolmentIdentifier("VATRegNo", "000000000")), "Activated"),
+      Enrolment("HMRC-MLR-ORG", Seq(EnrolmentIdentifier("MLRRefNumber", amlsRegistrationNumber)), "Activated"),
+      Enrolment("IR-CT", Seq(EnrolmentIdentifier("UTR", "ctRef")), "Activated")
+    )
+  )
   private def agentCtAuthRetrievals = Future.successful(
-    new ~ (new ~(enrolmentsCt, Some(Credentials("gg", "cred-1234"))), Some(AffinityGroup.Agent))
+    new ~(new ~(enrolmentsCt, Some(Credentials("gg", "cred-1234"))), Some(AffinityGroup.Agent))
   )
 
   private def emptyAuthRetrievals = Future.successful(

@@ -26,13 +26,13 @@ class EabServicesProvidedFormProviderSpec extends CheckboxFieldBehaviours {
 
   ".value" must {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "eabServicesProvided.error.required"
 
     behave like checkboxField[EabServicesProvided](
       form,
       fieldName,
-      validValues  = EabServicesProvided.values,
+      validValues = EabServicesProvided.values,
       invalidError = FormError(s"$fieldName[0]", "error.invalid")
     )
 

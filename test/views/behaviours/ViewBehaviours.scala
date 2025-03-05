@@ -21,17 +21,14 @@ import views.ViewSpecBase
 
 trait ViewBehaviours extends ViewSpecBase {
 
-  def normalPage(view: HtmlFormat.Appendable,
-                 messageKeyPrefix: String,
-                 expectedGuidanceKeys: String*): Unit = {
-
+  def normalPage(view: HtmlFormat.Appendable, messageKeyPrefix: String, expectedGuidanceKeys: String*): Unit =
     "behave like a normal page" when {
 
       "rendered" must {
 
         "have the correct banner title" in {
 
-          val doc = asDocument(view)
+          val doc  = asDocument(view)
           val span = doc.getElementsByClass("govuk-header__service-name").first()
           span.html().contains(messages(amls))
         }
@@ -52,15 +49,12 @@ trait ViewBehaviours extends ViewSpecBase {
         }
       }
     }
-  }
 
-  def pageWithBackLink(view: HtmlFormat.Appendable): Unit = {
-
+  def pageWithBackLink(view: HtmlFormat.Appendable): Unit =
     "behave like a page with a back link" must {
       "have a back link" in {
         val doc = asDocument(view)
         assertRenderedByClass(doc, "govuk-back-link")
       }
     }
-  }
 }

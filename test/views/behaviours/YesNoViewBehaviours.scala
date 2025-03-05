@@ -21,19 +21,20 @@ import play.twirl.api.HtmlFormat
 
 trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
 
-  def yesNoPage(form: Form[Boolean],
-                createView: Form[Boolean] => HtmlFormat.Appendable,
-                messageKeyPrefix: String,
-                expectedFormAction: String,
-                expectedSupportingContent: Option[String]): Unit = {
-
+  def yesNoPage(
+    form: Form[Boolean],
+    createView: Form[Boolean] => HtmlFormat.Appendable,
+    messageKeyPrefix: String,
+    expectedFormAction: String,
+    expectedSupportingContent: Option[String]
+  ): Unit =
     "behave like a page with a Yes/No question" when {
 
       "rendered" must {
 
         "contain supporting content for the question if provided" in {
-          if(expectedSupportingContent.nonEmpty) {
-            val doc = asDocument(createView(form))
+          if (expectedSupportingContent.nonEmpty) {
+            val doc               = asDocument(createView(form))
             val supportingContent = doc.getElementsContainingOwnText(messages(expectedSupportingContent.get))
             supportingContent.size mustBe 1
           }
@@ -80,7 +81,7 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
 
         "show an error associated with the value field" in {
 
-          val doc = asDocument(createView(form.withError(error)))
+          val doc       = asDocument(createView(form.withError(error)))
           val errorSpan = doc.getElementById("value-error")
           errorSpan.text mustBe (messages("error.browser.title.prefix") + " " + messages(errorMessage))
           doc.getElementsByTag("fieldset").first.attr("aria-describedby") contains errorSpan.attr("id")
@@ -89,12 +90,16 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
         "show an error prefix in the browser title" in {
 
           val doc = asDocument(createView(form.withError(error)))
-          assertEqualsValue(doc, "title", s"""${messages("error.browser.title.prefix")} ${messages(s"$messageKeyPrefix.title")} - Estate agency business - Manage your anti-money laundering supervision - GOV.UK""")
+          assertEqualsValue(
+            doc,
+            "title",
+            s"""${messages("error.browser.title.prefix")} ${messages(
+                s"$messageKeyPrefix.title"
+              )} - Estate agency business - Manage your anti-money laundering supervision - GOV.UK"""
+          )
         }
       }
     }
-  }
-
 
   def answeredYesNoPage(createView: Form[Boolean] => HtmlFormat.Appendable, answer: Boolean): Unit = {
 

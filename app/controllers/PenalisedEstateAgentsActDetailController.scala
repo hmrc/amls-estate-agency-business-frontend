@@ -30,43 +30,42 @@ import views.html.PenalisedEstateAgentsActDetailView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class PenalisedEstateAgentsActDetailController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        sessionRepository: AMLSFrontEndSessionRepository,
-                                        navigator: Navigator,
-                                        identify: IdentifierAction,
-                                        getData: DataRetrievalAction,
-                                        requireData: DataRequiredAction,
-                                        formProvider: PenalisedEstateAgentsActDetailFormProvider,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: PenalisedEstateAgentsActDetailView
-                                    )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class PenalisedEstateAgentsActDetailController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionRepository: AMLSFrontEndSessionRepository,
+  navigator: Navigator,
+  identify: IdentifierAction,
+  getData: DataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: PenalisedEstateAgentsActDetailFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: PenalisedEstateAgentsActDetailView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) { implicit request =>
+    val preparedForm = request.userAnswers.get(PenalisedEstateAgentsActDetailPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(PenalisedEstateAgentsActDetailPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, mode))
+    Ok(view(preparedForm, mode))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
-
-        value =>
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(PenalisedEstateAgentsActDetailPage, value))
-            _              <- sessionRepository.set(request.credId, updatedAnswers)
-          } yield Redirect(navigator.nextPage(PenalisedEstateAgentsActDetailPage, mode, updatedAnswers))
-      )
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode))),
+          value =>
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(PenalisedEstateAgentsActDetailPage, value))
+              _              <- sessionRepository.set(request.credId, updatedAnswers)
+            } yield Redirect(navigator.nextPage(PenalisedEstateAgentsActDetailPage, mode, updatedAnswers))
+        )
   }
 }

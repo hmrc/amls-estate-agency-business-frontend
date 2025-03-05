@@ -27,12 +27,11 @@ import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse, StringContextOps}
 import uk.gov.hmrc.http.HttpReads.Implicits.{readFromJson, readRaw}
 import uk.gov.hmrc.http.client.HttpClientV2
 
-
 import scala.concurrent.{ExecutionContext, Future}
 
-class AMLSConnector @Inject()(config: Configuration,
-                              implicit val httpClientV2: HttpClientV2)
-                             (implicit ec: ExecutionContext) extends Logging {
+class AMLSConnector @Inject() (config: Configuration, implicit val httpClientV2: HttpClientV2)(implicit
+  ec: ExecutionContext
+) extends Logging {
 
   private val baseUrl                 = config.get[Service]("microservice.services.amls-frontend")
   private[connectors] val url: String = s"$baseUrl/eab"
@@ -44,22 +43,24 @@ class AMLSConnector @Inject()(config: Configuration,
   }
 
   def set(credId: String, userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[HttpResponse] = {
-    val putUrl = s"$url/set/$credId"
+    val putUrl                     = s"$url/set/$credId"
     val hcWithExtra: HeaderCarrier = hc.withExtraHeaders("Csrf-Token" -> "nocheck")
 
-    httpClientV2.put(url"$putUrl")(hcWithExtra)
+    httpClientV2
+      .put(url"$putUrl")(hcWithExtra)
       .withBody(Json.toJson(userAnswers))
       .execute[HttpResponse]
   }
 
-  def requireDateOfChange(credId: String,
-                          submissionStatus: String,
-                          userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[DateOfChangeResponse] = {
+  def requireDateOfChange(credId: String, submissionStatus: String, userAnswers: UserAnswers)(implicit
+    hc: HeaderCarrier
+  ): Future[DateOfChangeResponse] = {
 
-    val postUrl = s"$url/require-date-change/$credId/$submissionStatus"
+    val postUrl                    = s"$url/require-date-change/$credId/$submissionStatus"
     val hcWithExtra: HeaderCarrier = hc.withExtraHeaders("Csrf-Token" -> "nocheck")
 
-    httpClientV2.post(url"$postUrl")(hcWithExtra)
+    httpClientV2
+      .post(url"$postUrl")(hcWithExtra)
       .withBody(Json.toJson(userAnswers))
       .execute[DateOfChangeResponse]
   }

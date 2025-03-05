@@ -23,24 +23,20 @@ import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class ControllerHelper @Inject()(amlsConnector: AMLSConnector,
-                                 amlsBackEndConnector: AMLSBackEndConnector) {
+class ControllerHelper @Inject() (amlsConnector: AMLSConnector, amlsBackEndConnector: AMLSBackEndConnector) {
 
-  def getApplicationStatus(amlsRefNo: Option[String],
-                           accountTypeId: (String, String))
-                          (implicit ec: ExecutionContext, hc: HeaderCarrier): Future[String] = {
-
+  def getApplicationStatus(amlsRefNo: Option[String], accountTypeId: (String, String))(implicit
+    ec: ExecutionContext,
+    hc: HeaderCarrier
+  ): Future[String] =
     amlsRefNo match {
       case Some(number) => amlsBackEndConnector.status(number, accountTypeId).map(response => response.formBundleStatus)
       case None         => Future.successful("NotYetSubmitted")
     }
-  }
 
-  def requireDateOfChange(credId: String,
-                          userAnswers: UserAnswers,
-                          status: String)
-                         (implicit ec: ExecutionContext, hc: HeaderCarrier) = {
-
+  def requireDateOfChange(credId: String, userAnswers: UserAnswers, status: String)(implicit
+    ec: ExecutionContext,
+    hc: HeaderCarrier
+  ) =
     amlsConnector.requireDateOfChange(credId, status, userAnswers).map(r => r.requireDateOfChange)
-  }
 }

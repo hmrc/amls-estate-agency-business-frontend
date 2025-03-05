@@ -23,7 +23,6 @@ import play.twirl.api.HtmlFormat
 import views.behaviours.CheckboxViewBehaviours
 import views.html.EabServicesProvidedView
 
-
 class EabServicesProvidedViewSpec extends CheckboxViewBehaviours[EabServicesProvided] {
 
   val messageKeyPrefix = "eabServicesProvided"

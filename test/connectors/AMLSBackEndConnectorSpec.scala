@@ -32,15 +32,15 @@ class AMLSBackEndConnectorSpec extends SpecBase with MockitoSugar {
 
   implicit val hc: HeaderCarrier = HeaderCarrier()
 
-  val amlsRefNo            = "refNo"
-  val accountTypeId        = ("foo", "bar")
-  val accountType          = accountTypeId._1
-  val accountId            = accountTypeId._2
-  val statusResponse       = mock[ReadStatusResponse]
+  val amlsRefNo      = "refNo"
+  val accountTypeId  = ("foo", "bar")
+  val accountType    = accountTypeId._1
+  val accountId      = accountTypeId._2
+  val statusResponse = mock[ReadStatusResponse]
 
-  val mockHttpClient: HttpClientV2 = mock[HttpClientV2]
+  val mockHttpClient: HttpClientV2   = mock[HttpClientV2]
   val requestBuilder: RequestBuilder = mock[RequestBuilder]
-  val amlsBackEndConnector = new AMLSBackEndConnector(config = app.injector.instanceOf[Configuration], mockHttpClient)
+  val amlsBackEndConnector           = new AMLSBackEndConnector(config = app.injector.instanceOf[Configuration], mockHttpClient)
 
   "status" must {
     "successfully return a status" in {

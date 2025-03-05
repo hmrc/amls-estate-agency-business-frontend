@@ -41,7 +41,7 @@ class EabServicesProvidedControllerSpec extends SpecBase with MockitoSugar {
   lazy val eabServicesProvidedRoute = routes.EabServicesProvidedController.onPageLoad(NormalMode).url
 
   val formProvider = new EabServicesProvidedFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   "EabServicesProvided Controller" must {
 
@@ -86,11 +86,15 @@ class EabServicesProvidedControllerSpec extends SpecBase with MockitoSugar {
     "redirect to the right page when valid data is submitted and date of change required" in {
 
       val mockSessionRepository = mock[AMLSFrontEndSessionRepository]
-      val mockControllerHelper = mock[ControllerHelper]
+      val mockControllerHelper  = mock[ControllerHelper]
 
       when(mockSessionRepository.set(any(), any())(any())) thenReturn Future.successful(true)
-      when(mockControllerHelper.getApplicationStatus(any(), any())(any(), any())) thenReturn Future.successful("Approved")
-      when(mockControllerHelper.requireDateOfChange(any(), any(), any())(any(), any())) thenReturn Future.successful(true)
+      when(mockControllerHelper.getApplicationStatus(any(), any())(any(), any())) thenReturn Future.successful(
+        "Approved"
+      )
+      when(mockControllerHelper.requireDateOfChange(any(), any(), any())(any(), any())) thenReturn Future.successful(
+        true
+      )
 
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
@@ -117,7 +121,7 @@ class EabServicesProvidedControllerSpec extends SpecBase with MockitoSugar {
     "redirect to the right page when valid data is submitted and date of change is not required" in {
 
       val mockSessionRepository = mock[AMLSFrontEndSessionRepository]
-      val mockControllerHelper = mock[ControllerHelper]
+      val mockControllerHelper  = mock[ControllerHelper]
 
       when(mockSessionRepository.set(any(), any())(any())) thenReturn Future.successful(true)
 

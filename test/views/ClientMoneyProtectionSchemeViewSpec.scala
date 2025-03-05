@@ -40,6 +40,12 @@ class ClientMoneyProtectionSchemeViewSpec extends YesNoViewBehaviours {
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like yesNoPage(form, applyView, messageKeyPrefix, controllers.routes.ClientMoneyProtectionSchemeController.onSubmit(NormalMode).url, None)
+    behave like yesNoPage(
+      form,
+      applyView,
+      messageKeyPrefix,
+      controllers.routes.ClientMoneyProtectionSchemeController.onSubmit(NormalMode).url,
+      None
+    )
   }
 }

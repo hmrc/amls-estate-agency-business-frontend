@@ -38,7 +38,7 @@ class PenalisedProfessionalBodyControllerSpec extends SpecBase with MockitoSugar
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new PenalisedProfessionalBodyFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val penalisedProfessionalBodyRoute = routes.PenalisedProfessionalBodyController.onPageLoad(NormalMode).url
 

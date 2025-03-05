@@ -36,104 +36,103 @@ class CheckYourAnswersHelper(userAnswers: UserAnswers)(implicit messages: Messag
     penalisedProfessionalBodyDetail
   ).flatten
 
-    def clientMoneyProtectionScheme: Option[SummaryListRow] = userAnswers.get(ClientMoneyProtectionSchemePage) map {
-      x =>
-        val msg = "clientMoneyProtectionScheme.checkYourAnswersLabel"
-        SummaryListRow(
-          key = Key(Text(messages(msg))),
-          value = Value(yesOrNo(x)),
-          actions = withChangeLink(
-            routes.ClientMoneyProtectionSchemeController.onPageLoad(CheckMode).url,
-            msg
-          )
-        )
-    }
+  def clientMoneyProtectionScheme: Option[SummaryListRow] = userAnswers.get(ClientMoneyProtectionSchemePage) map { x =>
+    val msg = "clientMoneyProtectionScheme.checkYourAnswersLabel"
+    SummaryListRow(
+      key = Key(Text(messages(msg))),
+      value = Value(yesOrNo(x)),
+      actions = withChangeLink(
+        routes.ClientMoneyProtectionSchemeController.onPageLoad(CheckMode).url,
+        msg
+      )
+    )
+  }
 
-    def redressScheme: Option[SummaryListRow] = userAnswers.get(RedressSchemePage) map {
-      x =>
-        val msg = "redressScheme.checkYourAnswersLabel"
-        SummaryListRow(
-          key = Key(Text(messages(msg))),
-          value = Value(Text(messages(s"redressScheme.$x"))),
-          actions = withChangeLink(
-            routes.RedressSchemeController.onPageLoad(CheckMode).url,
-            msg
-          )
-        )
-    }
+  def redressScheme: Option[SummaryListRow] = userAnswers.get(RedressSchemePage) map { x =>
+    val msg = "redressScheme.checkYourAnswersLabel"
+    SummaryListRow(
+      key = Key(Text(messages(msg))),
+      value = Value(Text(messages(s"redressScheme.$x"))),
+      actions = withChangeLink(
+        routes.RedressSchemeController.onPageLoad(CheckMode).url,
+        msg
+      )
+    )
+  }
 
-    def penalisedProfessionalBodyDetail: Option[SummaryListRow] = userAnswers.get(PenalisedProfessionalBodyDetailPage) map {
-      x =>
-        val msg = "penalisedProfessionalBodyDetail.checkYourAnswersLabel"
-        SummaryListRow(
-          key = Key(Text(messages(msg))),
-          value = Value(Text(x)),
-          actions = withChangeLink(
-            routes.PenalisedProfessionalBodyDetailController.onPageLoad(CheckMode).url,
-            msg
-          )
-        )
-    }
-
-    def penalisedProfessionalBody: Option[SummaryListRow] = userAnswers.get(PenalisedProfessionalBodyPage) map {
-      x =>
-        val msg = "penalisedProfessionalBody.checkYourAnswersLabel"
-        SummaryListRow(
-          key = Key(Text(messages(msg))),
-          value = Value(yesOrNo(x)),
-          actions = withChangeLink(
-            routes.PenalisedProfessionalBodyController.onPageLoad(CheckMode).url,
-            msg
-          )
-        )
-    }
-
-    def penalisedEstateAgentsActDetail: Option[SummaryListRow] = userAnswers.get(PenalisedEstateAgentsActDetailPage) map {
-      x =>
-        val msg = "penalisedEstateAgentsActDetail.checkYourAnswersLabel"
-        SummaryListRow(
-          key = Key(Text(messages(msg))),
-          value = Value(Text(x)),
-          actions = withChangeLink(
-            routes.PenalisedEstateAgentsActDetailController.onPageLoad(CheckMode).url,
-            msg
-          )
-        )
-    }
-
-    def penalisedEstateAgentsAct: Option[SummaryListRow] = userAnswers.get(PenalisedEstateAgentsActPage) map {
-      x =>
-        val msg = "penalisedEstateAgentsAct.checkYourAnswersLabel"
-        SummaryListRow(
-          key = Key(Text(messages(msg))),
-          value = Value(yesOrNo(x)),
-          actions = withChangeLink(
-            routes.PenalisedEstateAgentsActController.onPageLoad(CheckMode).url,
-            msg
-          )
-        )
-    }
-
-  def eabServicesProvided: Option[SummaryListRow] = userAnswers.get(EabServicesProvidedPage) map {
-    x =>
-      val valueRow = if (x.size == 1) {
-        Value(Text(messages(s"eabServicesProvided.${x.head}")))
-      } else {
-        Value(HtmlContent(
-          "<ul class=\"govuk-list govuk-list--bullet\">" + x.map(value => "<li>" + messages(s"eabServicesProvided.$value") + "</li>").mkString + "</ul>"
-        ))
-      }
-
-      val msg = "eabServicesProvided.checkYourAnswersLabel"
-
+  def penalisedProfessionalBodyDetail: Option[SummaryListRow] =
+    userAnswers.get(PenalisedProfessionalBodyDetailPage) map { x =>
+      val msg = "penalisedProfessionalBodyDetail.checkYourAnswersLabel"
       SummaryListRow(
         key = Key(Text(messages(msg))),
-        value = valueRow,
+        value = Value(Text(x)),
         actions = withChangeLink(
-          routes.EabServicesProvidedController.onPageLoad(CheckMode).url,
+          routes.PenalisedProfessionalBodyDetailController.onPageLoad(CheckMode).url,
           msg
         )
       )
+    }
+
+  def penalisedProfessionalBody: Option[SummaryListRow] = userAnswers.get(PenalisedProfessionalBodyPage) map { x =>
+    val msg = "penalisedProfessionalBody.checkYourAnswersLabel"
+    SummaryListRow(
+      key = Key(Text(messages(msg))),
+      value = Value(yesOrNo(x)),
+      actions = withChangeLink(
+        routes.PenalisedProfessionalBodyController.onPageLoad(CheckMode).url,
+        msg
+      )
+    )
+  }
+
+  def penalisedEstateAgentsActDetail: Option[SummaryListRow] = userAnswers.get(PenalisedEstateAgentsActDetailPage) map {
+    x =>
+      val msg = "penalisedEstateAgentsActDetail.checkYourAnswersLabel"
+      SummaryListRow(
+        key = Key(Text(messages(msg))),
+        value = Value(Text(x)),
+        actions = withChangeLink(
+          routes.PenalisedEstateAgentsActDetailController.onPageLoad(CheckMode).url,
+          msg
+        )
+      )
+  }
+
+  def penalisedEstateAgentsAct: Option[SummaryListRow] = userAnswers.get(PenalisedEstateAgentsActPage) map { x =>
+    val msg = "penalisedEstateAgentsAct.checkYourAnswersLabel"
+    SummaryListRow(
+      key = Key(Text(messages(msg))),
+      value = Value(yesOrNo(x)),
+      actions = withChangeLink(
+        routes.PenalisedEstateAgentsActController.onPageLoad(CheckMode).url,
+        msg
+      )
+    )
+  }
+
+  def eabServicesProvided: Option[SummaryListRow] = userAnswers.get(EabServicesProvidedPage) map { x =>
+    val valueRow = if (x.size == 1) {
+      Value(Text(messages(s"eabServicesProvided.${x.head}")))
+    } else {
+      Value(
+        HtmlContent(
+          "<ul class=\"govuk-list govuk-list--bullet\">" + x
+            .map(value => "<li>" + messages(s"eabServicesProvided.$value") + "</li>")
+            .mkString + "</ul>"
+        )
+      )
+    }
+
+    val msg = "eabServicesProvided.checkYourAnswersLabel"
+
+    SummaryListRow(
+      key = Key(Text(messages(msg))),
+      value = valueRow,
+      actions = withChangeLink(
+        routes.EabServicesProvidedController.onPageLoad(CheckMode).url,
+        msg
+      )
+    )
   }
 
   private def yesOrNo(answer: Boolean)(implicit messages: Messages): Content =
@@ -143,18 +142,16 @@ class CheckYourAnswersHelper(userAnswers: UserAnswers)(implicit messages: Messag
       Text(messages("site.no"))
     }
 
-
   private def withChangeLink(url: String, hiddenTextKey: String) =
     Some(
       Actions(
-        items =
-          Seq(
-            ActionItem(
-              href = url,
-              content = Text(messages("site.edit")),
-              visuallyHiddenText = Some(messages(s"$hiddenTextKey.hidden"))
-            )
+        items = Seq(
+          ActionItem(
+            href = url,
+            content = Text(messages("site.edit")),
+            visuallyHiddenText = Some(messages(s"$hiddenTextKey.hidden"))
           )
+        )
       )
     )
 }

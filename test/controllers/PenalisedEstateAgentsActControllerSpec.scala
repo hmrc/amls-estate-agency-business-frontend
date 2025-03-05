@@ -38,7 +38,7 @@ class PenalisedEstateAgentsActControllerSpec extends SpecBase with MockitoSugar 
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new PenalisedEstateAgentsActFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val penalisedEstateAgentsActRoute = routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode).url
 

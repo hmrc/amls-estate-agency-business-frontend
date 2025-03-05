@@ -37,14 +37,14 @@ class AMLSConnectorSpec extends SpecBase with MockitoSugar {
 
   implicit val hc: HeaderCarrier = HeaderCarrier()
 
-  val dateVal       = LocalDateTime.now
-  val answers       = UserAnswers().set(EabServicesProvidedPage,  Seq(Auctioneering)).success.value
+  val dateVal = LocalDateTime.now
+  val answers = UserAnswers().set(EabServicesProvidedPage, Seq(Auctioneering)).success.value
 
-  val mockHttpClient: HttpClientV2 = mock[HttpClientV2]
+  val mockHttpClient: HttpClientV2   = mock[HttpClientV2]
   val requestBuilder: RequestBuilder = mock[RequestBuilder]
-  val amlsConnector = new AMLSConnector(config = app.injector.instanceOf[Configuration], mockHttpClient)
+  val amlsConnector                  = new AMLSConnector(config = app.injector.instanceOf[Configuration], mockHttpClient)
 
-  val completeData  = Json.obj(
+  val completeData = Json.obj(
     "eabServicesProvided"       -> Seq("businessTransfer"),
     "redressScheme"             -> "other",
     "redressSchemeDetail"       -> "other redress scheme",
@@ -52,7 +52,7 @@ class AMLSConnectorSpec extends SpecBase with MockitoSugar {
     "penalisedProfessionalBody" -> false
   )
 
-  val completeJson  = Json.obj(
+  val completeJson = Json.obj(
     "_id"         -> "someid",
     "data"        -> completeData,
     "lastUpdated" -> Json.obj("$date" -> dateVal.atZone(ZoneOffset.UTC).toInstant.toEpochMilli)
@@ -61,11 +61,11 @@ class AMLSConnectorSpec extends SpecBase with MockitoSugar {
   "GET" must {
     "successfully fetch cache" in {
 
-        when(mockHttpClient.get(any())(any())).thenReturn(requestBuilder)
-        when(requestBuilder.execute[Option[JsObject]](any(), any())).thenReturn(Future.successful(Some(completeJson)))
+      when(mockHttpClient.get(any())(any())).thenReturn(requestBuilder)
+      when(requestBuilder.execute[Option[JsObject]](any(), any())).thenReturn(Future.successful(Some(completeJson)))
 
-        amlsConnector.get("someid").futureValue mustBe Some(completeJson)
-      }
+      amlsConnector.get("someid").futureValue mustBe Some(completeJson)
+    }
   }
 
   "POST" must {
@@ -89,7 +89,8 @@ class AMLSConnectorSpec extends SpecBase with MockitoSugar {
     "make a request to amls frontend to find out if date of change is required" in {
 
       when(requestBuilder.withBody(any())(any(), any(), any())).thenReturn(requestBuilder)
-      when(requestBuilder.execute[DateOfChangeResponse](any(), any())).thenReturn(Future.successful(mockDateOfChangeResponse))
+      when(requestBuilder.execute[DateOfChangeResponse](any(), any()))
+        .thenReturn(Future.successful(mockDateOfChangeResponse))
       when(mockHttpClient.post(any())(any())).thenReturn(requestBuilder)
 
       amlsConnector.requireDateOfChange(credId, submissionStatus, answers).futureValue mustBe mockDateOfChangeResponse
