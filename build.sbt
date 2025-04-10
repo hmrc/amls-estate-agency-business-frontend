@@ -36,15 +36,15 @@ lazy val root = (project in file("."))
     scalacOptions ++= Seq("-feature"),
     scalacOptions += "-Wconf:src=routes/.*:s",
     scalacOptions += "-Wconf:cat=unused-imports&src=html/.*:s",
-    libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always,
+    libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml"     % VersionScheme.Always,
     libraryDependencies ++= AppDependencies(),
-    dependencyOverrides += "commons-codec" % "commons-codec" % "1.16.0",
+    dependencyOverrides += "commons-codec"                % "commons-codec" % "1.16.0",
     retrieveManaged := true
   )
   .disablePlugins(JUnitXmlReportPlugin)
 
 lazy val testSettings: Seq[Def.Setting[_]] = Seq(
-  fork        := true,
+  fork := true,
   javaOptions ++= Seq(
     "-Dconfig.resource=test.application.conf"
   )
