@@ -75,7 +75,7 @@ eabServicesProvided.lettings = Lettings when the monthly rent for a property is 
 eabServicesProvided.relocation = Relocation
 eabServicesProvided.residential = Residential sales
 eabServicesProvided.socialHousingProvision = Social housing provision
-eabServicesProvided.checkYourAnswersLabel = Which services does your business provide?
+eabServicesProvided.checkYourAnswersLabel = Services your business provides
 eabServicesProvided.checkYourAnswersLabel.hidden = which services your business provides
 eabServicesProvided.error.required = Select which services your business provides
 
@@ -91,7 +91,7 @@ penalisedEstateAgentsAct.banned = being banned from taking part in estate agency
 
 penalisedEstateAgentsActDetail.title = Tell us about the penalty under the Estate Agents Act 1979 and when it happened
 penalisedEstateAgentsActDetail.heading = Tell us about the penalty under the Estate Agents Act 1979 and when it happened
-penalisedEstateAgentsActDetail.checkYourAnswersLabel = Tell us about the penalty under the Estate Agents Act 1979 and when it happened
+penalisedEstateAgentsActDetail.checkYourAnswersLabel = About the penalty under the Estate Agents Act and when it happened
 penalisedEstateAgentsActDetail.checkYourAnswersLabel.hidden = details about the penalty under the Estate Agents Act 1979 and when it happened
 penalisedEstateAgentsActDetail.error.required = Enter a description of the penalty and when it happened
 penalisedEstateAgentsActDetail.error.length = Description of the penalty must be 255 characters or less
@@ -120,7 +120,7 @@ error.date.hvd.invalid.multiple = The date of the first payment must only contai
 
 penalisedProfessionalBodyDetail.title = Tell us about the penalty from a professional body and when it happened
 penalisedProfessionalBodyDetail.heading = Tell us about the penalty from a professional body and when it happened
-penalisedProfessionalBodyDetail.checkYourAnswersLabel = Tell us about the penalty from a professional body and when it happened
+penalisedProfessionalBodyDetail.checkYourAnswersLabel = About the penalty from a professional body and when it happened
 penalisedProfessionalBodyDetail.checkYourAnswersLabel.hidden = details about the penalty from a professional body and when it happened
 penalisedProfessionalBodyDetail.error.required = Enter a description of the penalty and when it happened
 penalisedProfessionalBodyDetail.error.length = Description of the penalty must be 255 characters or less
@@ -131,7 +131,7 @@ redressScheme.heading = Which redress scheme is your business registered with?
 redressScheme.notRegistered = Business is not registered with a redress scheme
 redressScheme.propertyRedressScheme = Property Redress Scheme
 redressScheme.propertyOmbudsman = The Property Ombudsman
-redressScheme.checkYourAnswersLabel = Which redress scheme is your business registered with?
+redressScheme.checkYourAnswersLabel = Redress scheme your business is registered with
 redressScheme.checkYourAnswersLabel.hidden = which redress scheme your business is registered with
 redressScheme.error.required = Select which redress scheme your business is registered with
 
