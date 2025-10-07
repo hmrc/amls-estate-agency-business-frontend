@@ -9,7 +9,7 @@ object AppDependencies {
     play.sbt.PlayImport.ws,
     "uk.gov.hmrc"  %% s"bootstrap-frontend-$playVersion"            % bootstrapVersion,
     "uk.gov.hmrc"  %% s"play-conditional-form-mapping-$playVersion" % "3.3.0",
-    "uk.gov.hmrc"  %% s"play-frontend-hmrc-$playVersion"            % "12.7.0",
+    "uk.gov.hmrc"  %% s"play-frontend-hmrc-$playVersion"            % "12.8.0",
     "commons-codec" % "commons-codec"                               % "1.17.2"
   )
 
