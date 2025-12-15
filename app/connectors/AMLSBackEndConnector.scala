@@ -20,7 +20,7 @@ import config.Service
 
 import javax.inject.Inject
 import models.ReadStatusResponse
-import play.api.libs.json.{Json, Writes}
+import play.api.libs.json.Writes
 import play.api.{Configuration, Logging}
 import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps}
 import uk.gov.hmrc.http.client.HttpClientV2
