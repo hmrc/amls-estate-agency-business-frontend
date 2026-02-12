@@ -36,6 +36,7 @@ lazy val root = (project in file("."))
     scalacOptions += "-Wconf:cat=unused-imports&src=html/.*:s",
     libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml"     % VersionScheme.Always,
     libraryDependencies ++= AppDependencies(),
+    excludeDependencies += ExclusionRule("org.lz4", "lz4-java"),
     dependencyOverrides += "commons-codec"                % "commons-codec" % "1.16.0",
     retrieveManaged := true
   )
