@@ -35,3 +35,5 @@ bin
 *.iws
 package-lock.json
 .bsp
+/.metals
+/.vscode
