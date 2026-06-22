@@ -16,14 +16,15 @@
 
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 @import uk.gov.hmrc.hmrcfrontend.views.html.components.implicits._
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.notificationbanner.{NotificationBanner => GovukNotificationBanner}
 
-@this(govukNotificationBanner: GovukNotificationBanner)
+@this(govukNotificationBannerComponent: uk.gov.hmrc.govukfrontend.views.html.components.GovukNotificationBanner)
 
 @(message: String)(implicit messages: Messages)
 
-@govukNotificationBanner(
-NotificationBanner(
-title = Text(messages("whatYouNeed.attention.title")),
-content = Text(message)
-)
+@govukNotificationBannerComponent(
+  GovukNotificationBanner(
+    title = Text(messages("whatYouNeed.attention.title")),
+    content = Text(message)
+  )
 )

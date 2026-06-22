@@ -38,7 +38,7 @@ button: Button
 
     @govukSummaryList(summaryList)
 
-    @formHelper(action = CheckYourAnswersController.onSubmit) {
+    @formHelper(action = CheckYourAnswersController.onSubmit()) {
     @button("site.acceptandcomplete")
     }
 }

@@ -35,7 +35,7 @@ class CheckYourAnswersControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad.url)
+      val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad().url)
 
       val result = route(application, request).value
 
@@ -53,7 +53,7 @@ class CheckYourAnswersControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad.url)
+      val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad().url)
 
       val exception = intercept[Exception] {
         val result = route(application, request).value
@@ -72,7 +72,7 @@ class CheckYourAnswersControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val request = FakeRequest(POST, routes.CheckYourAnswersController.onSubmit.url)
+      val request = FakeRequest(POST, routes.CheckYourAnswersController.onSubmit().url)
       val result  = route(application, request).value
 
       status(result) mustEqual SEE_OTHER

@@ -8,7 +8,7 @@ lazy val appName: String = "amls-estate-agency-business-frontend"
 
 lazy val root = (project in file("."))
   .enablePlugins(PlayScala, SbtDistributablesPlugin)
-  .settings(scalaVersion := "2.13.16")
+  .settings(scalaVersion := "3.3.7")
   .settings(inConfig(Test)(testSettings): _*)
   .settings(majorVersion := 1)
   .settings(

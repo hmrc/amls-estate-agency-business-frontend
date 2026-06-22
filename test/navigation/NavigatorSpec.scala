@@ -120,13 +120,13 @@ class NavigatorSpec extends SpecBase {
 
         navigator
           .nextPage(PenalisedProfessionalBodyPage, NormalMode, answers)
-          .mustBe(routes.CheckYourAnswersController.onPageLoad)
+          .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
 
       "go from Penalised by Professional Body Detail to Check Your Answers" in {
         navigator
           .nextPage(PenalisedProfessionalBodyDetailPage, NormalMode, UserAnswers())
-          .mustBe(routes.CheckYourAnswersController.onPageLoad)
+          .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
     }
 
@@ -134,7 +134,7 @@ class NavigatorSpec extends SpecBase {
 
       "go to CheckYourAnswers from a page that doesn't exist in the edit route map" in {
         case object UnknownPage extends Page
-        navigator.nextPage(UnknownPage, CheckMode, UserAnswers()) mustBe routes.CheckYourAnswersController.onPageLoad
+        navigator.nextPage(UnknownPage, CheckMode, UserAnswers()) mustBe routes.CheckYourAnswersController.onPageLoad()
       }
 
       "go from which services to date of change" in {
@@ -159,7 +159,7 @@ class NavigatorSpec extends SpecBase {
 
         navigator
           .nextPage(DateOfChangePage, CheckMode, answers)
-          .mustBe(routes.CheckYourAnswersController.onPageLoad)
+          .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
 
       "go from date of change to redress scheme if lettings and client money protection not answered" in {
@@ -176,7 +176,7 @@ class NavigatorSpec extends SpecBase {
 
         navigator
           .nextPage(DateOfChangePage, CheckMode, answers)
-          .mustBe(routes.CheckYourAnswersController.onPageLoad)
+          .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
 
       "go from date of change to Check Your Answers if not residential" in {
@@ -184,7 +184,7 @@ class NavigatorSpec extends SpecBase {
 
         navigator
           .nextPage(DateOfChangePage, CheckMode, answers)
-          .mustBe(routes.CheckYourAnswersController.onPageLoad)
+          .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
 
       "go from redress scheme to Check Your Answers if lettings not selected" in {
@@ -193,7 +193,7 @@ class NavigatorSpec extends SpecBase {
 
         navigator
           .nextPage(RedressSchemePage, CheckMode, answers)
-          .mustBe(routes.CheckYourAnswersController.onPageLoad)
+          .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
 
       "go from redress scheme to Client Money Protection if lettings selected and CMP not answered" in {
@@ -212,7 +212,7 @@ class NavigatorSpec extends SpecBase {
 
         navigator
           .nextPage(RedressSchemePage, CheckMode, answers)
-          .mustBe(routes.CheckYourAnswersController.onPageLoad)
+          .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
 
       "go from Penalised Estate Agents Act to Penalised Estate Agents Act Detail if true" in {
@@ -228,13 +228,13 @@ class NavigatorSpec extends SpecBase {
 
         navigator
           .nextPage(PenalisedEstateAgentsActPage, CheckMode, answers)
-          .mustBe(routes.CheckYourAnswersController.onPageLoad)
+          .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
 
       "go from Penalised Estate Agents Act Detail to Check Your Answers" in {
         navigator
           .nextPage(PenalisedEstateAgentsActDetailPage, CheckMode, UserAnswers())
-          .mustBe(routes.CheckYourAnswersController.onPageLoad)
+          .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
 
       "go from Penalised by Professional Body to Penalised by Professional Body Detail where true" in {
@@ -250,13 +250,13 @@ class NavigatorSpec extends SpecBase {
 
         navigator
           .nextPage(PenalisedProfessionalBodyPage, CheckMode, answers)
-          .mustBe(routes.CheckYourAnswersController.onPageLoad)
+          .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
 
       "go from Penalised by Professional Body Detail to Check Your Answers" in {
         navigator
           .nextPage(PenalisedProfessionalBodyDetailPage, CheckMode, UserAnswers())
-          .mustBe(routes.CheckYourAnswersController.onPageLoad)
+          .mustBe(routes.CheckYourAnswersController.onPageLoad())
       }
     }
   }
