@@ -60,7 +60,7 @@ final case class UserAnswers(data: JsObject = Json.obj()) {
 object UserAnswers {
 
   implicit lazy val reads: Reads[UserAnswers]    = (__ \ "data").read[JsObject].map(UserAnswers.apply)
-  implicit lazy val writes: OWrites[UserAnswers] = OWrites.apply { answers: UserAnswers =>
+  implicit lazy val writes: OWrites[UserAnswers] = OWrites.apply { (answers: UserAnswers) =>
     JsObject.apply(Seq(("data", answers.data)))
   }
 

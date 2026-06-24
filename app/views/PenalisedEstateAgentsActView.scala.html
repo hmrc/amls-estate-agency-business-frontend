@@ -42,7 +42,7 @@ pageHeading: PageHeading
     pageTitle = s"${errorPrefix(form)} ${messages("penalisedEstateAgentsAct.title")}" + " - " + messages("eab.title.extension")
         ) {
 
-        @formHelper(action = PenalisedEstateAgentsActController.onSubmit(mode), Symbol("autoComplete") -> "off") {
+        @formHelper(action = routes.PenalisedEstateAgentsActController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @errorSummary(form)
 

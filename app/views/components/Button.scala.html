@@ -14,7 +14,9 @@
  * limitations under the License.
  *@
 
-@this(govukButton: GovukButton)
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.button.{Button => GovukButton}
+
+@this(govukButtonComponent: uk.gov.hmrc.govukfrontend.views.html.components.GovukButton)
 
 @(
 msg: String,
@@ -24,11 +26,11 @@ startButton: Boolean = false,
 attributes: Map[String, String] = Map.empty
 )(implicit messages: Messages)
 
-@govukButton(Button(
-href = hrefOpt,
-content = Text(messages(msg)),
-isStartButton = startButton,
-attributes = attributes + ("id" -> id)
-))
-
-
+@govukButtonComponent(
+  GovukButton(
+    href = hrefOpt,
+    content = Text(messages(msg)),
+    isStartButton = startButton,
+    attributes = attributes + ("id" -> id)
+  )
+)

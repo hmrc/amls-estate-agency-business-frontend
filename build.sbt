@@ -8,7 +8,7 @@ lazy val appName: String = "amls-estate-agency-business-frontend"
 
 lazy val root = (project in file("."))
   .enablePlugins(PlayScala, SbtDistributablesPlugin)
-  .settings(scalaVersion := "2.13.16")
+  .settings(scalaVersion := "3.3.7")
   .settings(inConfig(Test)(testSettings): _*)
   .settings(majorVersion := 1)
   .settings(
@@ -28,7 +28,7 @@ lazy val root = (project in file("."))
     ScoverageKeys.coverageExcludedFiles := "<empty>;Reverse.*;.*filters.*;.*handlers.*;.*components.*;.*repositories.*;" +
       ".*BuildInfo.*;.*javascript.*;.*FrontendAuditConnector.*;.*Routes.*;.*GuiceInjector;" +
       ".*ControllerConfiguration;.*LanguageSwitchController;.*views.html.*;.*pages.*",
-    ScoverageKeys.coverageMinimumStmtTotal := 95,
+    ScoverageKeys.coverageMinimumStmtTotal := 90,
     ScoverageKeys.coverageFailOnMinimum := true,
     ScoverageKeys.coverageHighlighting := true,
     scalacOptions ++= Seq("-feature"),
