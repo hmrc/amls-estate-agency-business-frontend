@@ -79,6 +79,9 @@ eabServicesProvided.checkYourAnswersLabel = Services your business provides
 eabServicesProvided.checkYourAnswersLabel.hidden = which services your business provides
 eabServicesProvided.error.required = Select which services your business provides
 
+important.bannerTitle = Important
+important.bannerText = The threshold has changed from €10,000 to £10,000. Make sure you use the correct currency when answering.
+
 penalisedEstateAgentsAct.title = Has the business, or anyone in the business, ever been penalised under the Estate Agents Act 1979?
 penalisedEstateAgentsAct.heading = Has the business, or anyone in the business, ever been penalised under the Estate Agents Act 1979?
 penalisedEstateAgentsAct.checkYourAnswersLabel = Has the business, or anyone in the business, ever been penalised under the Estate Agents Act 1979?
