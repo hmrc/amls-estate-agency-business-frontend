@@ -71,13 +71,16 @@ eabServicesProvided.businessTransfer = Business transfer
 eabServicesProvided.commercial = Commercial sales
 eabServicesProvided.developmentCompany = Development company
 eabServicesProvided.landManagement = Land management
-eabServicesProvided.lettings = Lettings when the monthly rent for a property is €10,000 or more
+eabServicesProvided.lettings = Lettings when the monthly rent for a property is £10,000 or more
 eabServicesProvided.relocation = Relocation
 eabServicesProvided.residential = Residential sales
 eabServicesProvided.socialHousingProvision = Social housing provision
 eabServicesProvided.checkYourAnswersLabel = Services your business provides
 eabServicesProvided.checkYourAnswersLabel.hidden = which services your business provides
 eabServicesProvided.error.required = Select which services your business provides
+
+important.bannerTitle = Important
+important.bannerText = The threshold has changed from €10,000 to £10,000. Make sure you use the correct currency when answering.
 
 penalisedEstateAgentsAct.title = Has the business, or anyone in the business, ever been penalised under the Estate Agents Act 1979?
 penalisedEstateAgentsAct.heading = Has the business, or anyone in the business, ever been penalised under the Estate Agents Act 1979?

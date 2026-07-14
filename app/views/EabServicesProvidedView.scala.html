@@ -20,13 +20,14 @@
 @import models.Mode
 @import config.FrontendAppConfig
 @import views.ViewUtils
-@import components.{Anchor, Button, FormErrorSummary, PageHeading}
+@import components.{Anchor, Button, FormErrorSummary, PageHeading, ImportantBanner}
 
 @this(
 layout: template.Layout,
 formHelper: FormWithCSRF,
 errorSummary: FormErrorSummary,
 pageHeading: PageHeading,
+importantBanner: ImportantBanner,
 govukCheckboxes: GovukCheckboxes,
 button: Button,
 anchor: Anchor,
@@ -40,6 +41,10 @@ appConfig: FrontendAppConfig
     @formHelper(action = routes.EabServicesProvidedController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @errorSummary(form, Some(Map("value" -> "value_0")))
+
+        @if(mode == CheckMode){
+            @importantBanner()
+        }
 
         @pageHeading("eab.heading")
 
