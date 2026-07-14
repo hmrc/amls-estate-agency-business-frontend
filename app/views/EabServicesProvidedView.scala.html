@@ -20,13 +20,14 @@
 @import models.Mode
 @import config.FrontendAppConfig
 @import views.ViewUtils
-@import components.{Anchor, Button, FormErrorSummary, PageHeading}
+@import components.{Anchor, Button, FormErrorSummary, PageHeading, ImportantBanner}
 
 @this(
 layout: template.Layout,
 formHelper: FormWithCSRF,
 errorSummary: FormErrorSummary,
 pageHeading: PageHeading,
+importantBanner: ImportantBanner,
 govukCheckboxes: GovukCheckboxes,
 button: Button,
 anchor: Anchor,
@@ -35,14 +36,6 @@ appConfig: FrontendAppConfig
 
 @(form: Form[Seq[EabServicesProvided]], mode: Mode)(implicit request: RequestHeader, messages: Messages)
 
-@bannerContent = {
-    <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-        <div class="govuk-notification-banner__header">
-            <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">@messages("important.bannerTitle")</h2>
-        </div>
-        <div class="govuk-notification-banner__content">@messages("important.bannerText")</div>
-    </div>}
-
 @layout(
     pageTitle = s"${errorPrefix(form)} ${messages("eabServicesProvided.title")} - ${messages("eab.title.extension")}"){
     @formHelper(action = routes.EabServicesProvidedController.onSubmit(mode), Symbol("autoComplete") -> "off") {
@@ -50,7 +43,7 @@ appConfig: FrontendAppConfig
         @errorSummary(form, Some(Map("value" -> "value_0")))
 
         @if(mode == CheckMode){
-            @bannerContent
+            @importantBanner()
         }
 
         @pageHeading("eab.heading")
