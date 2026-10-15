@@ -27,7 +27,7 @@ class DataRequiredActionImpl @Inject() (implicit val executionContext: Execution
   override protected def refine[A](request: OptionalDataRequest[A]): Future[Either[Result, DataRequest[A]]] =
     request.userAnswers match {
       case None       =>
-        throw new Exception("Required data not found")
+        throw new Exception("[DataRequiredAction][refine] - Required data not found, no user answers in session")
       case Some(data) =>
         Future.successful(Right(DataRequest(request.request, request.credId, data)))
     }

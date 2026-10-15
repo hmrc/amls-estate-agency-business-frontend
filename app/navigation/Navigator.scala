@@ -59,20 +59,28 @@ class Navigator @Inject() () {
         case _    => routes.PenalisedEstateAgentsActController.onPageLoad(NormalMode)
       }
     }
-  }.getOrElse(throw new Exception("Unable to navigate to page"))
+  }.getOrElse(
+    throw new Exception("[Navigator][redressSchemeRoute] - EabServicesProvidedPage answer missing, unable to navigate")
+  )
 
   private def penalisedEstateAgentsActDetailsRoute(answers: UserAnswers): Call =
     answers.get(PenalisedEstateAgentsActPage) match {
       case Some(true)  => routes.PenalisedEstateAgentsActDetailController.onPageLoad(NormalMode)
       case Some(false) => routes.PenalisedProfessionalBodyController.onPageLoad(NormalMode)
-      case None        => throw new Exception("Unable to navigate to page")
+      case None        =>
+        throw new Exception(
+          "[Navigator][penalisedEstateAgentsActDetailsRoute] - PenalisedEstateAgentsActPage answer missing, unable to navigate"
+        )
     }
 
   private def penalisedProfessionalBodyDetailsRoute(answers: UserAnswers): Call =
     answers.get(PenalisedProfessionalBodyPage) match {
       case Some(true)  => routes.PenalisedProfessionalBodyDetailController.onPageLoad(NormalMode)
       case Some(false) => routes.CheckYourAnswersController.onPageLoad()
-      case None        => throw new Exception("Unable to navigate to page")
+      case None        =>
+        throw new Exception(
+          "[Navigator][penalisedProfessionalBodyDetailsRoute] - PenalisedProfessionalBodyPage answer missing, unable to navigate"
+        )
     }
 
   private def redressSchemeDetailRoute(answers: UserAnswers): Call =
@@ -107,7 +115,11 @@ class Navigator @Inject() () {
         case _    => routes.CheckYourAnswersController.onPageLoad()
       }
     }
-  }.getOrElse(throw new Exception("Unable to navigate to page"))
+  }.getOrElse(
+    throw new Exception(
+      "[Navigator][redressSchemeRouteCheckMode] - EabServicesProvidedPage answer missing, unable to navigate"
+    )
+  )
 
   private def redressSchemeDetailRouteCheckMode(answers: UserAnswers): Call = {
     answers.get(EabServicesProvidedPage) map { ans =>
@@ -117,7 +129,11 @@ class Navigator @Inject() () {
         routes.CheckYourAnswersController.onPageLoad()
       }
     }
-  }.getOrElse(throw new Exception("Unable to navigate to page"))
+  }.getOrElse(
+    throw new Exception(
+      "[Navigator][redressSchemeDetailRouteCheckMode] - EabServicesProvidedPage answer missing, unable to navigate"
+    )
+  )
 
   private def isRedressQuestionNotAnswered(ans: Seq[EabServicesProvided], answers: UserAnswers) =
     ans.contains(Residential) && answers.get(RedressSchemePage).isEmpty
@@ -129,14 +145,20 @@ class Navigator @Inject() () {
     answers.get(PenalisedEstateAgentsActPage) match {
       case Some(true)  => routes.PenalisedEstateAgentsActDetailController.onPageLoad(CheckMode)
       case Some(false) => routes.CheckYourAnswersController.onPageLoad()
-      case None        => throw new Exception("Unable to navigate to page")
+      case None        =>
+        throw new Exception(
+          "[Navigator][penalisedEstateAgentsActDetailsRouteCheckMode] - PenalisedEstateAgentsActPage answer missing, unable to navigate"
+        )
     }
 
   private def penalisedProfessionalBodyDetailsRouteCheckMode(answers: UserAnswers): Call =
     answers.get(PenalisedProfessionalBodyPage) match {
       case Some(true)  => routes.PenalisedProfessionalBodyDetailController.onPageLoad(CheckMode)
       case Some(false) => routes.CheckYourAnswersController.onPageLoad()
-      case None        => throw new Exception("Unable to navigate to page")
+      case None        =>
+        throw new Exception(
+          "[Navigator][penalisedProfessionalBodyDetailsRouteCheckMode] - PenalisedProfessionalBodyPage answer missing, unable to navigate"
+        )
     }
 
   def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers, dateOfChangeRequired: Option[Boolean] = None): Call =
