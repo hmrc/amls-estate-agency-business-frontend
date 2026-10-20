@@ -322,14 +322,14 @@ class IdentifierActionSpec extends SpecBase with LogCapturing {
 
   "Identifier Action logging" must {
 
-    "log at debug only, with no warning, when the user is not signed in" in {
+    "log at info, with no warning, when the user is not signed in" in {
       val controller = new Harness(identifierActionWith(new FakeFailingAuthConnector(new MissingBearerToken)))
 
       withCaptureOfLoggingFrom(identifierLogger) { logs =>
         status(controller.onPageLoad()(fakeRequest)) mustBe SEE_OTHER
 
         logs.exists(e =>
-          e.getLevel == Level.DEBUG && e.getFormattedMessage.contains(
+          e.getLevel == Level.INFO && e.getFormattedMessage.contains(
             "[AuthenticatedIdentifierAction][refine] - No active session"
           )
         ) mustBe true

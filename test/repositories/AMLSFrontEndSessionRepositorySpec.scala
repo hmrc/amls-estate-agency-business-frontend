@@ -42,62 +42,68 @@ class AMLSFrontEndSessionRepositorySpec extends SpecBase with MockitoSugar with 
   val repositoryLogger: Logger         = Logger(classOf[DefaultAMLSFrontEndSessionRepository])
 
   "get" must {
-    "return the saved answers and log no warning when the fetch succeeds" in {
+    "return the saved answers and log no error when the fetch succeeds" in {
       when(mockAmlsConnector.get(any())(any()))
         .thenReturn(Future.successful(Some(Json.toJson(UserAnswers()).as[JsObject])))
 
       withCaptureOfLoggingFrom(repositoryLogger) { logs =>
         repository.get("someid").futureValue mustBe Some(UserAnswers())
-        logs.exists(_.getLevel == Level.WARN) mustBe false
+        logs.exists(_.getLevel == Level.ERROR) mustBe false
       }
     }
 
-    "return None and log a warning with the exception attached when the fetch fails" in {
+    "return None and log an error with the exception attached when the fetch fails" in {
       when(mockAmlsConnector.get(any())(any())).thenReturn(Future.failed(new RuntimeException("backend down")))
 
       withCaptureOfLoggingFrom(repositoryLogger) { logs =>
         repository.get("someid").futureValue mustBe None
 
         val event = logs.find(
-          _.getFormattedMessage.contains("[DefaultAMLSFrontEndSessionRepository][get] - Failed to fetch or parse session data")
+          _.getFormattedMessage.contains(
+            "[DefaultAMLSFrontEndSessionRepository][get] - Failed to fetch or parse session data"
+          )
         )
-        event.map(_.getLevel) mustBe Some(Level.WARN)
+        event.map(_.getLevel) mustBe Some(Level.ERROR)
         Option(event.get.getThrowableProxy).map(_.getMessage) mustBe Some("backend down")
       }
     }
 
-    "return None and log a warning when the saved data cannot be parsed" in {
+    "return None and log an error when the saved data cannot be parsed" in {
       when(mockAmlsConnector.get(any())(any())).thenReturn(Future.successful(Some(Json.obj("data" -> "not-an-object"))))
 
       withCaptureOfLoggingFrom(repositoryLogger) { logs =>
         repository.get("someid").futureValue mustBe None
         logs.exists(e =>
-          e.getLevel == Level.WARN &&
-            e.getFormattedMessage.contains("[DefaultAMLSFrontEndSessionRepository][get] - Failed to fetch or parse session data")
+          e.getLevel == Level.ERROR &&
+            e.getFormattedMessage.contains(
+              "[DefaultAMLSFrontEndSessionRepository][get] - Failed to fetch or parse session data"
+            )
         ) mustBe true
       }
     }
   }
 
   "set" must {
-    "return true and log no warning when the save succeeds" in {
+    "return true and log no error when the save succeeds" in {
       when(mockAmlsConnector.set(any(), any())(any())).thenReturn(Future.successful(HttpResponse(200, "ok")))
 
       withCaptureOfLoggingFrom(repositoryLogger) { logs =>
         repository.set("someid", UserAnswers()).futureValue mustBe true
-        logs.exists(_.getLevel == Level.WARN) mustBe false
+        logs.exists(_.getLevel == Level.ERROR) mustBe false
       }
     }
 
-    "return false and log a warning with the exception attached when the save fails" in {
+    "return false and log an error with the exception attached when the save fails" in {
       when(mockAmlsConnector.set(any(), any())(any())).thenReturn(Future.failed(new RuntimeException("backend down")))
 
       withCaptureOfLoggingFrom(repositoryLogger) { logs =>
         repository.set("someid", UserAnswers()).futureValue mustBe false
 
         val event =
-          logs.find(_.getFormattedMessage.contains("[DefaultAMLSFrontEndSessionRepository][set] - Failed to save session data"))
-        event.map(_.getLevel) mustBe Some(Level.WARN)
+          logs.find(
+            _.getFormattedMessage.contains("[DefaultAMLSFrontEndSessionRepository][set] - Failed to save session data")
+          )
+        event.map(_.getLevel) mustBe Some(Level.ERROR)
         Option(event.get.getThrowableProxy).map(_.getMessage) mustBe Some("backend down")
       }
     }

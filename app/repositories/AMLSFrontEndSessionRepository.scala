@@ -37,7 +37,7 @@ class DefaultAMLSFrontEndSessionRepository @Inject() (amlsConnector: AMLSConnect
         json.as[UserAnswers]
       }
     } recover { case e: Exception =>
-      logger.warn(
+      logger.error(
         "[DefaultAMLSFrontEndSessionRepository][get] - Failed to fetch or parse session data, treating as no saved answers",
         e
       )
@@ -48,7 +48,7 @@ class DefaultAMLSFrontEndSessionRepository @Inject() (amlsConnector: AMLSConnect
     amlsConnector.set(credId, userAnswers).map { result =>
       result.body.nonEmpty
     } recover { case e: Exception =>
-      logger.warn("[DefaultAMLSFrontEndSessionRepository][set] - Failed to save session data", e)
+      logger.error("[DefaultAMLSFrontEndSessionRepository][set] - Failed to save session data", e)
       false
     }
 }

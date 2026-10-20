@@ -66,7 +66,7 @@ class AuthenticatedIdentifierAction @Inject() (
           Retrievals.affinityGroup
       ) {
         case enrolments ~ Some(credentials) ~ Some(affinityGroup) =>
-          logger.debug(
+          logger.info(
             s"$prefix - Authorised - affinityGroup: $affinityGroup, enrolments: ${enrolments.enrolments.size}"
           )
 
@@ -87,7 +87,7 @@ class AuthenticatedIdentifierAction @Inject() (
       }
       .recover[Either[Result, IdentifierRequest[A]]] {
         case nas: NoActiveSession             =>
-          logger.debug(s"$prefix - No active session, redirecting to login - type: ${nas.getClass.getSimpleName}")
+          logger.info(s"$prefix - No active session, redirecting to login - type: ${nas.getClass.getSimpleName}")
           Left(Redirect(Call("GET", config.loginUrl)))
         case ie: InsufficientEnrolments       =>
           logger.warn(s"$prefix - Insufficient enrolments, redirecting to unauthorised - reason: ${ie.reason}")
