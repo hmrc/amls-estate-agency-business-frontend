@@ -53,17 +53,11 @@ class AuthenticatedIdentifierAction @Inject() (
 
   def unauthorisedUrl = controllers.routes.UnauthorisedController.onPageLoad.url
 
-  // $COVERAGE-OFF$
-  def exceptionLogger(aex: AuthorisationException) =
-    logger.debug(s"AuthenticatedIdentifierAction:Refine - ${aex.getClass}:", aex)
-
-  def enrolmentMessage(message: String, parameters: Option[Enrolments]) =
-    logger.debug(message + parameters.getOrElse(""))
-  // $COVERAGE-ON$
-
   override protected def refine[A](request: Request[A]): Future[Either[Result, IdentifierRequest[A]]] = {
 
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
+
+    val prefix = "[AuthenticatedIdentifierAction][refine]"
 
     authorised(authPredicate)
       .retrieve(
@@ -72,7 +66,9 @@ class AuthenticatedIdentifierAction @Inject() (
           Retrievals.affinityGroup
       ) {
         case enrolments ~ Some(credentials) ~ Some(affinityGroup) =>
-          logger.debug("DefaultAuthAction:Refine - Enrolments:" + enrolments)
+          logger.info(
+            s"$prefix - Authorised - affinityGroup: $affinityGroup, enrolments: ${enrolments.enrolments.size}"
+          )
 
           Future.successful(
             Right(
@@ -86,33 +82,37 @@ class AuthenticatedIdentifierAction @Inject() (
             )
           )
         case _                                                    =>
-          logger.debug("DefaultAuthAction:Refine - Non match (enrolments ~ Some(credentials) ~ Some(affinityGroup))")
+          logger.warn(s"$prefix - Auth retrieval missing credentials or affinity group, redirecting to unauthorised")
           Future.successful(Left(Redirect(Call("GET", unauthorisedUrl))))
       }
       .recover[Either[Result, IdentifierRequest[A]]] {
         case nas: NoActiveSession             =>
-          exceptionLogger(nas)
+          logger.info(s"$prefix - No active session, redirecting to login - type: ${nas.getClass.getSimpleName}")
           Left(Redirect(Call("GET", config.loginUrl)))
         case ie: InsufficientEnrolments       =>
-          exceptionLogger(ie)
+          logger.warn(s"$prefix - Insufficient enrolments, redirecting to unauthorised - reason: ${ie.reason}")
           Left(Redirect(Call("GET", unauthorisedUrl)))
         case icl: InsufficientConfidenceLevel =>
-          exceptionLogger(icl)
+          logger.warn(s"$prefix - Insufficient confidence level, redirecting to unauthorised - reason: ${icl.reason}")
           Left(Redirect(Call("GET", unauthorisedUrl)))
         case uap: UnsupportedAuthProvider     =>
-          exceptionLogger(uap)
+          logger.warn(s"$prefix - Unsupported auth provider, redirecting to unauthorised - reason: ${uap.reason}")
           Left(Redirect(Call("GET", unauthorisedUrl)))
         case uag: UnsupportedAffinityGroup    =>
-          exceptionLogger(uag)
+          logger.warn(s"$prefix - Unsupported affinity group, redirecting to unauthorised - reason: ${uag.reason}")
           Left(Redirect(Call("GET", unauthorisedUrl)))
         case ucr: UnsupportedCredentialRole   =>
-          exceptionLogger(ucr)
+          logger.warn(s"$prefix - Unsupported credential role, redirecting to unauthorised - reason: ${ucr.reason}")
           Left(Redirect(Call("GET", unauthorisedUrl)))
         case enf: enrolmentNotFound           =>
-          exceptionLogger(enf)
+          logger.warn(
+            s"$prefix - No SA or CT enrolment found, redirecting to unauthorised - type: ${enf.getClass.getSimpleName}"
+          )
           Left(Redirect(Call("GET", unauthorisedUrl)))
         case e: AuthorisationException        =>
-          exceptionLogger(e)
+          logger.warn(
+            s"$prefix - Authorisation failed, redirecting to unauthorised - reason: ${e.reason}, type: ${e.getClass.getSimpleName}"
+          )
           Left(Redirect(Call("GET", unauthorisedUrl)))
       }
   }

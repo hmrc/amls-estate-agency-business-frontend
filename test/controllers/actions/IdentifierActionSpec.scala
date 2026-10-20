@@ -26,13 +26,16 @@ import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.authorise.Predicate
 import uk.gov.hmrc.auth.core.retrieve.{Credentials, Retrieval, ~}
 import uk.gov.hmrc.http.HeaderCarrier
+import ch.qos.logback.classic.Level
+import play.api.Logger
+import uk.gov.hmrc.play.bootstrap.tools.LogCapturing
 import play.api.mvc.{Action, AnyContent}
 import models.requests.IdentifierRequest
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
-class IdentifierActionSpec extends SpecBase {
+class IdentifierActionSpec extends SpecBase with LogCapturing {
 
   class Harness(authAction: IdentifierAction) {
 
@@ -303,6 +306,75 @@ class IdentifierActionSpec extends SpecBase {
 
           redirectLocation(result) mustBe Some(routes.UnauthorisedController.onPageLoad.url)
         }
+      }
+    }
+  }
+  private val identifierLogger: Logger = Logger(classOf[AuthenticatedIdentifierAction])
+
+  private def identifierActionWith(connector: AuthConnector) = {
+    val application = applicationBuilder(userAnswers = None).build()
+    new AuthenticatedIdentifierAction(
+      connector,
+      frontendAppConfig,
+      application.injector.instanceOf[BodyParsers.Default]
+    )
+  }
+
+  "Identifier Action logging" must {
+
+    "log at info, with no warning, when the user is not signed in" in {
+      val controller = new Harness(identifierActionWith(new FakeFailingAuthConnector(new MissingBearerToken)))
+
+      withCaptureOfLoggingFrom(identifierLogger) { logs =>
+        status(controller.onPageLoad()(fakeRequest)) mustBe SEE_OTHER
+
+        logs.exists(e =>
+          e.getLevel == Level.INFO && e.getFormattedMessage.contains(
+            "[AuthenticatedIdentifierAction][refine] - No active session"
+          )
+        ) mustBe true
+        logs.exists(_.getLevel == Level.WARN) mustBe false
+      }
+    }
+
+    "log a warning with the reason when the user has insufficient enrolments" in {
+      val controller = new Harness(identifierActionWith(new FakeFailingAuthConnector(new InsufficientEnrolments)))
+
+      withCaptureOfLoggingFrom(identifierLogger) { logs =>
+        status(controller.onPageLoad()(fakeRequest)) mustBe SEE_OTHER
+
+        logs.exists(e =>
+          e.getLevel == Level.WARN &&
+            e.getFormattedMessage.contains(
+              "[AuthenticatedIdentifierAction][refine] - Insufficient enrolments, redirecting to unauthorised - reason:"
+            )
+        ) mustBe true
+      }
+    }
+
+    "log a warning when the auth retrieval is missing credentials or affinity group" in {
+      val controller = new Harness(identifierActionWith(fakeAuthConnector(emptyAuthRetrievals)))
+
+      withCaptureOfLoggingFrom(identifierLogger) { logs =>
+        status(controller.onPageLoad()(fakeRequest)) mustBe SEE_OTHER
+
+        logs.exists(e =>
+          e.getLevel == Level.WARN &&
+            e.getFormattedMessage.contains(
+              "[AuthenticatedIdentifierAction][refine] - Auth retrieval missing credentials or affinity group"
+            )
+        ) mustBe true
+      }
+    }
+
+    "not log a warning, and never log the enrolments object, when the user is authorised" in {
+      val controller = new Harness(identifierActionWith(fakeAuthConnector(orgAuthRetrievals)))
+
+      withCaptureOfLoggingFrom(identifierLogger) { logs =>
+        status(controller.onPageLoad()(fakeRequest)) mustBe OK
+
+        logs.exists(_.getLevel == Level.WARN) mustBe false
+        logs.exists(_.getFormattedMessage.contains("Enrolment(")) mustBe false
       }
     }
   }

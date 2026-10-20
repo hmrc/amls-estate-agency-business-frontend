@@ -16,6 +16,8 @@
 
 package repositories
 
+import play.api.Logging
+
 import connectors.AMLSConnector
 import javax.inject.Inject
 import models.UserAnswers
@@ -26,21 +28,27 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class DefaultAMLSFrontEndSessionRepository @Inject() (amlsConnector: AMLSConnector, config: Configuration)(implicit
   ec: ExecutionContext
-) extends AMLSFrontEndSessionRepository {
+) extends AMLSFrontEndSessionRepository
+    with Logging {
 
   def get(credId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] =
     amlsConnector.get(credId).map {
       _.map { json =>
         json.as[UserAnswers]
       }
-    } recover { case _: Exception =>
+    } recover { case e: Exception =>
+      logger.error(
+        "[DefaultAMLSFrontEndSessionRepository][get] - Failed to fetch or parse session data, treating as no saved answers",
+        e
+      )
       None
     }
 
   def set(credId: String, userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean] =
     amlsConnector.set(credId, userAnswers).map { result =>
       result.body.nonEmpty
-    } recover { case _: Exception =>
+    } recover { case e: Exception =>
+      logger.error("[DefaultAMLSFrontEndSessionRepository][set] - Failed to save session data", e)
       false
     }
 }
